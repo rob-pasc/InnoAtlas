@@ -1,0 +1,150 @@
+@import "tailwindcss";
+
+/* Class-based dark mode: add the .dark class to <html> to activate */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+  @theme inline: maps CSS variables to Tailwind color tokens.
+  Using "inline" means Tailwind emits var(--color-*) references in utility
+  classes, so opacity modifiers (bg-accent/50) work correctly.
+
+  To add a new color: define --my-color in :root/.dark below,
+  then add  --color-my-color: hsl(var(--my-color));  here.
+*/
+@theme inline {
+  --color-accent:  hsl(var(--accent));
+  --color-text:    hsl(var(--text));
+  --color-heading: hsl(var(--text-h));
+  --color-bg:      hsl(var(--bg));
+  --color-border:  hsl(var(--border));
+  --color-code-bg: hsl(var(--code-bg));
+
+  /* FHV colors */
+  --color-fhv-white:            hsl(var(--fhv-white));
+  --color-fhv-black:            hsl(var(--fhv-black));
+  --color-fhv-zine-yellow:      hsl(var(--fhv-zine-yellow));
+  --color-fhv-sunrise-red:      hsl(var(--fhv-sunrise-red));
+  --color-fhv-sky-blue:         hsl(var(--fhv-sky-blue));
+  --color-fhv-periwinkle-lilac: hsl(var(--fhv-periwinkle-lilac));
+
+  --radius-sm:  calc(var(--radius) - 4px);
+  --radius-md:  calc(var(--radius) - 2px);
+  --radius-lg:  var(--radius);
+  --radius-xl:  calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+}
+
+@layer base {
+  :root {
+    /* Colors as bare HSL values — required for opacity modifiers to work */
+    --text:    267 008% 042%;
+    --text-h:  270 040% 004%;
+    --bg:      000 000% 100%;
+    --border:  260 006% 090%;
+    --code-bg: 053 024% 093%;
+    --accent:  276 100% 061%;
+
+    /* Brand palette — fixed colors, no dark mode override */
+    --fhv-white:            000 000% 100%;
+    --fhv-black:            000 000% 000%;
+    --fhv-zine-yellow:      047 100% 069%;
+    --fhv-sunrise-red:      013 082% 061%;
+    --fhv-sky-blue:         203 076% 077%;
+    --fhv-periwinkle-lilac: 283 030% 072%;
+
+    --radius: 0.5rem;
+    --shadow:
+      rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+      
+    --arial: Arial, Helvetica, sans-serif;
+
+    font: 18px/145% var(--sans);
+    letter-spacing: 0.18px;
+    color: hsl(var(--text));
+    background: hsl(var(--bg));
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    @media (max-width: 1024px) {
+      font-size: 16px;
+    }
+  }
+
+  .dark {
+    --text:    220 009% 065%;
+    --text-h:  220 014% 096%;
+    --bg:      231 014% 010%;
+    --border:  231 012% 020%;
+    --code-bg: 232 013% 014%;
+    --accent:  270 095% 075%;
+
+    --shadow:
+      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+  }
+
+  .dark #social .button-icon {
+    filter: invert(1) brightness(2);
+  }
+}
+
+#root {
+  width: 1126px;
+  max-width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  border-inline: 1px solid hsl(var(--border));
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+h1,
+h2 {
+  font-family: var(--heading);
+  font-weight: 500;
+  color: hsl(var(--text-h));
+}
+
+h1 {
+  font-size: 56px;
+  letter-spacing: -1.68px;
+  margin: 32px 0;
+  @media (max-width: 1024px) {
+    font-size: 36px;
+    margin: 20px 0;
+  }
+}
+h2 {
+  font-size: 24px;
+  line-height: 118%;
+  letter-spacing: -0.24px;
+  margin: 0 0 8px;
+  @media (max-width: 1024px) {
+    font-size: 20px;
+  }
+}
+p {
+  margin: 0;
+}
+
+code,
+.counter {
+  font-family: var(--mono);
+  display: inline-flex;
+  border-radius: 4px;
+  color: hsl(var(--text-h));
+}
+
+code {
+  font-size: 15px;
+  line-height: 135%;
+  padding: 4px 8px;
+  background: hsl(var(--code-bg));
+}
