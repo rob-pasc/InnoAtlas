@@ -17,7 +17,7 @@ export default function FilterButton({ label, colorConfig, active = false, onTog
   return (
     <button
       onClick={onToggle}
-      className={`inline-flex items-center gap-2 type-small border px-4 py-1 transition-colors ${stateClass}`}
+      className={`cursor-pointer inline-flex items-center gap-2 type-small border px-4 py-1 transition-colors ${stateClass}`}
     >
       {colorConfig && !active && (
         <span className={`inline-block w-3 h-3 shrink-0 ${colorConfig.bg}`} />

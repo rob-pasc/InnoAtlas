@@ -1,6 +1,5 @@
 @import "tailwindcss";
 
-/* Class-based dark mode: add the .dark class to <html> to activate */
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme inline {
@@ -42,7 +41,8 @@
 
     --radius: 0.5rem;
     --shadow:
-      rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+      rgba(0, 0, 0, 0.1) 0 10px 15px -3px, 
+      rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
 
     --arial: Arial, Helvetica, sans-serif;
 
@@ -62,14 +62,13 @@
 
   .dark {
     --text:    220 009% 065%;
-    --text-h:  220 014% 096%;
     --bg:      231 014% 010%;
     --border:  231 012% 020%;
-    --code-bg: 232 013% 014%;
     --accent:  270 095% 075%;
 
     --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, 
+      rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
   }
 
   .dark #social .button-icon {
@@ -78,14 +77,18 @@
 }
 
 @layer components {
-  .type-hero    { font-family: var(--arial); font-weight: 700; font-size: 64px; line-height: 72px; text-box: trim-both cap alphabetic;}
+  .type-hero    { font-family: var(--arial); font-weight: 700; font-size: 64px; line-height: 72px; 
+                  text-box: trim-both cap alphabetic;}
   .type-h1      { font-family: var(--arial); font-weight: 700; font-size: 40px; line-height: 48px; }
-  .type-h2      { font-family: var(--arial); font-weight: 700; font-size: 32px; line-height: 40px; text-box: trim-both cap alphabetic;}
+  .type-h2      { font-family: var(--arial); font-weight: 700; font-size: 32px; line-height: 40px; 
+                  text-box: trim-both cap alphabetic;}
   .type-h3      { font-family: var(--arial); font-weight: 700; font-size: 24px; line-height: 32px; }
   .type-h4      { font-family: var(--arial); font-weight: 700; font-size: 20px; line-height: 28px; }
-  .type-copy    { font-family: var(--arial); font-weight: 400; font-size: 16px; line-height: 24px; text-box: trim-both cap alphabetic;}
+  .type-copy    { font-family: var(--arial); font-weight: 400; font-size: 16px; line-height: 24px; 
+                  text-box: trim-both cap alphabetic;}
   .type-copy-em { font-family: var(--arial); font-weight: 700; font-size: 16px; line-height: 24px; }
   .type-small   { font-family: var(--arial); font-weight: 400; font-size: 12px; line-height: 16px; }
-  .type-link    { font-family: var(--arial); font-weight: 700; font-size: 16px; line-height: 24px; text-decoration: underline; }
+  .type-link    { font-family: var(--arial); font-weight: 300; font-size: 16px; line-height: 24px; 
+                  /* text-decoration: underline; */ } 
 }
 

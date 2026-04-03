@@ -54,7 +54,25 @@ function BoundsFitter({ projects }: { projects: Project[] }) {
   return null
 }
 
-export default function LeafletMap({ projects }: { projects: Project[] }) {
+// Tells Leaflet the container resized after the panel slide animation completes.
+function MapResizer({ selectedId }: { selectedId: number | null }) {
+  const map = useMap()
+
+  useEffect(() => {
+    const t = setTimeout(() => map.invalidateSize(), 320) // after 300ms CSS transition
+    return () => clearTimeout(t)
+  }, [selectedId, map])
+
+  return null
+}
+
+type LeafletMapProps = {
+  projects:        Project[]
+  onSelectProject: (id: number) => void
+  selectedId:      number | null
+}
+
+export default function LeafletMap({ projects, onSelectProject, selectedId }: LeafletMapProps) {
   return (
     <MapContainer
       center={[47.5, 13.5]}
@@ -67,6 +85,7 @@ export default function LeafletMap({ projects }: { projects: Project[] }) {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>'
       />
       <BoundsFitter projects={projects} />
+      <MapResizer selectedId={selectedId} />
       {projects.map((project) => {
         const firstTopic = project.filters.topic[0]
         const hex = firstTopic ? (TOPIC_COLORS[firstTopic]?.hex ?? FALLBACK_HEX) : FALLBACK_HEX
@@ -76,6 +95,7 @@ export default function LeafletMap({ projects }: { projects: Project[] }) {
             key={project.id}
             position={[project.location.latitude, project.location.longitude]}
             icon={icon}
+            eventHandlers={{ click: () => onSelectProject(project.id) }}
           />
         )
       })}
