@@ -1,6 +1,7 @@
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
-import { MapContainer, TileLayer, Marker } from 'react-leaflet'
+import { useEffect } from 'react'
+import { MapContainer, TileLayer, Marker, useMap } from 'react-leaflet'
 
 import type { Project } from '../../types/project'
 import { TOPIC_COLORS } from '../../config/topicColors'
@@ -33,6 +34,26 @@ function createPinIcon(hex: string): L.DivIcon {
   })
 }
 
+function BoundsFitter({ projects }: { projects: Project[] }) {
+  const map = useMap()
+
+  useEffect(() => {
+    if (projects.length === 0) return
+
+    const bounds = L.latLngBounds(
+      projects.map((p) => [p.location.latitude, p.location.longitude])
+    )
+
+    map.flyToBounds(bounds, {
+      padding: [32, 32], // px buffer on all sides
+      maxZoom: 13,       // prevent over-zooming on a single project
+      duration: 0.6,     // animation duration in seconds
+    })
+  }, [projects]) // map is a stable instance — intentionally omitted from deps
+
+  return null
+}
+
 export default function LeafletMap({ projects }: { projects: Project[] }) {
   return (
     <MapContainer
@@ -45,6 +66,7 @@ export default function LeafletMap({ projects }: { projects: Project[] }) {
         url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>'
       />
+      <BoundsFitter projects={projects} />
       {projects.map((project) => {
         const firstTopic = project.filters.topic[0]
         const hex = firstTopic ? (TOPIC_COLORS[firstTopic]?.hex ?? FALLBACK_HEX) : FALLBACK_HEX

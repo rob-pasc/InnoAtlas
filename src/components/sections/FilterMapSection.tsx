@@ -23,7 +23,14 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
   const filteredProjects = projects.filter((p) => {
     const topicOk    = activeTopic.length    === 0 || p.filters.topic.some((t)    => activeTopic.includes(t))
     const industryOk = activeIndustry.length === 0 || p.filters.industry.some((i) => activeIndustry.includes(i))
-    const searchOk   = !searchQuery || p.title.toLowerCase().includes(searchQuery.toLowerCase())
+    const q = searchQuery.toLowerCase()
+    const searchOk   = !searchQuery || [
+      p.title,
+      p.subtitle,
+      p.description,
+      p.partners.lead.name,
+      ...p.partners.others.map((o) => o.name),
+    ].some((field) => field?.toLowerCase().includes(q))
     return topicOk && industryOk && searchOk
   })
 
@@ -73,7 +80,7 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
       <div className={`flex gap-0 ${MAP_HEIGHT}`}>
 
         {/* Scrollable project list */}
-        <div className="w-[440px] shrink-0 overflow-y-auto flex flex-col gap-4 pr-4">
+        <div className="w-110 shrink-0 overflow-y-auto flex flex-col gap-4 pr-4">
           {filteredProjects.map((project) => (
             <ProjectCard key={project.id} project={project} />
           ))}
