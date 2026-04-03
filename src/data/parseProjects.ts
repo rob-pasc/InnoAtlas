@@ -4,7 +4,6 @@ const XLSX = await import('xlsx') //lazy-load the XLSX library to avoid bundling
 import xlsxUrl from './InnoAtlasExampleDataSet.xlsx?url'
 import type { Partner, Project } from '../types/project'
 
-
 // ---------------------------------------------------------------------------
 // Normalisation helpers
 // ---------------------------------------------------------------------------
@@ -49,11 +48,60 @@ function parseFilter(value: unknown): string[] {
 // Row → Project mapping
 // ---------------------------------------------------------------------------
 
-function mapRowToProject(row: RawRow): Project {
+function mapRowToProject(row: RawRow): Project | null {
+  // --- Required field validation ---
+  const missing: string[] = []
+
+  const id = Number(row['ID'])
+  if (!row['ID'] || isNaN(id))           missing.push('ID')
+
+  const title = clean(row['ProjectTitle'])
+  if (!title)                            missing.push('ProjectTitle')
+
+  const city = clean(row['LocationCity'])
+  if (!city)                             missing.push('LocationCity')
+
+  const lat = parseCoord(row['LocationLatitude'])
+  if (lat === null)                      missing.push('LocationLatitude')
+
+  const lon = parseCoord(row['LocationLongitude'])
+  if (lon === null)                      missing.push('LocationLongitude')
+
+  const website = clean(row['ProjectWebsite'])
+  if (!website)                          missing.push('ProjectWebsite')
+
+  const leadName = clean(row['PartnerLeadName'])
+  if (!leadName)                         missing.push('PartnerLeadName')
+
+  const leadLink = clean(row['PartnerLeadLink'])
+  if (!leadLink)                         missing.push('PartnerLeadLink')
+
+  const filterCountry = parseFilter(row['FilterCountry'])
+  if (!filterCountry.length)             missing.push('FilterCountry')
+
+  const filterTopic = parseFilter(row['FilterTopic'])
+  if (!filterTopic.length)               missing.push('FilterTopic')
+
+  const filterIndustry = parseFilter(row['FilterIndustry'])
+  if (!filterIndustry.length)            missing.push('FilterIndustry')
+
+  const filterStatus = parseFilter(row['FilterStatus'])
+  if (!filterStatus.length)              missing.push('FilterStatus')
+
+  if (missing.length > 0) {
+    console.warn(
+      `[parseProjects] Row skipped — missing required fields: ${missing.join(', ')}`,
+      row,
+    )
+    return null
+  }
+
+  // --- Safe to build the Project (validated values reused below) ---
+
   // Collect all six partner slots (lead first, then 1–5) and normalise them.
   // Slots where the name is missing/null are discarded.
   const partnerSlots = [
-    { name: row['PartnerLeadName'], link: row['PartnerLeadLink'] },
+    { name: leadName!,              link: leadLink! },
     { name: row['Partner1Name'],    link: row['Partner1Link'] },
     { name: row['Partner2Name'],    link: row['Partner2Link'] },
     { name: row['Partner3Name'],    link: row['Partner3Link'] },
@@ -67,42 +115,42 @@ function mapRowToProject(row: RawRow): Project {
   const [lead, ...otherSlots] = partnerSlots
 
   return {
-    id: Number(row['ID']),
-    title: clean(row['ProjectTitle']) ?? '',
-    subtitle: clean(row['ProjectSubtitle']),
+    id,
+    title:       title!,
+    subtitle:    clean(row['ProjectSubtitle']),
     description: clean(row['ProjectDescription']),
-    objective: clean(row['ProjectObjective']),
-    results: clean(row['ProjectResults']),
+    objective:   clean(row['ProjectObjective']),
+    results:     clean(row['ProjectResults']),
 
     location: {
-      city: clean(row['LocationCity']),
-      longitude: parseCoord(row['LocationLongitude']),
-      latitude: parseCoord(row['LocationLatitude']),
+      city:      city!,
+      longitude: lon!,
+      latitude:  lat!,
     },
 
     contact: {
-      name: clean(row['ContactPersonName']),
+      name:         clean(row['ContactPersonName']),
       organisation: clean(row['ContactPersonOrganisation']),
-      email: clean(row['ContactPersonEmail']),
-      phone: clean(row['ContactPersonPhone']),
+      email:        clean(row['ContactPersonEmail']),
+      phone:        clean(row['ContactPersonPhone']),
     },
 
     duration: {
       start: clean(row['ProjectDurationStart']),
-      end: clean(row['ProjectDurationEnd']),
-      time: clean(row['ProjectDurationTime']),
+      end:   clean(row['ProjectDurationEnd']),
+      time:  clean(row['ProjectDurationTime']),
     },
 
     partners: {
-      lead: lead ?? null,
+      lead:   lead!,
       others: otherSlots.filter((p): p is Partner => p !== null),
     },
 
     filters: {
-      country:  parseFilter(row['FilterCountry']),
-      topic:    parseFilter(row['FilterTopic']),
-      industry: parseFilter(row['FilterIndustry']),
-      status:   parseFilter(row['FilterStatus']),
+      country:  filterCountry,
+      topic:    filterTopic,
+      industry: filterIndustry,
+      status:   filterStatus,
       lab:      parseFilter(row['FilterLab']),
     },
 
@@ -110,6 +158,8 @@ function mapRowToProject(row: RawRow): Project {
       link:    clean(row['ImageLink']),
       credits: clean(row['ImageCredits']),
     },
+
+    website: website!,
   }
 }
 
@@ -127,5 +177,7 @@ export async function loadProjects(): Promise<Project[]> {
   const workbook = XLSX.read(buffer, { type: 'array' })
   const sheet = workbook.Sheets['Tabelle1']
   const rows = XLSX.utils.sheet_to_json<RawRow>(sheet)
-  return rows.map(mapRowToProject)
+  return rows
+    .map((row) => mapRowToProject(row))
+    .filter((p): p is Project => p !== null)
 }

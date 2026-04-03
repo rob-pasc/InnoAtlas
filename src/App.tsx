@@ -11,7 +11,7 @@ const LOREM =
 export default function App() {
   const { projects, loading, error } = useProjects()
 
-  // TODO: wire projects into the UI — remove when consumed by components
+  // debug
   console.log('[useProjects]', { loading, error, count: projects.length, projects })
 
   return (
@@ -27,7 +27,7 @@ export default function App() {
             body={LOREM}
           />
           <StatsSection />
-          <FilterMapSection />
+          <FilterMapSection projects={projects} />
           <HeroSection
             heading="Lorem ipsum sit dolor amet"
             subheading="Stet clita kasd gubergren"

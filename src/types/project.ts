@@ -10,12 +10,12 @@ export type Project = {
   description: string | null
   objective: string | null
   results: string | null
+  website: string
 
   location: {
-    city: string | null
-    /** null when the Excel entry contains "LOCATION MISSING" */
-    longitude: number | null
-    latitude: number | null
+    city: string
+    longitude: number
+    latitude: number
   }
 
   contact: {
@@ -32,8 +32,7 @@ export type Project = {
   }
 
   partners: {
-    lead: Partner | null
-    /** Partner1 – Partner5 that have a non-missing name, in order */
+    lead: Partner
     others: Partner[]
   }
 

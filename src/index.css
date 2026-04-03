@@ -3,14 +3,6 @@
 /* Class-based dark mode: add the .dark class to <html> to activate */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/*
-  @theme inline: maps CSS variables to Tailwind color tokens.
-  Using "inline" means Tailwind emits var(--color-*) references in utility
-  classes, so opacity modifiers (bg-accent/50) work correctly.
-
-  To add a new color: define --my-color in :root/.dark below,
-  then add  --color-my-color: hsl(var(--my-color));  here.
-*/
 @theme inline {
   --color-accent:  hsl(var(--accent));
   --color-text:    hsl(var(--text));
@@ -18,7 +10,6 @@
   --color-bg:      hsl(var(--bg));
   --color-border:  hsl(var(--border));
 
-  /* FHV colors */
   --color-fhv-white:            hsl(var(--fhv-white));
   --color-fhv-black:            hsl(var(--fhv-black));
   --color-fhv-zine-yellow:      hsl(var(--fhv-zine-yellow));
@@ -37,7 +28,6 @@
 
 @layer base {
   :root {
-    /* Brand palette — fixed colors, no dark mode override */
     --fhv-white:            000 000% 100%;
     --fhv-black:            000 000% 000%;
     --fhv-zine-yellow:      047 100% 069%;
@@ -45,7 +35,6 @@
     --fhv-sky-blue:         203 076% 077%;
     --fhv-periwinkle-lilac: 283 030% 072%;
 
-    /* Colors as bare HSL values — required for opacity modifiers to work */
     --text:    var(--fhv-white);
     --bg:      var(--fhv-black);
     --border:  var(--fhv-black);
