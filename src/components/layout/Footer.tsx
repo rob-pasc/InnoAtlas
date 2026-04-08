@@ -1,30 +1,12 @@
 import LogoS from '../../assets/icons/fhv-logo-s.svg?react'
+import { useT } from '../../i18n/translations'
 
-const legalLinks = [
-  'Impressum',
-  'Allgemeine Geschäftsbedingungen',
-  'Datenschutz',
-  'Barrierefreiheitserklärung',
-  'Hinweisgebersystem (Whistleblower-System)',
-  'Amtssignatur, elektronische Signatur',
-]
-
-const quickLinks = [
-  'Über die FHV',
-  'Karriere',
-  'Bibliothek',
-  'Mensa & Café Campus',
-  'Presse',
-  'Alumni',
-  'Events',
-  'ÖH Studierendenvertretung',
-  'Member of RUN-EU',
-]
-
-// Placeholder social links — no SVG assets available for social icons
+// Social links are proper nouns — no translation needed
 const socialLinks = ['Facebook', 'Instagram', 'LinkedIn', 'TikTok', 'YouTube']
 
 export default function Footer() {
+  const t = useT()
+
   return (
     <footer className="bg-fhv-sunrise-red px-16 py-12">
 
@@ -34,7 +16,7 @@ export default function Footer() {
         <div className="flex flex-col gap-6">
           <p className="type-copy-em text-fhv-black">© FHV 2025</p>
           <nav className="flex flex-col gap-3">
-            {legalLinks.map((link) => (
+            {t.legalLinks.map((link) => (
               <a key={link} href="#" className="type-link text-fhv-black border-b border-fhv-black pb-3">
                 {link}
               </a>
@@ -44,19 +26,19 @@ export default function Footer() {
 
         {/* Column 2 — Contact */}
         <div className="flex flex-col gap-6">
-          <p className="type-h4 text-fhv-black">Kontakt</p>
+          <p className="type-h4 text-fhv-black">{t.footerContact}</p>
           <div className="flex flex-col gap-1 type-copy text-fhv-black">
             <p className="type-copy-em">FHV – Vorarlberg University of Applied Sciences</p>
             <p>CAMPUS V, Hochschulstraße 1</p>
             <p>6850 Dornbirn</p>
-            <p>Österreich</p>
+            <p>{t.footerCountry}</p>
           </div>
           <div className="flex flex-col gap-1 type-copy text-fhv-black">
             <p>+43 5572 792</p>
             <a href="mailto:info@fhv.at" className="type-link text-fhv-black">info@fhv.at</a>
           </div>
-          <p className="type-small text-fhv-black">Sponsor: illwerke vkw</p>
-          <a href="#" className="type-link text-fhv-black self-start">Newsletter abonnieren</a>
+          <p className="type-small text-fhv-black">{t.footerSponsor}</p>
+          <a href="#" className="type-link text-fhv-black self-start">{t.footerNewsletter}</a>
           <div className="flex gap-3 mt-2">
             {socialLinks.map((name) => (
               <a
@@ -74,9 +56,9 @@ export default function Footer() {
 
         {/* Column 3 — Quicklinks */}
         <div className="flex flex-col gap-6">
-          <p className="type-h4 text-fhv-black">Quicklinks</p>
+          <p className="type-h4 text-fhv-black">{t.footerQuicklinksHeading}</p>
           <nav className="flex flex-col gap-3">
-            {quickLinks.map((link) => (
+            {t.quickLinks.map((link) => (
               <a key={link} href="#" className="type-link text-fhv-black border-b border-fhv-black pb-3">
                 {link}
               </a>

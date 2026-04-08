@@ -6,6 +6,7 @@ import LeafletMap from '../ui/LeafletMap'
 import ProjectCard from '../ui/ProjectCard'
 import ProjectDetailPanel from '../ui/ProjectDetailPanel'
 import { TOPIC_COLORS } from '../../config/topicColors'
+import { useT } from '../../i18n/translations'
 
 const themeFilters = ['Wirtschaft', 'Umwelt', 'Soziales', 'Sonstiges']
 const industryFilters = ['Bildung', 'Logistik', 'Öffentlicher Verkehr']
@@ -17,6 +18,7 @@ function toggle(set: string[], value: string): string[] {
 }
 
 export default function FilterMapSection({ projects }: { projects: Project[] }) {
+  const t = useT()
   const [activeTopic,       setActiveTopic]       = useState<string[]>([])
   const [activeIndustry,    setActiveIndustry]    = useState<string[]>([])
   const [searchQuery,       setSearchQuery]       = useState('')
@@ -51,37 +53,37 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
       <div className="grid grid-cols-3 gap-8 mb-8">
 
         <div>
-          <p className="type-copy-em text-fhv-black mb-3">Nach Thema filtern</p>
+          <p className="type-copy-em text-fhv-black mb-3">{t.filterByTopic}</p>
           <div className="flex flex-wrap gap-2">
-            {themeFilters.map((label) => (
+            {themeFilters.map((key) => (
               <FilterButton
-                key={label}
-                label={label}
-                colorConfig={TOPIC_COLORS[label]}
-                active={activeTopic.includes(label)}
-                onToggle={() => setActiveTopic((prev) => toggle(prev, label))}
+                key={key}
+                label={t.topicLabels[key] ?? key}
+                colorConfig={TOPIC_COLORS[key]}
+                active={activeTopic.includes(key)}
+                onToggle={() => setActiveTopic((prev) => toggle(prev, key))}
               />
             ))}
           </div>
         </div>
 
         <div>
-          <p className="type-copy-em text-fhv-black mb-3">Nach Industrie filtern</p>
+          <p className="type-copy-em text-fhv-black mb-3">{t.filterByIndustry}</p>
           <div className="flex flex-wrap gap-2">
-            {industryFilters.map((label) => (
+            {industryFilters.map((key) => (
               <FilterButton
-                key={label}
-                label={label}
-                active={activeIndustry.includes(label)}
-                onToggle={() => setActiveIndustry((prev) => toggle(prev, label))}
+                key={key}
+                label={t.industryLabels[key] ?? key}
+                active={activeIndustry.includes(key)}
+                onToggle={() => setActiveIndustry((prev) => toggle(prev, key))}
               />
             ))}
           </div>
         </div>
 
         <div>
-          <p className="type-copy-em text-fhv-black mb-3">Projekt suchen</p>
-          <SearchInput value={searchQuery} onChange={setSearchQuery} />
+          <p className="type-copy-em text-fhv-black mb-3">{t.searchProjects}</p>
+          <SearchInput value={searchQuery} onChange={setSearchQuery} placeholder={t.searchPlaceholder} />
         </div>
 
       </div>
@@ -94,7 +96,7 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
           <div className="w-[440px] h-full overflow-y-auto flex flex-col gap-4 pr-4">
             {filteredProjects.length === 0 ? (
               <p className="type-copy text-fhv-black/50 pt-2">
-                Keine Projekte entsprechen den gewählten Filtern.
+                {t.noProjectsFound}
               </p>
             ) : filteredProjects.map((project) => (
               <ProjectCard

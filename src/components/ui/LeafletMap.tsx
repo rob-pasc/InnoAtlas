@@ -1,7 +1,7 @@
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import { useEffect } from 'react'
-import { MapContainer, TileLayer, Marker, useMap } from 'react-leaflet'
+import { MapContainer, TileLayer, Marker, Tooltip, useMap } from 'react-leaflet'
 
 import type { Project } from '../../types/project'
 import { TOPIC_COLORS } from '../../config/topicColors'
@@ -89,7 +89,12 @@ export default function LeafletMap({ projects, onSelectProject, selectedId }: Le
             position={[project.location.latitude, project.location.longitude]}
             icon={icon}
             eventHandlers={{ click: () => onSelectProject(project.id) }}
-          />
+          >
+            <Tooltip direction="top" offset={[0, -26]} className="map-pin-tooltip">
+              <p className="type-copy-em">{project.title}</p>
+              {project.subtitle && <p className="type-small">{project.subtitle}</p>}
+            </Tooltip>
+          </Marker>
         )
       })}
     </MapContainer>

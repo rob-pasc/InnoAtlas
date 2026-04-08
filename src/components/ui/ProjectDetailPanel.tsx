@@ -2,6 +2,7 @@ import type { Project, Partner } from '../../types/project'
 import { TOPIC_COLORS } from '../../config/topicColors'
 import placeholderImg from '../../assets/images/default-image-missing-placeholder.jpg'
 import ArrowTopRightIcon from '../../assets/icons/fhv-arrow-top-right.svg?react'
+import { useT } from '../../i18n/translations'
 
 // ---------------------------------------------------------------------------
 // Sub-components (private)
@@ -24,8 +25,8 @@ function LabeledSection({ label, body }: { label: string; body: string }) {
   )
 }
 
-function PartnerLink({ partner, isLead }: { partner: Partner; isLead?: boolean }) {
-  const label = isLead ? `${partner.name} (Lead)` : partner.name
+function PartnerLink({ partner, isLead, leadLabel }: { partner: Partner; isLead?: boolean; leadLabel: string }) {
+  const label = isLead ? `${partner.name} (${leadLabel})` : partner.name
   if (partner.link) {
     return (
       <a
@@ -52,6 +53,7 @@ type Props = {
 }
 
 export default function ProjectDetailPanel({ project, onClose }: Props) {
+  const t = useT()
   const firstTopic  = project.filters.topic[0]
   const colorConfig = firstTopic ? TOPIC_COLORS[firstTopic] : undefined
   const stripeClass = colorConfig ? colorConfig.bg : 'bg-fhv-black'
@@ -89,7 +91,7 @@ export default function ProjectDetailPanel({ project, onClose }: Props) {
           onClick={onClose}
           className="self-start type-small text-fhv-black underline cursor-pointer hover:no-underline"
         >
-          ← Zurück
+          {t.back}
         </button>
 
         {/* Title + subtitle */}
@@ -115,20 +117,20 @@ export default function ProjectDetailPanel({ project, onClose }: Props) {
           className="type-link text-fhv-black inline-flex items-center gap-1"
         >
           <ArrowTopRightIcon className="w-4 h-4 shrink-0" />
-          Projektwebsite
+          {t.projectWebsite}
         </a>
 
         {/* Description / Objective / Results */}
         {hasTextContent && (
           <div className="flex flex-col gap-4">
             {project.description && (
-              <LabeledSection label="Beschreibung" body={project.description} />
+              <LabeledSection label={t.description} body={project.description} />
             )}
             {project.objective && (
-              <LabeledSection label="Zielsetzung" body={project.objective} />
+              <LabeledSection label={t.objective} body={project.objective} />
             )}
             {project.results && (
-              <LabeledSection label="Ergebnisse" body={project.results} />
+              <LabeledSection label={t.results} body={project.results} />
             )}
           </div>
         )}
@@ -136,7 +138,7 @@ export default function ProjectDetailPanel({ project, onClose }: Props) {
         {/* Duration */}
         {hasDuration && (
           <div className="flex flex-col gap-1">
-            <p className="type-copy-em text-fhv-black">Laufzeit</p>
+            <p className="type-copy-em text-fhv-black">{t.duration}</p>
             <p className="type-copy text-fhv-black">
               {[project.duration.start, project.duration.end].filter(Boolean).join(' – ')}
               {project.duration.time && (
@@ -148,7 +150,7 @@ export default function ProjectDetailPanel({ project, onClose }: Props) {
 
         {/* Location */}
         <div className="flex flex-col gap-1">
-          <p className="type-copy-em text-fhv-black">Standort</p>
+          <p className="type-copy-em text-fhv-black">{t.location}</p>
           <p className="type-copy text-fhv-black">
             {project.location.city}
             {project.filters.country[0] ? `, ${project.filters.country[0]}` : ''}
@@ -157,17 +159,17 @@ export default function ProjectDetailPanel({ project, onClose }: Props) {
 
         {/* Partners */}
         <div className="flex flex-col gap-1">
-          <p className="type-copy-em text-fhv-black">Projektpartner</p>
-          <PartnerLink partner={project.partners.lead} isLead />
+          <p className="type-copy-em text-fhv-black">{t.projectPartners}</p>
+          <PartnerLink partner={project.partners.lead} isLead leadLabel={t.lead} />
           {project.partners.others.map((p, i) => (
-            <PartnerLink key={i} partner={p} />
+            <PartnerLink key={i} partner={p} leadLabel={t.lead} />
           ))}
         </div>
 
         {/* Contact */}
         {hasContact && (
           <div className="flex flex-col gap-1">
-            <p className="type-copy-em text-fhv-black">Kontakt</p>
+            <p className="type-copy-em text-fhv-black">{t.contact}</p>
             {project.contact.name         && <p className="type-copy text-fhv-black">{project.contact.name}</p>}
             {project.contact.organisation && <p className="type-copy text-fhv-black">{project.contact.organisation}</p>}
             {project.contact.email && (

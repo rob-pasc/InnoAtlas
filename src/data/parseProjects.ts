@@ -170,13 +170,18 @@ function mapRowToProject(row: RawRow): Project | null {
 /**
  * Fetch and parse the InnoAtlas Excel dataset.
  * The file is served as a static asset by Vite and fetched at runtime.
+ * @param sheet - Worksheet name to read (e.g. 'ger' or 'eng')
  */
-export async function loadProjects(): Promise<Project[]> {
+export async function loadProjects(sheet: string): Promise<Project[]> {
   const response = await fetch(xlsxUrl)
   const buffer = await response.arrayBuffer()
   const workbook = XLSX.read(buffer, { type: 'array' })
-  const sheet = workbook.Sheets['Tabelle1']
-  const rows = XLSX.utils.sheet_to_json<RawRow>(sheet)
+  const worksheet = workbook.Sheets[sheet]
+  if (!worksheet) {
+    console.warn(`[loadProjects] Sheet "${sheet}" not found in workbook.`)
+    return []
+  }
+  const rows = XLSX.utils.sheet_to_json<RawRow>(worksheet)
   return rows
     .map((row) => mapRowToProject(row))
     .filter((p): p is Project => p !== null)

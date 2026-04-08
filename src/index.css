@@ -3,18 +3,18 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme inline {
-  --color-accent:  hsl(var(--accent));
-  --color-text:    hsl(var(--text));
-  --color-heading: hsl(var(--text));
-  --color-bg:      hsl(var(--bg));
-  --color-border:  hsl(var(--border));
-
   --color-fhv-white:            hsl(var(--fhv-white));
   --color-fhv-black:            hsl(var(--fhv-black));
   --color-fhv-zine-yellow:      hsl(var(--fhv-zine-yellow));
   --color-fhv-sunrise-red:      hsl(var(--fhv-sunrise-red));
   --color-fhv-sky-blue:         hsl(var(--fhv-sky-blue));
   --color-fhv-periwinkle-lilac: hsl(var(--fhv-periwinkle-lilac));
+
+  --color-accent:  hsl(var(--accent));
+  --color-text:    hsl(var(--text));
+  --color-heading: hsl(var(--text));
+  --color-bg:      hsl(var(--bg));
+  --color-border:  hsl(var(--border));
 
   --font-arial: var(--arial);
 
@@ -50,6 +50,7 @@
     letter-spacing: 0.18px;
     color: hsl(var(--text));
     background: hsl(var(--bg));
+    ::selection { background-color: hsl(var(--fhv-sky-blue)); }
     font-synthesis: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
@@ -76,8 +77,22 @@
   }
 }
 
+/* Leaflet map pin tooltip */
+.map-pin-tooltip {
+  background: hsl(var(--fhv-black));
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  color: hsl(var(--fhv-white));
+  padding: 6px 10px;
+}
+.map-pin-tooltip::before {
+  display: none;
+}
+
 @layer components {
-  .type-hero    { font-family: var(--arial); font-weight: 700; font-size: 64px; line-height: 72px; 
+  .type-title   { font-family: var(--arial); font-weight: 700; font-size: 64px; line-height: 80px; }
+  .type-hero    { font-family: var(--arial); font-weight: 700; font-size: 48px; line-height: 64px; 
                   text-box: trim-both cap alphabetic;}
   .type-h1      { font-family: var(--arial); font-weight: 700; font-size: 40px; line-height: 48px; }
   .type-h2      { font-family: var(--arial); font-weight: 700; font-size: 32px; line-height: 40px; 
