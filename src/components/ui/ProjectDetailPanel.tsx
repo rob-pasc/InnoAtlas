@@ -56,10 +56,9 @@ export default function ProjectDetailPanel({ project, onClose }: Props) {
   const colorConfig = firstTopic ? TOPIC_COLORS[firstTopic] : undefined
   const stripeClass = colorConfig ? colorConfig.bg : 'bg-fhv-black'
 
-  const hasTextContent = project.description || project.objective || project.results
-  const hasDuration    = project.duration.start || project.duration.end || project.duration.time
-  const hasContact     = project.contact.name || project.contact.organisation
-                      || project.contact.email || project.contact.phone
+  const hasTextContent  = project.description    || project.objective             || project.results
+  const hasDuration     = project.duration.start || project.duration.end          || project.duration.time
+  const hasContact      = project.contact.name   || project.contact.organisation  || project.contact.email  || project.contact.phone
 
   return (
     <div className="h-full flex flex-col bg-fhv-white overflow-hidden border border-fhv-black">

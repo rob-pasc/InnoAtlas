@@ -18,8 +18,8 @@ function toggle(set: string[], value: string): string[] {
 
 export default function FilterMapSection({ projects }: { projects: Project[] }) {
   const [activeTopic,       setActiveTopic]       = useState<string[]>([])
-  const [activeIndustry,    setActiveIndustry]     = useState<string[]>([])
-  const [searchQuery,       setSearchQuery]        = useState('')
+  const [activeIndustry,    setActiveIndustry]    = useState<string[]>([])
+  const [searchQuery,       setSearchQuery]       = useState('')
   const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null)
 
   const filteredProjects = projects.filter((p) => {
@@ -36,12 +36,10 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
     return topicOk && industryOk && searchOk
   })
 
-  // Auto-deselect when the selected project is filtered out
+  // Deselect whenever filters change
   useEffect(() => {
-    if (selectedProjectId !== null && !filteredProjects.some((p) => p.id === selectedProjectId)) {
-      setSelectedProjectId(null)
-    }
-  }, [filteredProjects, selectedProjectId])
+    setSelectedProjectId(null)
+  }, [activeTopic, activeIndustry, searchQuery])
 
   const selectedProject = filteredProjects.find((p) => p.id === selectedProjectId)
   const panelOpen = selectedProject !== undefined
@@ -94,7 +92,11 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
         {/* Scrollable project list — slides out when a project is selected */}
         <div className={`shrink-0 overflow-hidden transition-all duration-300 ease-in-out ${panelOpen ? 'w-0' : 'w-[440px]'}`}>
           <div className="w-[440px] h-full overflow-y-auto flex flex-col gap-4 pr-4">
-            {filteredProjects.map((project) => (
+            {filteredProjects.length === 0 ? (
+              <p className="type-copy text-fhv-black/50 pt-2">
+                Keine Projekte entsprechen den gewählten Filtern.
+              </p>
+            ) : filteredProjects.map((project) => (
               <ProjectCard
                 key={project.id}
                 project={project}
