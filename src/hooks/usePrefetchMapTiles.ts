@@ -4,7 +4,7 @@ import type { Project } from '../types/project'
 // Zoom levels a single-project flyToBounds will land at
 const ZOOM_LEVELS = [9, 10]
 // Pre-fetch a 3×3 grid around each project's centre tile
-const GRID_RADIUS = 1
+const GRID_RADIUS = 2          // 5×5 grid around each project tile
 // CartoDB subdomains — distributed across all four for parallel loading
 const SUBDOMAINS = ['a', 'b', 'c', 'd'] as const
 
@@ -27,6 +27,9 @@ export function usePrefetchMapTiles(projects: Project[]) {
   useEffect(() => {
     if (projects.length === 0) return
 
+    // Match the retina suffix Leaflet will use for this screen
+    const r = window.devicePixelRatio > 1 ? '@2x' : ''
+
     for (const { location: { latitude, longitude } } of projects) {
       for (const z of ZOOM_LEVELS) {
         const { x: cx, y: cy } = toTileXY(latitude, longitude, z)
@@ -34,7 +37,7 @@ export function usePrefetchMapTiles(projects: Project[]) {
           for (let dy = -GRID_RADIUS; dy <= GRID_RADIUS; dy++) {
             const s   = SUBDOMAINS[(Math.abs(cx + dx + cy + dy)) % SUBDOMAINS.length]
             const img = new Image()
-            img.src   = `https://${s}.basemaps.cartocdn.com/light_all/${z}/${cx + dx}/${cy + dy}.png`
+            img.src   = `https://${s}.basemaps.cartocdn.com/light_all/${z}/${cx + dx}/${cy + dy}${r}.png`
           }
         }
       }
