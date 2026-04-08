@@ -7,6 +7,7 @@ import ProjectCard from '../ui/ProjectCard'
 import ProjectDetailPanel from '../ui/ProjectDetailPanel'
 import { TOPIC_COLORS } from '../../config/topicColors'
 import { useT } from '../../i18n/translations'
+import { usePrefetchMapTiles } from '../../hooks/usePrefetchMapTiles'
 
 const themeFilters = ['Wirtschaft', 'Umwelt', 'Soziales', 'Sonstiges']
 const industryFilters = ['Bildung', 'Logistik', 'Öffentlicher Verkehr']
@@ -19,6 +20,7 @@ function toggle(set: string[], value: string): string[] {
 
 export default function FilterMapSection({ projects }: { projects: Project[] }) {
   const t = useT()
+  usePrefetchMapTiles(projects) // warm the tile cache for all projects on load
   const [activeTopic,       setActiveTopic]       = useState<string[]>([])
   const [activeIndustry,    setActiveIndustry]    = useState<string[]>([])
   const [searchQuery,       setSearchQuery]       = useState('')
@@ -93,7 +95,7 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
 
         {/* Scrollable project list — slides out when a project is selected */}
         <div className={`shrink-0 overflow-hidden transition-all duration-300 ease-in-out ${panelOpen ? 'w-0' : 'w-[440px]'}`}>
-          <div className="w-[440px] h-full overflow-y-auto flex flex-col gap-4 pr-4">
+          <div className="w-110 h-full overflow-y-auto flex flex-col gap-4 pr-4">
             {filteredProjects.length === 0 ? (
               <p className="type-copy text-fhv-black/50 pt-2">
                 {t.noProjectsFound}
@@ -119,9 +121,9 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
         </div>
 
         {/* Detail panel — slides in when a project is selected */}
-        <div className={`shrink-0 overflow-hidden transition-all duration-300 ease-in-out ${panelOpen ? 'w-[440px]' : 'w-0'}`}>
+        <div className={`shrink-0 overflow-hidden transition-all duration-300 ease-in-out ${panelOpen ? 'w-110' : 'w-0'}`}>
           {selectedProject && (
-            <div className="w-[440px] h-full pl-4">
+            <div className="w-110 h-full pl-4">
               <ProjectDetailPanel
                 project={selectedProject}
                 onClose={() => setSelectedProjectId(null)}

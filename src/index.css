@@ -93,14 +93,14 @@
 @layer components {
   .type-title   { font-family: var(--arial); font-weight: 700; font-size: 64px; line-height: 80px; }
   .type-hero    { font-family: var(--arial); font-weight: 700; font-size: 48px; line-height: 64px; 
-                  text-box: trim-both cap alphabetic;}
+                  text-box: trim-both cap alphabetic; }
   .type-h1      { font-family: var(--arial); font-weight: 700; font-size: 40px; line-height: 48px; }
   .type-h2      { font-family: var(--arial); font-weight: 700; font-size: 32px; line-height: 40px; 
-                  text-box: trim-both cap alphabetic;}
+                  text-box: trim-both cap alphabetic; }
   .type-h3      { font-family: var(--arial); font-weight: 700; font-size: 24px; line-height: 32px; }
   .type-h4      { font-family: var(--arial); font-weight: 700; font-size: 20px; line-height: 28px; }
   .type-copy    { font-family: var(--arial); font-weight: 400; font-size: 16px; line-height: 24px; 
-                  text-box: trim-both cap alphabetic;}
+                  text-box: trim-both cap alphabetic; }
   .type-copy-em { font-family: var(--arial); font-weight: 700; font-size: 16px; line-height: 24px; }
   .type-small   { font-family: var(--arial); font-weight: 400; font-size: 12px; line-height: 16px; }
   .type-link    { font-family: var(--arial); font-weight: 300; font-size: 16px; line-height: 24px; 
