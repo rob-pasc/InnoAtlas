@@ -6,6 +6,7 @@ import { MapContainer, TileLayer, Marker, Tooltip, useMap } from 'react-leaflet'
 import type { Project } from '../../types/project'
 import { TOPIC_COLORS } from '../../config/topicColors'
 import mapPinSvg from '../../assets/icons/map-pin.svg?raw'
+import { prefetchTilesForLocation } from '../../utils/prefetchTiles'
 
 // Fix Leaflet's default marker icon in Vite — Leaflet tries to resolve PNG
 // assets via webpack's require() at runtime, which doesn't exist in Vite.
@@ -88,7 +89,10 @@ export default function LeafletMap({ projects, onSelectProject, selectedId }: Le
             key={project.id}
             position={[project.location.latitude, project.location.longitude]}
             icon={icon}
-            eventHandlers={{ click: () => onSelectProject(project.id) }}
+            eventHandlers={{
+              click:     () => onSelectProject(project.id),
+              mouseover: () => prefetchTilesForLocation(project.location.latitude, project.location.longitude),
+            }}
           >
             <Tooltip direction="top" offset={[0, -26]} className="map-pin-tooltip">
               <p className="type-copy-em">{project.title}</p>

@@ -1,5 +1,6 @@
 import type { Project } from '../../types/project'
 import { TOPIC_COLORS } from '../../config/topicColors'
+import { prefetchTilesForLocation } from '../../utils/prefetchTiles'
 
 type ProjectCardProps = {
   project: Project
@@ -17,6 +18,7 @@ export default function ProjectCard({ project, onClick, selected = false }: Proj
   return (
     <div
       onClick={() => onClick?.(project.id)}
+      onMouseEnter={() => prefetchTilesForLocation(project.location.latitude, project.location.longitude)}
       className={`flex cursor-pointer transition-colors ${selected ? 'border-2 border-fhv-black' : 'border border-fhv-black hover:bg-fhv-black/5'}`}
     >
       <div className={`w-1.5 shrink-0 ${stripeClass}`} aria-hidden="true" />

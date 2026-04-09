@@ -7,7 +7,6 @@ import ProjectCard from '../ui/ProjectCard'
 import ProjectDetailPanel from '../ui/ProjectDetailPanel'
 import { TOPIC_COLORS } from '../../config/topicColors'
 import { useT } from '../../i18n/translations'
-import { usePrefetchMapTiles } from '../../hooks/usePrefetchMapTiles'
 
 const themeFilters = ['Wirtschaft', 'Umwelt', 'Soziales', 'Sonstiges']
 const industryFilters = ['Bildung', 'Logistik', 'Öffentlicher Verkehr']
@@ -20,7 +19,6 @@ function toggle(set: string[], value: string): string[] {
 
 export default function FilterMapSection({ projects }: { projects: Project[] }) {
   const t = useT()
-  usePrefetchMapTiles(projects) // warm the tile cache for all projects on load
   const [activeTopic,       setActiveTopic]       = useState<string[]>([])
   const [activeIndustry,    setActiveIndustry]    = useState<string[]>([])
   const [searchQuery,       setSearchQuery]       = useState('')
