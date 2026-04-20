@@ -8,9 +8,18 @@ import { useT } from '../../i18n/translations'
 // Sub-components (private)
 // ---------------------------------------------------------------------------
 
-function Chip({ label }: { label: string }) {
+function Chip({ label, onClick, active = false }: {
+  label: string
+  onClick?: () => void
+  active?: boolean
+}) {
   return (
-    <span className="type-small border border-fhv-black px-3 py-0.5 text-fhv-black">
+    <span
+      onClick={onClick}
+      className={`type-small border border-fhv-black px-3 py-0.5 transition-colors
+        ${onClick ? 'cursor-pointer hover:opacity-70' : ''}
+        ${active ? 'bg-fhv-black text-fhv-white' : 'text-fhv-black'}`}
+    >
       {label}
     </span>
   )
@@ -50,9 +59,11 @@ function PartnerLink({ partner, isLead, leadLabel }: { partner: Partner; isLead?
 type Props = {
   project: Project
   onClose: () => void
+  activeFilters?: { topic: string[]; industry: string[]; status: string[] }
+  onFilterChipClick?: (type: 'topic' | 'industry' | 'status', value: string) => void
 }
 
-export default function ProjectDetailPanel({ project, onClose }: Props) {
+export default function ProjectDetailPanel({ project, onClose, activeFilters, onFilterChipClick }: Props) {
   const t = useT()
   const firstTopic  = project.filters.topic[0]
   const colorConfig = firstTopic ? TOPIC_COLORS[firstTopic] : undefined
@@ -104,9 +115,24 @@ export default function ProjectDetailPanel({ project, onClose }: Props) {
 
         {/* Tag chips */}
         <div className="flex flex-wrap gap-2">
-          {project.filters.topic.map((t)    => <Chip key={t} label={t} />)}
-          {project.filters.industry.map((i) => <Chip key={i} label={i} />)}
-          {project.filters.status.map((s)   => <Chip key={s} label={s} />)}
+          {project.filters.topic.map((v) => (
+            <Chip key={v} label={v}
+              active={activeFilters?.topic.includes(v)}
+              onClick={onFilterChipClick ? () => onFilterChipClick('topic', v) : undefined}
+            />
+          ))}
+          {project.filters.industry.map((v) => (
+            <Chip key={v} label={v}
+              active={activeFilters?.industry.includes(v)}
+              onClick={onFilterChipClick ? () => onFilterChipClick('industry', v) : undefined}
+            />
+          ))}
+          {project.filters.status.map((v) => (
+            <Chip key={v} label={v}
+              active={activeFilters?.status.includes(v)}
+              onClick={onFilterChipClick ? () => onFilterChipClick('status', v) : undefined}
+            />
+          ))}
         </div>
 
         {/* Website */}

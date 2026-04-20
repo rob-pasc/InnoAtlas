@@ -8,9 +8,9 @@ export default function Footer() {
   const t = useT()
 
   return (
-    <footer className="bg-fhv-sunrise-red px-16 py-12">
+    <footer className="bg-fhv-sunrise-red px-4 py-8 md:px-16 md:py-12">
 
-      <div className="grid grid-cols-3 gap-16">
+      <div className="grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-16">
 
         {/* Column 1 — Legal */}
         <div className="flex flex-col gap-6">

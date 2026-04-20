@@ -6,7 +6,7 @@ type HeroSectionProps = {
 
 export default function HeroSection({ heading, subheading, body }: HeroSectionProps) {
   return (
-    <section className="bg-fhv-white px-16 py-16">
+    <section className="bg-fhv-white px-4 py-8 md:px-16 md:py-16">
       <div className="flex">
         <div className="w-1.5 shrink-0 self-stretch bg-fhv-sky-blue" aria-hidden="true" />
 

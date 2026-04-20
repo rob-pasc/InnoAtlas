@@ -8,6 +8,7 @@ export type Translations = {
   // FilterMapSection
   filterByTopic:     string
   filterByIndustry:  string
+  filterByStatus:    string
   searchProjects:    string
   searchPlaceholder: string
   noProjectsFound:   string
@@ -15,6 +16,8 @@ export type Translations = {
   topicLabels:    Record<string, string>
   /** Display label for each canonical (German) industry key */
   industryLabels: Record<string, string>
+  /** Display label for each canonical (German) status key */
+  statusLabels:   Record<string, string>
 
   // ProjectDetailPanel
   back:            string
@@ -49,6 +52,7 @@ export type Translations = {
 const de: Translations = {
   filterByTopic:     'Nach Thema filtern',
   filterByIndustry:  'Nach Industrie filtern',
+  filterByStatus:    'Nach Status filtern',
   searchProjects:    'Projekt suchen',
   searchPlaceholder: 'Suchbegriff eingeben',
   noProjectsFound:   'Keine Projekte entsprechen den gewählten Filtern.',
@@ -63,6 +67,11 @@ const de: Translations = {
     'Bildung':              'Bildung',
     'Logistik':             'Logistik',
     'Öffentlicher Verkehr': 'Öffentlicher Verkehr',
+  },
+  statusLabels: {
+    'Abgeschlossen': 'Abgeschlossen',
+    'Laufend':       'Laufend',
+    'Geplant':       'Geplant',
   },
 
   back:            '← Zurück',
@@ -121,6 +130,7 @@ const de: Translations = {
 const en: Translations = {
   filterByTopic:     'Filter by topic',
   filterByIndustry:  'Filter by industry',
+  filterByStatus:    'Filter by status',
   searchProjects:    'Search projects',
   searchPlaceholder: 'Enter search term',
   noProjectsFound:   'No projects match the selected filters.',
@@ -135,6 +145,11 @@ const en: Translations = {
     'Bildung':              'Education',
     'Logistik':             'Logistics',
     'Öffentlicher Verkehr': 'Public Transport',
+  },
+  statusLabels: {
+    'Abgeschlossen': 'Completed',
+    'Laufend':       'Ongoing',
+    'Geplant':       'Planned',
   },
 
   back:            '← Back',

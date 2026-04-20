@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useProjects } from './hooks/useProjects'
 import { LanguageProvider } from './i18n/LanguageContext'
 import Navbar from './components/layout/Navbar'
@@ -12,16 +13,17 @@ const LOREM =
 
 function AppContent() {
   const { projects, loading, error } = useProjects()
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   // debug
   console.log('[useProjects]', { loading, error, count: projects.length, projects })
 
   return (
     <div className="min-h-screen font-arial flex">
-      <Sidebar />
+      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
-      <div className="ml-20 flex-1 flex flex-col">
-        <Navbar />
+      <div className="md:ml-20 flex-1 flex flex-col min-w-0">
+        <Navbar onMenuToggle={() => setSidebarOpen((o) => !o)} />
         <main>
           <HeroSection
             heading="Lorem ipsum sit dolor amet"

@@ -1,32 +1,56 @@
 import LogoS from '../../assets/icons/fhv-logo-s.svg?react'
 import { useLanguage } from '../../i18n/LanguageContext'
 
-export default function Sidebar() {
+type SidebarProps = {
+  isOpen: boolean
+  onClose: () => void
+}
+
+export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   const { lang, setLang } = useLanguage()
 
   return (
-    <div className="fixed left-0 top-0 h-screen w-20 bg-fhv-periwinkle-lilac z-20 flex flex-col justify-between items-center pt-5 gap-6 overflow-visible">
+    <>
+      {/* Backdrop — mobile only, shown when drawer is open */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black/40 z-10 md:hidden"
+          onClick={onClose}
+        />
+      )}
 
-      {/* FHV icon */}
-      <LogoS className="h-15 w-auto text-fhv-black translate-x-6 shrink-0" />
+      <div className={`
+        fixed left-0 top-0 h-screen z-20
+        flex flex-col justify-between items-center
+        pt-5 gap-6 overflow-visible
+        bg-fhv-periwinkle-lilac
+        transition-transform duration-300
+        w-72 md:w-20
+        ${isOpen ? 'translate-x-0' : '-translate-x-full'}
+        md:translate-x-0
+      `}>
 
-      {/* Language switcher */}
-      <div className="flex items-center gap-1 type-copy-em text-fhv-black mb-3">
-        {(['en', 'de'] as const).map((l, i) => (
-          <>
-            {i > 0 && <span key="sep" aria-hidden>|</span>}
-            <button
-              key={l}
-              onClick={() => setLang(l)}
-              className={`cursor-pointer transition-colors hover:opacity-60
-                ${lang === l ? 'underline' : ''}`}
-            >
-              {l.toUpperCase()}
-            </button>
-          </>
-        ))}
+        {/* FHV icon */}
+        <LogoS className="h-20 w-auto text-fhv-black md:translate-x-4.5 shrink-0" />
+
+        {/* Language switcher */}
+        <div className="flex items-center gap-1 type-copy-em text-fhv-black mb-3">
+          {(['en', 'de'] as const).map((l, i) => (
+            <>
+              {i > 0 && <span key="sep" aria-hidden>|</span>}
+              <button
+                key={l}
+                onClick={() => { setLang(l); onClose() }}
+                className={`cursor-pointer transition-colors hover:opacity-60
+                  ${lang === l ? 'underline' : ''}`}
+              >
+                {l.toUpperCase()}
+              </button>
+            </>
+          ))}
+        </div>
+
       </div>
-
-    </div>
+    </>
   )
 }
