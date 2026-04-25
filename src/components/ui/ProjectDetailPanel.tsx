@@ -3,27 +3,7 @@ import { TOPIC_COLORS } from '../../config/topicColors'
 import placeholderImg from '../../assets/images/default-image-missing-placeholder.jpg'
 import ArrowTopRightIcon from '../../assets/icons/fhv-arrow-top-right.svg?react'
 import { useT } from '../../i18n/translations'
-
-// ---------------------------------------------------------------------------
-// Sub-components (private)
-// ---------------------------------------------------------------------------
-
-function Chip({ label, onClick, active = false }: {
-  label: string
-  onClick?: () => void
-  active?: boolean
-}) {
-  return (
-    <span
-      onClick={onClick}
-      className={`type-small border border-fhv-black px-3 py-0.5 transition-colors
-        ${onClick ? 'cursor-pointer hover:opacity-70' : ''}
-        ${active ? 'bg-fhv-black text-fhv-white' : 'text-fhv-black'}`}
-    >
-      {label}
-    </span>
-  )
-}
+import FilterButton from './FilterButton'
 
 function LabeledSection({ label, body }: { label: string; body: string }) {
   return (
@@ -113,24 +93,25 @@ export default function ProjectDetailPanel({ project, onClose, activeFilters, on
           )}
         </div>
 
-        {/* Tag chips */}
+        {/* Tag chips — use FilterButton for identical look and hover effects */}
         <div className="flex flex-wrap gap-2">
           {project.filters.topic.map((v) => (
-            <Chip key={v} label={v}
+            <FilterButton key={v} label={v}
+              colorConfig={TOPIC_COLORS[v]}
               active={activeFilters?.topic.includes(v)}
-              onClick={onFilterChipClick ? () => onFilterChipClick('topic', v) : undefined}
+              onToggle={onFilterChipClick ? () => onFilterChipClick('topic', v) : undefined}
             />
           ))}
           {project.filters.industry.map((v) => (
-            <Chip key={v} label={v}
+            <FilterButton key={v} label={v}
               active={activeFilters?.industry.includes(v)}
-              onClick={onFilterChipClick ? () => onFilterChipClick('industry', v) : undefined}
+              onToggle={onFilterChipClick ? () => onFilterChipClick('industry', v) : undefined}
             />
           ))}
           {project.filters.status.map((v) => (
-            <Chip key={v} label={v}
+            <FilterButton key={v} label={v}
               active={activeFilters?.status.includes(v)}
-              onClick={onFilterChipClick ? () => onFilterChipClick('status', v) : undefined}
+              onToggle={onFilterChipClick ? () => onFilterChipClick('status', v) : undefined}
             />
           ))}
         </div>
