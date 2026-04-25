@@ -96,20 +96,20 @@ export default function ProjectDetailPanel({ project, onClose, activeFilters, on
         {/* Tag chips — use FilterButton for identical look and hover effects */}
         <div className="flex flex-wrap gap-2">
           {project.filters.topic.map((v) => (
-            <FilterButton key={v} label={v}
+            <FilterButton key={v} label={t.topicLabels[v] ?? v}
               colorConfig={TOPIC_COLORS[v]}
               active={activeFilters?.topic.includes(v)}
               onToggle={onFilterChipClick ? () => onFilterChipClick('topic', v) : undefined}
             />
           ))}
           {project.filters.industry.map((v) => (
-            <FilterButton key={v} label={v}
+            <FilterButton key={v} label={t.industryLabels[v] ?? v}
               active={activeFilters?.industry.includes(v)}
               onToggle={onFilterChipClick ? () => onFilterChipClick('industry', v) : undefined}
             />
           ))}
           {project.filters.status.map((v) => (
-            <FilterButton key={v} label={v}
+            <FilterButton key={v} label={t.statusLabels[v] ?? v}
               active={activeFilters?.status.includes(v)}
               onToggle={onFilterChipClick ? () => onFilterChipClick('status', v) : undefined}
             />
