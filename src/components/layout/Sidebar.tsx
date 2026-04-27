@@ -25,7 +25,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         pt-5 gap-6 overflow-visible
         bg-fhv-periwinkle-lilac
         transition-transform duration-300
-        w-72 md:w-20
+        w-32 md:w-20
         ${isOpen ? 'translate-x-0' : '-translate-x-full'}
         md:translate-x-0
       `}>

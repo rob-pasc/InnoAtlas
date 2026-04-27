@@ -47,14 +47,23 @@ function BoundsFitter({ projects }: { projects: Project[] }) {
   return null
 }
 
-// Tells Leaflet the container resized after the panel slide animation completes.
+// Tells Leaflet the container resized — covers both CSS transitions (panel open/close)
+// and arbitrary container size changes (window resize, sidebar toggle, etc.).
 function MapResizer({ selectedId }: { selectedId: number | null }) {
   const map = useMap()
 
+  // Panel slide animation: wait for the 300ms CSS transition to finish.
   useEffect(() => {
-    const t = setTimeout(() => map.invalidateSize(), 320) // after 300ms CSS transition
+    const t = setTimeout(() => map.invalidateSize(), 320)
     return () => clearTimeout(t)
   }, [selectedId, map])
+
+  // Any other container resize (window resize, viewport change, etc.).
+  useEffect(() => {
+    const observer = new ResizeObserver(() => map.invalidateSize())
+    observer.observe(map.getContainer())
+    return () => observer.disconnect()
+  }, [map])
 
   return null
 }

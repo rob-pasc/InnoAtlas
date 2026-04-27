@@ -1,4 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import ArrowNext from '../../assets/icons/arrow-next.svg?react'
+import ArrowPrev from '../../assets/icons/arrow-prev.svg?react'
 import type { Project } from '../../types/project'
 import FilterButton from '../ui/FilterButton'
 import SearchInput from '../ui/SearchInput'
@@ -25,6 +27,25 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
   const [searchQuery,       setSearchQuery]       = useState('')
   const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null)
 
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const [canScrollPrev, setCanScrollPrev] = useState(false)
+  const [canScrollNext, setCanScrollNext] = useState(true)
+
+  function updateScrollButtons() {
+    const el = scrollRef.current
+    if (!el) return
+    setCanScrollPrev(el.scrollLeft > 0)
+    setCanScrollNext(el.scrollLeft < el.scrollWidth - el.clientWidth - 1)
+  }
+
+  function scrollPrev() {
+    scrollRef.current?.scrollBy({ left: -(scrollRef.current.clientWidth), behavior: 'smooth' })
+  }
+
+  function scrollNext() {
+    scrollRef.current?.scrollBy({ left: scrollRef.current.clientWidth, behavior: 'smooth' })
+  }
+
   const filteredProjects = projects.filter((p) => {
     const topicOk    = activeTopic.length    === 0 || p.filters.topic.some((t)    => activeTopic.includes(t))
     const industryOk = activeIndustry.length === 0 || p.filters.industry.some((i) => activeIndustry.includes(i))
@@ -40,9 +61,13 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
     return topicOk && industryOk && statusOk && searchOk
   })
 
-  // Deselect whenever filters change
+  // Deselect and reset mobile scroll whenever filters change
   useEffect(() => {
     setSelectedProjectId(null)
+    if (scrollRef.current) {
+      scrollRef.current.scrollLeft = 0
+    }
+    updateScrollButtons()
   }, [activeTopic, activeIndustry, activeStatus, searchQuery])
 
   const selectedProject = filteredProjects.find((p) => p.id === selectedProjectId)
@@ -106,31 +131,60 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
       </div>
 
       {/* Project list + Map + Detail panel */}
-      {/* Mobile: flex-col (map top, content below). Desktop: flex-row fixed height */}
-      <div className="flex flex-col md:flex-row md:h-120">
+      {/* <lg: flex-col stacked. lg+: flex-row fixed height */}
+      <div className="flex flex-col lg:flex-row lg:h-120">
 
         {/* Scrollable project list */}
-        {/* Mobile: show/hide swap. Desktop: slide-out width transition */}
-        <div className={`md:shrink-0 md:overflow-hidden md:transition-all md:duration-300 md:ease-in-out ${panelOpen ? 'hidden md:block md:w-0' : 'w-full md:w-110'}`}>
-          <div className="flex flex-row overflow-x-auto snap-x snap-mandatory gap-4 pb-4 md:flex-col md:overflow-x-hidden md:overflow-y-auto md:h-full md:w-110 md:pr-4 md:pb-0">
-            {filteredProjects.length === 0 ? (
-              <p className="type-copy text-fhv-black/50 pt-2">
-                {t.noProjectsFound}
-              </p>
-            ) : filteredProjects.map((project) => (
-              <div key={project.id} className="snap-center shrink-0 w-full">
-                <ProjectCard
-                  project={project}
-                  onClick={setSelectedProjectId}
-                  selected={project.id === selectedProjectId}
-                />
-              </div>
-            ))}
+        {/* <lg: carousel with arrows. lg+: slide-out width transition */}
+        <div className={`lg:shrink-0 lg:overflow-hidden lg:transition-all lg:duration-300 lg:ease-in-out ${panelOpen ? 'hidden lg:block lg:w-0' : 'w-full lg:w-110'}`}>
+          {/* <lg: flex row so arrows sit outside the card. lg+: block (arrows hidden) */}
+          <div className="flex items-center gap-2 lg:block">
+            {filteredProjects.length > 1 && (
+              <button
+                onClick={scrollPrev}
+                disabled={!canScrollPrev}
+                className="shrink-0 p-1 transition-opacity disabled:opacity-20 lg:hidden"
+                aria-label="Previous project"
+              >
+                <ArrowPrev className="w-6 h-6" />
+              </button>
+            )}
+            <div
+              ref={scrollRef}
+              onScroll={updateScrollButtons}
+              className="flex-1 flex flex-row overflow-x-auto snap-x snap-mandatory gap-4 lg:flex-col lg:overflow-x-hidden lg:overflow-y-auto lg:h-full lg:w-110 lg:pr-4 lg:[scrollbar-gutter:stable]"
+            >
+              {filteredProjects.length === 0 ? (
+                <p className="type-copy text-fhv-black/50 pt-2">
+                  {t.noProjectsFound}
+                </p>
+              ) : filteredProjects.map((project) => (
+                <div key={project.id} className="snap-center shrink-0 w-full">
+                  <ProjectCard
+                    project={project}
+                    onClick={setSelectedProjectId}
+                    selected={project.id === selectedProjectId}
+                  />
+                </div>
+              ))}
+            </div>
+            {filteredProjects.length > 1 && (
+              <button
+                onClick={scrollNext}
+                disabled={!canScrollNext}
+                className="shrink-0 p-1 transition-opacity disabled:opacity-20 lg:hidden"
+                aria-label="Next project"
+              >
+                <ArrowNext className="w-6 h-6" />
+              </button>
+            )}
           </div>
+          <div className="h-4 lg:hidden" />
         </div>
 
-        {/* Map — mobile: fixed height full width. Desktop: flex-1 */}
-        <div className="h-75 shrink-0 md:h-auto md:shrink md:flex-1 border border-fhv-black">
+        {/* Map — <md: 300px, md–lg: 384px full-width, lg+: flex-1 */}
+        {/* isolate creates a new stacking context so Leaflet's internal z-indexes (up to 1000) don't leak above the sidebar */}
+        <div className="isolate h-75 md:h-96 shrink-0 lg:h-auto lg:shrink lg:flex-1 border border-fhv-black">
           <LeafletMap
             projects={filteredProjects}
             onSelectProject={setSelectedProjectId}
@@ -139,10 +193,10 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
         </div>
 
         {/* Detail panel */}
-        {/* Mobile: full-width show/hide. Desktop: slide-in width transition */}
-        <div className={`md:shrink-0 md:overflow-hidden md:transition-all md:duration-300 md:ease-in-out ${panelOpen ? 'block w-full md:w-110' : 'hidden md:block md:w-0'}`}>
+        {/* <lg: full-width show/hide. lg+: slide-in width transition */}
+        <div className={`lg:shrink-0 lg:overflow-hidden lg:transition-all lg:duration-300 lg:ease-in-out ${panelOpen ? 'block w-full lg:w-110' : 'hidden lg:block lg:w-0'}`}>
           {selectedProject && (
-            <div className="md:w-110 md:h-full md:pl-4">
+            <div className="lg:w-110 lg:h-full lg:pl-4">
               <ProjectDetailPanel
                 project={selectedProject}
                 onClose={() => setSelectedProjectId(null)}
