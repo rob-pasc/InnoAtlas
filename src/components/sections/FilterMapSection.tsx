@@ -138,7 +138,7 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
         {/* <lg: carousel with arrows. lg+: slide-out width transition */}
         <div className={`lg:shrink-0 lg:overflow-hidden lg:transition-all lg:duration-300 lg:ease-in-out ${panelOpen ? 'hidden lg:block lg:w-0' : 'w-full lg:w-110'}`}>
           {/* <lg: flex row so arrows sit outside the card. lg+: block (arrows hidden) */}
-          <div className="flex items-center gap-2 lg:block">
+          <div className="flex items-center gap-2 lg:block lg:h-full">
             {filteredProjects.length > 1 && (
               <button
                 onClick={scrollPrev}
