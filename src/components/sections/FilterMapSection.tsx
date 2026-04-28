@@ -30,12 +30,16 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
   const scrollRef = useRef<HTMLDivElement>(null)
   const [canScrollPrev, setCanScrollPrev] = useState(false)
   const [canScrollNext, setCanScrollNext] = useState(true)
+  const [canScrollUp,   setCanScrollUp]   = useState(false)
+  const [canScrollDown, setCanScrollDown] = useState(false)
 
   function updateScrollButtons() {
     const el = scrollRef.current
     if (!el) return
     setCanScrollPrev(el.scrollLeft > 0)
     setCanScrollNext(el.scrollLeft < el.scrollWidth - el.clientWidth - 1)
+    setCanScrollUp(el.scrollTop > 0)
+    setCanScrollDown(el.scrollTop < el.scrollHeight - el.clientHeight - 1)
   }
 
   function scrollPrev() {
@@ -61,6 +65,8 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
     return topicOk && industryOk && statusOk && searchOk
   })
 
+  useEffect(() => { updateScrollButtons() }, [filteredProjects])
+
   // Deselect and reset mobile scroll whenever filters change
   useEffect(() => {
     setSelectedProjectId(null)
@@ -74,7 +80,7 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
   const panelOpen = selectedProject !== undefined
 
   return (
-    <section className="bg-fhv-white px-4 py-8 md:px-16 md:py-12">
+    <section className="bg-fhv-white px-4 py-8 md:px-16 md:py-12" onClick={() => setSelectedProjectId(null)}>
 
       {/* Filter row 1: chip filters */}
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-8 mb-4 md:mb-6">
@@ -136,7 +142,7 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
 
         {/* Scrollable project list */}
         {/* <lg: carousel with arrows. lg+: slide-out width transition */}
-        <div className={`lg:shrink-0 lg:overflow-hidden lg:transition-all lg:duration-300 lg:ease-in-out ${panelOpen ? 'hidden lg:block lg:w-0' : 'w-full lg:w-110'}`}>
+        <div className={`lg:shrink-0 lg:overflow-hidden lg:transition-all lg:duration-300 lg:ease-in-out ${panelOpen ? 'hidden lg:block lg:w-0' : 'w-full lg:w-110'}`} onClick={e => e.stopPropagation()}>
           {/* <lg: flex row so arrows sit outside the card. lg+: block (arrows hidden) */}
           <div className="flex items-center gap-2 lg:block lg:h-full">
             {filteredProjects.length > 1 && (
@@ -153,6 +159,7 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
               ref={scrollRef}
               onScroll={updateScrollButtons}
               className="flex-1 flex flex-row overflow-x-auto snap-x snap-mandatory gap-4 lg:flex-col lg:overflow-x-hidden lg:overflow-y-auto lg:h-full lg:w-110 lg:pr-4 lg:[scrollbar-gutter:stable]"
+              style={{ maskImage: `linear-gradient(to bottom, ${canScrollUp ? 'transparent' : 'black'} 0%, black ${canScrollUp ? '80px' : '0px'}, black calc(100% - ${canScrollDown ? '80px' : '0px'}), ${canScrollDown ? 'transparent' : 'black'} 100%)` }}
             >
               {filteredProjects.length === 0 ? (
                 <p className="type-copy text-fhv-black/50 pt-2">
@@ -184,7 +191,7 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
 
         {/* Map — <md: 300px, md–lg: 384px full-width, lg+: flex-1 */}
         {/* isolate creates a new stacking context so Leaflet's internal z-indexes (up to 1000) don't leak above the sidebar */}
-        <div className="isolate h-75 md:h-96 shrink-0 lg:h-auto lg:shrink lg:flex-1 border border-fhv-black">
+        <div className="isolate h-75 md:h-96 shrink-0 lg:h-auto lg:shrink lg:flex-1 border border-fhv-black" onClick={e => e.stopPropagation()}>
           <LeafletMap
             projects={filteredProjects}
             onSelectProject={setSelectedProjectId}
@@ -194,7 +201,7 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
 
         {/* Detail panel */}
         {/* <lg: full-width show/hide. lg+: slide-in width transition */}
-        <div className={`lg:shrink-0 lg:overflow-hidden lg:transition-all lg:duration-300 lg:ease-in-out ${panelOpen ? 'block w-full lg:w-110' : 'hidden lg:block lg:w-0'}`}>
+        <div className={`lg:shrink-0 lg:overflow-hidden lg:transition-all lg:duration-300 lg:ease-in-out ${panelOpen ? 'block w-full lg:w-110' : 'hidden lg:block lg:w-0'}`} onClick={e => e.stopPropagation()}>
           {selectedProject && (
             <div className="lg:w-110 lg:h-full lg:pl-4">
               <ProjectDetailPanel

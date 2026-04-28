@@ -2,6 +2,7 @@ import type { Project, Partner } from '../../types/project'
 import { TOPIC_COLORS } from '../../config/topicColors'
 import placeholderImg from '../../assets/images/default-image-missing-placeholder.jpg'
 import ArrowTopRightIcon from '../../assets/icons/fhv-arrow-top-right.svg?react'
+import CloseIcon from '../../assets/icons/close.svg?react'
 import { useT } from '../../i18n/translations'
 import FilterButton from './FilterButton'
 
@@ -64,6 +65,13 @@ export default function ProjectDetailPanel({ project, onClose, activeFilters, on
           alt={project.title}
           className="w-full h-full object-cover"
         />
+        <button
+          onClick={onClose}
+          aria-label="Close"
+          className="absolute top-2 right-2 p-1.5 bg-fhv-white text-fhv-black cursor-pointer hover:bg-fhv-black hover:text-fhv-white transition-colors"
+        >
+          <CloseIcon className="w-4 h-4" />
+        </button>
         {project.image.credits && (
           <p className="absolute bottom-1 right-2 type-small text-fhv-white bg-fhv-black/50 px-1">
             {project.image.credits}
@@ -76,14 +84,6 @@ export default function ProjectDetailPanel({ project, onClose, activeFilters, on
 
       {/* Scrollable body */}
       <div className="flex-1 overflow-y-auto px-5 py-4 flex flex-col gap-5">
-
-        {/* Back button */}
-        <button
-          onClick={onClose}
-          className="self-start type-small text-fhv-black underline cursor-pointer hover:no-underline"
-        >
-          {t.back}
-        </button>
 
         {/* Title + subtitle */}
         <div className="flex flex-col gap-1">
