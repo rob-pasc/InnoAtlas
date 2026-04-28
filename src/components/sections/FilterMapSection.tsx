@@ -79,8 +79,15 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
   const selectedProject = filteredProjects.find((p) => p.id === selectedProjectId)
   const panelOpen = selectedProject !== undefined
 
+  useEffect(() => {
+    if (!panelOpen) return
+    function handleDocClick() { setSelectedProjectId(null) }
+    const id = setTimeout(() => document.addEventListener('click', handleDocClick), 0)
+    return () => { clearTimeout(id); document.removeEventListener('click', handleDocClick) }
+  }, [panelOpen])
+
   return (
-    <section className="bg-fhv-white px-4 py-8 md:px-16 md:py-12" onClick={() => setSelectedProjectId(null)}>
+    <section className="bg-fhv-white px-4 py-8 md:px-16 md:py-12">
 
       {/* Filter row 1: chip filters */}
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-8 mb-4 md:mb-6">
@@ -138,7 +145,7 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
 
       {/* Project list + Map + Detail panel */}
       {/* <lg: flex-col stacked. lg+: flex-row fixed height */}
-      <div className="flex flex-col lg:flex-row lg:h-120">
+      <div className="flex flex-col lg:flex-row lg:h-135">
 
         {/* Scrollable project list */}
         {/* <lg: carousel with arrows. lg+: slide-out width transition */}
@@ -159,7 +166,7 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
               ref={scrollRef}
               onScroll={updateScrollButtons}
               className="flex-1 flex flex-row overflow-x-auto snap-x snap-mandatory gap-4 lg:flex-col lg:overflow-x-hidden lg:overflow-y-auto lg:h-full lg:w-110 lg:pr-4 lg:[scrollbar-gutter:stable]"
-              style={{ maskImage: `linear-gradient(to bottom, ${canScrollUp ? 'transparent' : 'black'} 0%, black ${canScrollUp ? '80px' : '0px'}, black calc(100% - ${canScrollDown ? '80px' : '0px'}), ${canScrollDown ? 'transparent' : 'black'} 100%)` }}
+              style={{ maskImage: `linear-gradient(to bottom, ${canScrollUp ? 'transparent' : 'black'} 0%, black ${canScrollUp ? '24px' : '0px'}, black calc(100% - ${canScrollDown ? '24px' : '0px'}), ${canScrollDown ? 'transparent' : 'black'} 100%)` }}
             >
               {filteredProjects.length === 0 ? (
                 <p className="type-copy text-fhv-black/50 pt-2">
