@@ -145,7 +145,7 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
 
       {/* Project list + Map + Detail panel */}
       {/* <lg: flex-col stacked. lg+: flex-row fixed height */}
-      <div className="flex flex-col lg:flex-row lg:h-135">
+      <div className="flex flex-col lg:flex-row lg:h-135 2xl:h-150">
 
         {/* Scrollable project list */}
         {/* <lg: carousel with arrows. lg+: slide-out width transition */}

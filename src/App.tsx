@@ -19,18 +19,20 @@ function AppContent() {
   console.log('[useProjects]', { loading, error, count: projects.length, projects })
 
   return (
-    <div className="min-h-screen font-arial flex">
+    <div className="min-h-screen font-arial flex bg-fhv-white">
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       <div className="md:ml-20 flex-1 flex flex-col min-w-0">
         <Navbar onMenuToggle={() => setSidebarOpen((o) => !o)} />
-        <main>
+        <main className="max-w-screen-3xl mx-auto w-full">
           <HeroSection
             heading="Lorem ipsum sit dolor amet"
             subheading="Stet clita kasd gubergren"
             body={LOREM}
           />
-          <StatsSection />
+        </main>
+        <StatsSection />
+        <main className="max-w-screen-3xl mx-auto w-full">
           <FilterMapSection projects={projects} />
           <HeroSection
             heading="Lorem ipsum sit dolor amet"

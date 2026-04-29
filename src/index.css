@@ -16,13 +16,9 @@
   --color-bg:      hsl(var(--bg));
   --color-border:  hsl(var(--border));
 
-  --font-arial: var(--arial);
+  --breakpoint-3xl: 1780px;
 
-  --radius-sm:  calc(var(--radius) - 4px);
-  --radius-md:  calc(var(--radius) - 2px);
-  --radius-lg:  var(--radius);
-  --radius-xl:  calc(var(--radius) + 4px);
-  --radius-2xl: calc(var(--radius) + 8px);
+  --font-arial: var(--arial);
 }
 
 @layer base {

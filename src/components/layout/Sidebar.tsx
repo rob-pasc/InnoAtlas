@@ -1,3 +1,4 @@
+import React from 'react'
 import LogoS from '../../assets/icons/fhv-logo-s.svg?react'
 import { useLanguage } from '../../i18n/LanguageContext'
 
@@ -39,17 +40,16 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         {/* Language switcher */}
         <div className="flex items-center gap-1 type-copy-em text-fhv-black mb-3">
           {(['en', 'de'] as const).map((l, i) => (
-            <>
-              {i > 0 && <span key="sep" aria-hidden>|</span>}
+            <React.Fragment key={l}>
+              {i > 0 && <span aria-hidden>|</span>}
               <button
-                key={l}
                 onClick={() => { setLang(l); onClose() }}
                 className={`cursor-pointer transition-colors hover:opacity-60
                   ${lang === l ? 'underline' : ''}`}
               >
                 {l.toUpperCase()}
               </button>
-            </>
+            </React.Fragment>
           ))}
         </div>
 
