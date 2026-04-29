@@ -31,7 +31,10 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
       `}>
 
         {/* FHV icon */}
-        <LogoS className="h-20 w-auto text-fhv-black md:translate-x-4.5 shrink-0" />
+        <LogoS
+          className="w-auto text-fhv-black md:translate-x-5 shrink-0"
+          style={{ fontSize: '3rem', height: 'calc(2 * 1cap + 0.375rem)', aspectRatio: '1' }}
+        />
 
         {/* Language switcher */}
         <div className="flex items-center gap-1 type-copy-em text-fhv-black mb-3">

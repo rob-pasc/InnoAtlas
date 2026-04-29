@@ -1,8 +1,18 @@
 import LogoS from '../../assets/icons/fhv-logo-s.svg?react'
+import facebookImg from '../../assets/icons/socials-facebook.webp'
+import instagramImg from '../../assets/icons/socials-instagram.webp'
+import linkedinImg from '../../assets/icons/socials-linkedin.webp'
+import tiktokImg from '../../assets/icons/socials-tiktok.webp'
+import youtubeImg from '../../assets/icons/socials-youtube.webp'
 import { useT } from '../../i18n/translations'
 
-// Social links are proper nouns — no translation needed
-const socialLinks = ['Facebook', 'Instagram', 'LinkedIn', 'TikTok', 'YouTube']
+const socialLinks = [
+  { name: 'Facebook',  src: facebookImg  },
+  { name: 'Instagram', src: instagramImg },
+  { name: 'LinkedIn',  src: linkedinImg  },
+  { name: 'TikTok',   src: tiktokImg    },
+  { name: 'YouTube',  src: youtubeImg   },
+]
 
 export default function Footer() {
   const t = useT()
@@ -37,18 +47,18 @@ export default function Footer() {
             <p>+43 5572 792</p>
             <a href="mailto:info@fhv.at" className="type-link text-fhv-black">info@fhv.at</a>
           </div>
-          <p className="type-small text-fhv-black">{t.footerSponsor}</p>
+          {/* <p className="type-small text-fhv-black">{t.footerSponsor}</p> */}
           <a href="#" className="type-link text-fhv-black self-start">{t.footerNewsletter}</a>
-          <div className="flex gap-3 mt-2">
-            {socialLinks.map((name) => (
+          <div id="social" className="flex gap-3 mt-2">
+            {socialLinks.map(({ name, src }) => (
               <a
                 key={name}
                 href="#"
                 aria-label={name}
-                className="type-small text-fhv-black border border-fhv-black w-8 h-8 flex items-center justify-center"
+                className="button-icon w-8 h-8"
                 title={name}
               >
-                {name[0]}
+                <img src={src} alt={name} className="w-full h-full" />
               </a>
             ))}
           </div>
@@ -70,7 +80,7 @@ export default function Footer() {
 
       {/* Bottom row — logo mark */}
       <div className="flex justify-end mt-12">
-        <LogoS className="h-[46px] w-auto text-fhv-black" />
+        <LogoS className="h-11.5 w-auto text-fhv-black" />
       </div>
 
     </footer>
