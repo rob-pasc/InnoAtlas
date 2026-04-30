@@ -33,6 +33,13 @@ function BoundsFitter({ projects }: { projects: Project[] }) {
   useEffect(() => {
     if (projects.length === 0) return
 
+    // When the map container is hidden (display:none) its size is 0×0.
+    // Calling flyToBounds on a zero-size map makes Leaflet attempt an
+    // unproject() that produces NaN coordinates → crash. Skip the call
+    // and let the next visibility change re-trigger it naturally.
+    const { x, y } = map.getSize()
+    if (x === 0 || y === 0) return
+
     const bounds = L.latLngBounds(
       projects.map((p) => [p.location.latitude, p.location.longitude])
     )
@@ -40,7 +47,7 @@ function BoundsFitter({ projects }: { projects: Project[] }) {
     map.flyToBounds(bounds, {
       padding: [32, 32], // px buffer on all sides
       maxZoom: 10,       // prevent over-zooming on a single project
-      duration: 1,     // animation duration in seconds
+      duration: 1,       // animation duration in seconds
     })
   }, [projects]) // map is a stable instance — intentionally omitted from deps
 

@@ -67,6 +67,17 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
 
   useEffect(() => { updateScrollButtons() }, [filteredProjects])
 
+  // Re-evaluate scroll state whenever the container is resized (e.g. viewport changes
+  // between desktop and mobile). Without this, stale desktop scroll metrics stay in
+  // state after a resize, disabling both arrows and leaving a phantom bottom fade.
+  useEffect(() => {
+    const el = scrollRef.current
+    if (!el) return
+    const ro = new ResizeObserver(() => updateScrollButtons())
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [])
+
   // Deselect and reset mobile scroll whenever filters change
   useEffect(() => {
     setSelectedProjectId(null)
@@ -144,13 +155,13 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
       </div>
 
       {/* Project list + Map + Detail panel */}
-      {/* <lg: flex-col stacked. lg+: flex-row fixed height */}
+      {/* <lg: flex-col stacked. tablet+: flex-row fixed height */}
       <div className="flex flex-col lg:flex-row lg:h-135 2xl:h-150">
 
         {/* Scrollable project list */}
-        {/* <lg: carousel with arrows. lg+: slide-out width transition */}
-        <div className={`lg:shrink-0 lg:overflow-hidden lg:transition-all lg:duration-300 lg:ease-in-out ${panelOpen ? 'hidden lg:block lg:w-0' : 'w-full lg:w-110'}`} onClick={e => e.stopPropagation()}>
-          {/* <lg: flex row so arrows sit outside the card. lg+: block (arrows hidden) */}
+        {/* <lg: carousel with arrows. tablet+: slide-out width transition */}
+        <div className={`order-2 lg:order-1 mt-4 lg:mt-0 lg:shrink-0 lg:overflow-hidden lg:transition-all lg:duration-300 lg:ease-in-out ${panelOpen ? 'hidden lg:block lg:w-0' : 'w-full lg:w-110'}`} onClick={e => e.stopPropagation()}>
+          {/* <lg: flex row so arrows sit outside the card. tablet+: block (arrows hidden) */}
           <div className="flex items-center gap-2 lg:block lg:h-full">
             {filteredProjects.length > 1 && (
               <button
@@ -196,9 +207,9 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
           <div className="h-4 lg:hidden" />
         </div>
 
-        {/* Map — <md: 300px, md–lg: 384px full-width, lg+: flex-1 */}
+        {/* Map — <md: 300px, md–lg: 384px full-width, tablet+: flex-1 */}
         {/* isolate creates a new stacking context so Leaflet's internal z-indexes (up to 1000) don't leak above the sidebar */}
-        <div className="isolate h-75 md:h-96 shrink-0 lg:h-auto lg:shrink lg:flex-1 border border-fhv-black" onClick={e => e.stopPropagation()}>
+        <div className={`order-1 lg:order-2 isolate h-75 md:h-96 shrink-0 lg:h-auto lg:shrink lg:flex-1 border border-fhv-black ${panelOpen ? 'hidden lg:block' : ''}`} onClick={e => e.stopPropagation()}>
           <LeafletMap
             projects={filteredProjects}
             onSelectProject={setSelectedProjectId}
@@ -207,8 +218,8 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
         </div>
 
         {/* Detail panel */}
-        {/* <lg: full-width show/hide. lg+: slide-in width transition */}
-        <div className={`lg:shrink-0 lg:overflow-hidden lg:transition-all lg:duration-300 lg:ease-in-out ${panelOpen ? 'block w-full lg:w-110' : 'hidden lg:block lg:w-0'}`} onClick={e => e.stopPropagation()}>
+        {/* <lg: full-width show/hide. tablet+: slide-in width transition */}
+        <div className={`lg:order-3 lg:shrink-0 lg:overflow-hidden lg:transition-all lg:duration-300 lg:ease-in-out ${panelOpen ? 'block w-full lg:w-110' : 'hidden lg:block lg:w-0'}`} onClick={e => e.stopPropagation()}>
           {selectedProject && (
             <div className="lg:w-110 lg:h-full lg:pl-4">
               <ProjectDetailPanel

@@ -16,6 +16,7 @@
   --color-bg:      hsl(var(--bg));
   --color-border:  hsl(var(--border));
 
+  --breakpoint-tablet: 1160px;
   --breakpoint-3xl: 1780px;
 
   --font-arial: var(--arial);
