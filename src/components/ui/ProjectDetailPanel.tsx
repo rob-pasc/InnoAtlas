@@ -42,9 +42,10 @@ type Props = {
   onClose: () => void
   activeFilters?: { topic: string[]; industry: string[]; status: string[] }
   onFilterChipClick?: (type: 'topic' | 'industry' | 'status', value: string) => void
+  className?: string
 }
 
-export default function ProjectDetailPanel({ project, onClose, activeFilters, onFilterChipClick }: Props) {
+export default function ProjectDetailPanel({ project, onClose, activeFilters, onFilterChipClick, className = '' }: Props) {
   const t = useT()
   const firstTopic  = project.filters.topic[0]
   const colorConfig = firstTopic ? TOPIC_COLORS[firstTopic] : undefined
@@ -55,7 +56,7 @@ export default function ProjectDetailPanel({ project, onClose, activeFilters, on
   const hasContact      = project.contact.name   || project.contact.organisation  || project.contact.email  || project.contact.phone
 
   return (
-    <div className="h-full flex flex-col bg-fhv-white overflow-hidden border border-fhv-black">
+    <div className={`h-full flex flex-col bg-fhv-white overflow-hidden border border-fhv-black ${className}`}>
 
       {/* Header image */}
       <div className="relative h-40 shrink-0 overflow-hidden">

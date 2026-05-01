@@ -6,6 +6,7 @@ import { useLanguage } from './LanguageContext'
 
 export type Translations = {
   // FilterMapSection
+  filtersLabel:      string
   filterByTopic:     string
   filterByIndustry:  string
   filterByStatus:    string
@@ -50,6 +51,7 @@ export type Translations = {
 // ---------------------------------------------------------------------------
 
 const de: Translations = {
+  filtersLabel:      'Filter',
   filterByTopic:     'Nach Thema filtern',
   filterByIndustry:  'Nach Industrie filtern',
   filterByStatus:    'Nach Status filtern',
@@ -128,6 +130,7 @@ const de: Translations = {
 // ---------------------------------------------------------------------------
 
 const en: Translations = {
+  filtersLabel:      'Filter',
   filterByTopic:     'Filter by topic',
   filterByIndustry:  'Filter by industry',
   filterByStatus:    'Filter by status',
