@@ -104,7 +104,7 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
   }
 
   return (
-    <section className="bg-fhv-white px-4 py-8 md:px-16 md:py-12">
+    <section className="bg-fhv-white px-4 pt-8 md:px-16 md:py-12">
 
       {/* ── Mobile filter toggle ── hidden on desktop */}
       <div className="tablet:hidden mb-4">

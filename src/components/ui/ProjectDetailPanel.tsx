@@ -176,16 +176,16 @@ export default function ProjectDetailPanel({ project, onClose, activeFilters, on
 
         {/* Contact */}
         {hasContact && (
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col">
             <p className="type-copy-em text-fhv-black">{t.contact}</p>
-            {project.contact.name         && <p className="type-copy text-fhv-black">{project.contact.name}</p>}
-            {project.contact.organisation && <p className="type-copy text-fhv-black">{project.contact.organisation}</p>}
+            {project.contact.name         && <p className="type-copy [text-box:normal] text-fhv-black">{project.contact.name}</p>}
+            {project.contact.organisation && <p className="type-copy [text-box:normal] text-fhv-black">{project.contact.organisation}</p>}
             {project.contact.email && (
               <a href={`mailto:${project.contact.email}`} className="type-link text-fhv-black">
                 {project.contact.email}
               </a>
             )}
-            {project.contact.phone && <p className="type-copy text-fhv-black">{project.contact.phone}</p>}
+            {project.contact.phone && <p className="type-copy [text-box:normal] text-fhv-black">{project.contact.phone}</p>}
           </div>
         )}
 
