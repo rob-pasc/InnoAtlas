@@ -8,15 +8,15 @@ export type Translations = {
   // FilterMapSection
   filtersLabel:      string
   filterByTopic:     string
-  filterByIndustry:  string
+  filterByFokus:     string
   filterByStatus:    string
   searchProjects:    string
   searchPlaceholder: string
   noProjectsFound:   string
   /** Display label for each canonical (German) topic key */
   topicLabels:    Record<string, string>
-  /** Display label for each canonical (German) industry key */
-  industryLabels: Record<string, string>
+  /** Display label for each canonical (German) fokus key */
+  fokusLabels: Record<string, string>
   /** Display label for each canonical (German) status key */
   statusLabels:   Record<string, string>
 
@@ -33,8 +33,11 @@ export type Translations = {
   lead:            string   // suffix for the lead partner, e.g. "(Lead)"
 
   // StatsSection
-  statsHeading: string
-  stats: Array<{ value: string; label: string }>
+  statsHeading:       string
+  statLabelCountries: string
+  statLabelEntries:   string
+  statLabelPartners:  string
+  statLabelTopics:    string
 
   // Footer
   footerContact:           string
@@ -53,7 +56,7 @@ export type Translations = {
 const de: Translations = {
   filtersLabel:      'Filter',
   filterByTopic:     'Nach Thema filtern',
-  filterByIndustry:  'Nach Industrie filtern',
+  filterByFokus:     'Nach Fokus filtern',
   filterByStatus:    'Nach Status filtern',
   searchProjects:    'Projekt suchen',
   searchPlaceholder: 'Suchbegriff eingeben',
@@ -65,10 +68,12 @@ const de: Translations = {
     'Soziales':   'Soziales',
     'Sonstiges':  'Sonstiges',
   },
-  industryLabels: {
-    'Bildung':              'Bildung',
-    'Logistik':             'Logistik',
-    'Öffentlicher Verkehr': 'Öffentlicher Verkehr',
+  fokusLabels: {
+    'Forschung':                'Forschung',
+    'Pilotprojekt':             'Pilotprojekt',
+    'Unternehmen':              'Unternehmen',
+    'Gemeinde & Städte':        'Gemeinde & Städte',
+    'Bürger:innen-Beteiligung': 'Bürger:innen-Beteiligung',
   },
   statusLabels: {
     'Abgeschlossen': 'Abgeschlossen',
@@ -87,17 +92,11 @@ const de: Translations = {
   contact:         'Kontakt',
   lead:            'Lead',
 
-  statsHeading: 'Der InnoAtlas in Zahlen',
-  stats: [
-    { value: '4',   label: 'Länder' },
-    { value: '52',  label: 'abgeschlossene Projekte' },
-    { value: '107', label: 'Projektbeteiligte' },
-    { value: '000', label: 'Lorem ipsum' },
-    { value: '000', label: 'Lorem ipsum' },
-    { value: '000', label: 'Lorem ipsum' },
-    { value: '000', label: 'Lorem ipsum' },
-    { value: '000', label: 'Lorem ipsum' },
-  ],
+  statsHeading:       'Innovationsatlas in Zahlen',
+  statLabelCountries: 'Länder',
+  statLabelEntries:   'Einträge',
+  statLabelPartners:  'Projektbeteiligte',
+  statLabelTopics:    'Themen',
 
   footerContact:           'Kontakt',
   footerCountry:           'Österreich',
@@ -132,7 +131,7 @@ const de: Translations = {
 const en: Translations = {
   filtersLabel:      'Filter',
   filterByTopic:     'Filter by topic',
-  filterByIndustry:  'Filter by industry',
+  filterByFokus:     'Filter by focus',
   filterByStatus:    'Filter by status',
   searchProjects:    'Search projects',
   searchPlaceholder: 'Enter search term',
@@ -144,10 +143,12 @@ const en: Translations = {
     'Soziales':   'Social',
     'Sonstiges':  'Other',
   },
-  industryLabels: {
-    'Bildung':              'Education',
-    'Logistik':             'Logistics',
-    'Öffentlicher Verkehr': 'Public Transport',
+  fokusLabels: {
+    'Forschung':                'Research',
+    'Pilotprojekt':             'Pilot Project',
+    'Unternehmen':              'Enterprise',
+    'Gemeinde & Städte':        'Communities & Cities',
+    'Bürger:innen-Beteiligung': 'Civic Participation',
   },
   statusLabels: {
     'Abgeschlossen': 'Completed',
@@ -166,17 +167,11 @@ const en: Translations = {
   contact:         'Contact',
   lead:            'Lead',
 
-  statsHeading: 'InnoAtlas in Numbers',
-  stats: [
-    { value: '4',   label: 'Countries' },
-    { value: '52',  label: 'Completed projects' },
-    { value: '107', label: 'Project participants' },
-    { value: '000', label: 'Lorem ipsum' },
-    { value: '000', label: 'Lorem ipsum' },
-    { value: '000', label: 'Lorem ipsum' },
-    { value: '000', label: 'Lorem ipsum' },
-    { value: '000', label: 'Lorem ipsum' },
-  ],
+  statsHeading:       'Innovation Atlas in Numbers',
+  statLabelCountries: 'Countries',
+  statLabelEntries:   'Entries',
+  statLabelPartners:  'Project Participants',
+  statLabelTopics:    'Topics',
 
   footerContact:           'Contact',
   footerCountry:           'Austria',

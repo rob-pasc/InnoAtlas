@@ -46,7 +46,7 @@ function BoundsFitter({ projects }: { projects: Project[] }) {
 
     map.flyToBounds(bounds, {
       padding: [32, 32], // px buffer on all sides
-      maxZoom: 10,       // prevent over-zooming on a single project
+      maxZoom: 12,       // prevent over-zooming on a single project - use 10 as a reasonable middle ground
       duration: 1,       // animation duration in seconds
     })
   }, [projects]) // map is a stable instance — intentionally omitted from deps

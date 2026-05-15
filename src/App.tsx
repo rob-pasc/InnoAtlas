@@ -31,7 +31,7 @@ function AppContent() {
             body={LOREM}
           />
         </main>
-        <StatsSection />
+        <StatsSection projects={projects} />
         <main className="max-w-screen-3xl mx-auto w-full">
           <FilterMapSection projects={projects} />
           <HeroSection

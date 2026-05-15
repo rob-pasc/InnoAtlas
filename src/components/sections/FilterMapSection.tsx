@@ -9,7 +9,7 @@ import { TOPIC_COLORS } from '../../config/topicColors'
 import { useT } from '../../i18n/translations'
 
 const themeFilters    = ['Wirtschaft', 'Umwelt', 'Soziales', 'Sonstiges']
-const industryFilters = ['Bildung', 'Logistik', 'Öffentlicher Verkehr']
+const fokusFilters    = ['Forschung', 'Pilotprojekt', 'Unternehmen', 'Gemeinde & Städte', 'Bürger:innen-Beteiligung']
 const statusFilters   = ['Abgeschlossen', 'Laufend', 'Geplant']
 
 function toggle(set: string[], value: string): string[] {
@@ -19,7 +19,7 @@ function toggle(set: string[], value: string): string[] {
 export default function FilterMapSection({ projects }: { projects: Project[] }) {
   const t = useT()
   const [activeTopic,       setActiveTopic]       = useState<string[]>([])
-  const [activeIndustry,    setActiveIndustry]    = useState<string[]>([])
+  const [activeFokus,       setActiveFokus]       = useState<string[]>([])
   const [activeStatus,      setActiveStatus]      = useState<string[]>([])
   const [searchQuery,       setSearchQuery]       = useState('')
   const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null)
@@ -30,7 +30,7 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
   const [canScrollUp,   setCanScrollUp]   = useState(false)
   const [canScrollDown, setCanScrollDown] = useState(false)
 
-  const activeFilterCount = activeTopic.length + activeIndustry.length + activeStatus.length + (searchQuery ? 1 : 0)
+  const activeFilterCount = activeTopic.length + activeFokus.length + activeStatus.length + (searchQuery ? 1 : 0)
 
   function updateScrollState() {
     const el = scrollRef.current
@@ -44,7 +44,7 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
 
   const filteredProjects = projects.filter((p) => {
     const topicOk    = activeTopic.length    === 0 || p.filters.topic.some((t)    => activeTopic.includes(t))
-    const industryOk = activeIndustry.length === 0 || p.filters.industry.some((i) => activeIndustry.includes(i))
+    const fokusOk    = activeFokus.length    === 0 || p.filters.fokus.some((f)    => activeFokus.includes(f))
     const statusOk   = activeStatus.length   === 0 || p.filters.status.some((s)   => activeStatus.includes(s))
     const q = searchQuery.toLowerCase()
     const searchOk   = !searchQuery || [
@@ -54,7 +54,7 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
       p.partners.lead.name,
       ...p.partners.others.map((o) => o.name),
     ].some((field) => field?.toLowerCase().includes(q))
-    return topicOk && industryOk && statusOk && searchOk
+    return topicOk && fokusOk && statusOk && searchOk
   })
 
   useEffect(() => { updateScrollState() }, [filteredProjects])
@@ -74,7 +74,7 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
       scrollRef.current.scrollLeft = 0
     }
     updateScrollState()
-  }, [activeTopic, activeIndustry, activeStatus, searchQuery])
+  }, [activeTopic, activeFokus, activeStatus, searchQuery])
 
   const selectedProject = filteredProjects.find((p) => p.id === selectedProjectId)
   const panelOpen = selectedProject !== undefined
@@ -95,11 +95,11 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
   }, [panelOpen])
 
   const filterChipProps = {
-    activeFilters: { topic: activeTopic, industry: activeIndustry, status: activeStatus },
-    onFilterChipClick: (type: 'topic' | 'industry' | 'status', value: string) => {
-      if (type === 'topic')    setActiveTopic((prev)    => toggle(prev, value))
-      if (type === 'industry') setActiveIndustry((prev) => toggle(prev, value))
-      if (type === 'status')   setActiveStatus((prev)   => toggle(prev, value))
+    activeFilters: { topic: activeTopic, fokus: activeFokus, status: activeStatus },
+    onFilterChipClick: (type: 'topic' | 'fokus' | 'status', value: string) => {
+      if (type === 'topic')  setActiveTopic((prev)  => toggle(prev, value))
+      if (type === 'fokus')  setActiveFokus((prev)  => toggle(prev, value))
+      if (type === 'status') setActiveStatus((prev) => toggle(prev, value))
     },
   }
 
@@ -153,14 +153,14 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
             </div>
 
             <div>
-              <p className="type-copy-em text-fhv-black mb-3">{t.filterByIndustry}</p>
+              <p className="type-copy-em text-fhv-black mb-3">{t.filterByFokus}</p>
               <div className="flex flex-wrap gap-2">
-                {industryFilters.map((key) => (
+                {fokusFilters.map((key) => (
                   <FilterButton
                     key={key}
-                    label={t.industryLabels[key] ?? key}
-                    active={activeIndustry.includes(key)}
-                    onToggle={() => setActiveIndustry((prev) => toggle(prev, key))}
+                    label={t.fokusLabels[key] ?? key}
+                    active={activeFokus.includes(key)}
+                    onToggle={() => setActiveFokus((prev) => toggle(prev, key))}
                   />
                 ))}
               </div>

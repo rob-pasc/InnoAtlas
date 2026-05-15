@@ -17,38 +17,50 @@ export default function StatItem({ value, label }: StatItemProps) {
 
   const [count, setCount] = useState(0)
   const ref = useRef<HTMLDivElement>(null)
-  const hasAnimated = useRef(false)
+  const animatedTarget = useRef(-1)
 
   useEffect(() => {
-    if (!isNumeric) return
+    if (!isNumeric || target === 0) return
+    if (animatedTarget.current === target) return
 
     const el = ref.current
     if (!el) return
 
+    let rafId: number
+
+    function runAnimation() {
+      animatedTarget.current = target
+      const startTime = performance.now()
+      function tick(now: number) {
+        const elapsed = now - startTime
+        const progress = Math.min(elapsed / DURATION, 1)
+        setCount(Math.round(easeOut(progress) * target))
+        if (progress < 1) rafId = requestAnimationFrame(tick)
+      }
+      rafId = requestAnimationFrame(tick)
+    }
+
+    // If already in viewport (e.g. data loaded while visible), animate immediately
+    const rect = el.getBoundingClientRect()
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      runAnimation()
+      return () => cancelAnimationFrame(rafId)
+    }
+
+    // Otherwise wait until scrolled into view
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (!entry.isIntersecting || hasAnimated.current) return
-
-        hasAnimated.current = true
+        if (!entry.isIntersecting) return
         observer.disconnect()
-
-        let rafId: number
-        const startTime = performance.now()
-
-        function tick(now: number) {
-          const progress = Math.min((now - startTime) / DURATION, 1)
-          setCount(Math.round(easeOut(progress) * target))
-          if (progress < 1) rafId = requestAnimationFrame(tick)
-        }
-
-        rafId = requestAnimationFrame(tick)
-        return () => cancelAnimationFrame(rafId)
+        runAnimation()
       },
       { threshold: 0.5 },
     )
-
     observer.observe(el)
-    return () => observer.disconnect()
+    return () => {
+      observer.disconnect()
+      cancelAnimationFrame(rafId)
+    }
   }, [isNumeric, target])
 
   return (

@@ -40,8 +40,8 @@ function PartnerLink({ partner, isLead, leadLabel }: { partner: Partner; isLead?
 type Props = {
   project: Project
   onClose: () => void
-  activeFilters?: { topic: string[]; industry: string[]; status: string[] }
-  onFilterChipClick?: (type: 'topic' | 'industry' | 'status', value: string) => void
+  activeFilters?: { topic: string[]; fokus: string[]; status: string[] }
+  onFilterChipClick?: (type: 'topic' | 'fokus' | 'status', value: string) => void
   className?: string
 }
 
@@ -103,10 +103,10 @@ export default function ProjectDetailPanel({ project, onClose, activeFilters, on
               onToggle={onFilterChipClick ? () => onFilterChipClick('topic', v) : undefined}
             />
           ))}
-          {project.filters.industry.map((v) => (
-            <FilterButton key={v} label={t.industryLabels[v] ?? v}
-              active={activeFilters?.industry.includes(v)}
-              onToggle={onFilterChipClick ? () => onFilterChipClick('industry', v) : undefined}
+          {project.filters.fokus.map((v) => (
+            <FilterButton key={v} label={t.fokusLabels[v] ?? v}
+              active={activeFilters?.fokus.includes(v)}
+              onToggle={onFilterChipClick ? () => onFilterChipClick('fokus', v) : undefined}
             />
           ))}
           {project.filters.status.map((v) => (

@@ -13,7 +13,7 @@ export default function ProjectCard({ project, onClick, selected = false }: Proj
   const colorConfig = firstTopic ? TOPIC_COLORS[firstTopic] : undefined
   const stripeClass = colorConfig ? colorConfig.bg : 'bg-fhv-black'
 
-  const industry = project.filters.industry.join(', ')
+  const fokus = project.filters.fokus.join(', ')
 
   return (
     <div
@@ -27,8 +27,8 @@ export default function ProjectCard({ project, onClick, selected = false }: Proj
         {project.subtitle && (
           <p className="type-copy text-fhv-black">{project.subtitle}</p>
         )}
-        {industry && (
-          <span className="type-copy-em text-fhv-black mt-auto">{industry}</span>
+        {fokus && (
+          <span className="type-copy-em text-fhv-black mt-auto">{fokus}</span>
         )}
       </div>
     </div>

@@ -82,8 +82,8 @@ function mapRowToProject(row: RawRow): Project | null {
   const filterTopic = parseFilter(row['FilterTopic'])
   if (!filterTopic.length)               missing.push('FilterTopic')
 
-  const filterIndustry = parseFilter(row['FilterIndustry'])
-  if (!filterIndustry.length)            missing.push('FilterIndustry')
+  const filterFokus = parseFilter(row['FilterFokus'])
+  if (!filterFokus.length)               missing.push('FilterFokus')
 
   const filterStatus = parseFilter(row['FilterStatus'])
   if (!filterStatus.length)              missing.push('FilterStatus')
@@ -149,7 +149,7 @@ function mapRowToProject(row: RawRow): Project | null {
     filters: {
       country:  filterCountry,
       topic:    filterTopic,
-      industry: filterIndustry,
+      fokus:    filterFokus,
       status:   filterStatus,
       lab:      parseFilter(row['FilterLab']),
     },

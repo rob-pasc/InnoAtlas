@@ -40,7 +40,7 @@ export type Project = {
     /** Split on comma — supports future multi-value entries */
     country: string[]
     topic: string[]
-    industry: string[]
+    fokus: string[]
     status: string[]
     lab: string[]
   }

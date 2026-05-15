@@ -60,7 +60,7 @@ Each row is one project. The columns are:
 | `PartnerLeadLink` | Lead organisation URL |
 | `FilterCountry` | Country or countries (comma-separated) |
 | `FilterTopic` | Topic(s) — see valid values below |
-| `FilterIndustry` | Industry/industries — see valid values below |
+| `FilterFokus` | Fokus/Fokusse — see valid values below |
 | `FilterStatus` | Status — see valid values below |
 
 **Optional:**
@@ -91,7 +91,7 @@ These values must match exactly (they drive the filter chips and map pin colours
 | Filter | Valid values |
 |--------|-------------|
 | `FilterTopic` | `Wirtschaft`, `Umwelt`, `Soziales`, `Sonstiges` |
-| `FilterIndustry` | `Bildung`, `Logistik`, `Öffentlicher Verkehr` |
+| `FilterFokus` | `Forschung`, `Pilotprojekt`, `Unternehmen`, `Gemeinde & Städte`, `Bürger:innen-Beteiligung` |
 | `FilterStatus` | `Abgeschlossen`, `Laufend`, `Geplant` |
 
 Multiple values are supported in any filter column — separate them with commas (e.g. `Wirtschaft, Umwelt`).
