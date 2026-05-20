@@ -1,5 +1,5 @@
 import React from 'react'
-import LogoS from '../../assets/icons/fhv-logo-s.svg?react'
+// import LogoS from '../../assets/icons/fhv-logo-s.svg?react'
 import { useLanguage } from '../../i18n/LanguageContext'
 
 type SidebarProps = {
@@ -32,10 +32,11 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
       `}>
 
         {/* FHV icon */}
-        <LogoS
+        {/* <LogoS
           className="w-auto text-fhv-black md:translate-x-5 shrink-0"
           style={{ fontSize: '3rem', height: 'calc(2 * 1cap + 0.375rem)', aspectRatio: '1' }}
-        />
+        /> */}
+        <div/>  {/* Placeholder to keep spacing when logo is not being used */}
 
         {/* Language switcher */}
         <div className="flex items-center gap-1 type-copy-em text-fhv-black mb-3">

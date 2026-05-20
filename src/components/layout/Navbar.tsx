@@ -15,9 +15,11 @@ export default function Navbar({ onMenuToggle }: NavbarProps) {
           <span className="block w-6 h-0.5 bg-fhv-black" />
           <span className="block w-6 h-0.5 bg-fhv-black" />
         </button>
-        <div className="flex flex-col gap-1.5">
-          <span className="type-h2 text-5xl text-fhv-black">FHV</span>
-          <span className="type-h2 text-5xl text-fhv-black">InnoAtlas</span>
+        <div className="flex flex-col gap-1 max-w-300">
+          <h1 className="type-title text-fhv-black">Innovationsatlas Bodenseeregion</h1>
+          <p className="type-h2 text-fhv-black/55 leading-none tracking-wide">
+            Innovationsatlas der Labore des Wissenschaftsverbundes Vierländerregion Bodensee
+          </p>
         </div>
       </div>
     </nav>

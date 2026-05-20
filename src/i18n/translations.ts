@@ -5,6 +5,11 @@ import { useLanguage } from './LanguageContext'
 // ---------------------------------------------------------------------------
 
 export type Translations = {
+  // HeroSection (intro)
+  heroHeading:    string
+  heroSubheading: string
+  heroBody:       string
+
   // FilterMapSection
   filtersLabel:      string
   filterByTopic:     string
@@ -54,6 +59,10 @@ export type Translations = {
 // ---------------------------------------------------------------------------
 
 const de: Translations = {
+  heroHeading:    'Was ist der Innovationsatlas?',
+  heroSubheading: 'Innovationen aus der Vierländerregion entdecken und vernetzen',
+  heroBody:       'Der Innovationsatlas Bodenseeregion macht Innovationsprojekte aus Deutschland, Österreich, der Schweiz und Liechtenstein sichtbar. Er bündelt Aktivitäten aus Forschung, Wirtschaft, Kommunen und Zivilgesellschaft – und schafft eine gemeinsame Übersicht über das Innovationsgeschehen in der gesamten Region. Die Plattform entsteht im Rahmen der Labore des Wissenschaftsverbundes Vierländerregion Bodensee (W4) in Zusammenarbeit mit der FHV – Vorarlberg University of Applied Sciences.',
+
   filtersLabel:      'Filter',
   filterByTopic:     'Nach Thema filtern',
   filterByFokus:     'Nach Fokus filtern',
@@ -63,10 +72,10 @@ const de: Translations = {
   noProjectsFound:   'Keine Projekte entsprechen den gewählten Filtern.',
 
   topicLabels: {
-    'Wirtschaft': 'Wirtschaft',
-    'Umwelt':     'Umwelt',
-    'Soziales':   'Soziales',
-    'Sonstiges':  'Sonstiges',
+    'Mobilität':           'Mobilität',
+    'Energieeffizienz':    'Energieeffizienz',
+    'Kreislaufwirtschaft': 'Kreislaufwirtschaft',
+    'Technik':             'Technik',
   },
   fokusLabels: {
     'Forschung':                'Forschung',
@@ -129,6 +138,10 @@ const de: Translations = {
 // ---------------------------------------------------------------------------
 
 const en: Translations = {
+  heroHeading:    'What is the Innovation Atlas?',
+  heroSubheading: 'Discover and connect innovations from the four-country Lake Constance region',
+  heroBody:       'The Innovation Atlas Bodenseeregion maps innovation projects from Germany, Austria, Switzerland, and Liechtenstein. It brings together activities from research, business, municipalities, and civil society – providing a shared overview of innovation across the entire region. The platform is developed within the framework of the W4 Labs (Wissenschaftsverbund Vierländerregion Bodensee) in collaboration with FHV – Vorarlberg University of Applied Sciences.',
+
   filtersLabel:      'Filter',
   filterByTopic:     'Filter by topic',
   filterByFokus:     'Filter by focus',
@@ -138,10 +151,10 @@ const en: Translations = {
   noProjectsFound:   'No projects match the selected filters.',
 
   topicLabels: {
-    'Wirtschaft': 'Economy',
-    'Umwelt':     'Environment',
-    'Soziales':   'Social',
-    'Sonstiges':  'Other',
+    'Mobilität':           'Mobility',
+    'Energieeffizienz':    'Energy Efficiency',
+    'Kreislaufwirtschaft': 'Circular Economy',
+    'Technik':             'Technology',
   },
   fokusLabels: {
     'Forschung':                'Research',

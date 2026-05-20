@@ -1,6 +1,7 @@
 import type { Project } from '../../types/project'
 import { TOPIC_COLORS } from '../../config/topicColors'
 import { prefetchTilesForLocation } from '../../utils/prefetchTiles'
+import { useT } from '../../i18n/translations'
 
 type ProjectCardProps = {
   project: Project
@@ -13,7 +14,11 @@ export default function ProjectCard({ project, onClick, selected = false }: Proj
   const colorConfig = firstTopic ? TOPIC_COLORS[firstTopic] : undefined
   const stripeClass = colorConfig ? colorConfig.bg : 'bg-fhv-black'
 
-  const fokus = project.filters.fokus.join(', ')
+  const t = useT()
+  const tags = [
+    ...project.filters.topic.slice(1).map(v => t.topicLabels[v] ?? v),
+    ...project.filters.fokus.map(v => t.fokusLabels[v] ?? v),
+  ].join(' • ')
 
   return (
     <div
@@ -27,8 +32,8 @@ export default function ProjectCard({ project, onClick, selected = false }: Proj
         {project.subtitle && (
           <p className="type-copy text-fhv-black">{project.subtitle}</p>
         )}
-        {fokus && (
-          <span className="type-copy-em text-fhv-black mt-auto">{fokus}</span>
+        {tags && (
+          <span className="type-copy-em text-fhv-black mt-auto">{tags}</span>
         )}
       </div>
     </div>

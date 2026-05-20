@@ -114,9 +114,16 @@ function mapRowToProject(row: RawRow): Project | null {
 
   const [lead, ...otherSlots] = partnerSlots
 
+  const rawOrder = row['DisplayOrder']
+  const parsedOrder = rawOrder !== undefined && rawOrder !== null && rawOrder !== ''
+    ? parseInt(String(rawOrder), 10)
+    : NaN
+  const displayOrder = isNaN(parsedOrder) || parsedOrder <= 0 ? null : parsedOrder
+
   return {
     id,
-    title:       title!,
+    title:        title!,
+    displayOrder,
     subtitle:    clean(row['ProjectSubtitle']),
     description: clean(row['ProjectDescription']),
     objective:   clean(row['ProjectObjective']),

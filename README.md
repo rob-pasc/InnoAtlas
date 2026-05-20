@@ -67,6 +67,7 @@ Each row is one project. The columns are:
 
 | Column | Description |
 |--------|-------------|
+| `DisplayOrder` | Pin this project to the top of the list. Enter a positive integer (e.g. `1`, `2`, `3`). Pinned projects are shown first (lowest number first); all others follow in alphabetical order. Leave blank for alphabetical placement. |
 | `ProjectSubtitle` | Short tagline shown on the project card |
 | `ProjectDescription` | Main descriptive text |
 | `ProjectObjective` | Project objectives |
@@ -90,7 +91,7 @@ These values must match exactly (they drive the filter chips and map pin colours
 
 | Filter | Valid values |
 |--------|-------------|
-| `FilterTopic` | `Wirtschaft`, `Umwelt`, `Soziales`, `Sonstiges` |
+| `FilterTopic` | `Mobilität`, `Energieeffizienz`, `Kreislaufwirtschaft`, `Technik` |
 | `FilterFokus` | `Forschung`, `Pilotprojekt`, `Unternehmen`, `Gemeinde & Städte`, `Bürger:innen-Beteiligung` |
 | `FilterStatus` | `Abgeschlossen`, `Laufend`, `Geplant` |
 
@@ -104,6 +105,20 @@ The **first** value in `FilterTopic` determines the colour of the project's map 
 - Trailing `#` characters are stripped automatically.
 - Whitespace is trimmed from all values.
 
+### Pinning projects to the top of the list
+
+The left-hand project list shows **pinned projects first** (sorted by `DisplayOrder` ascending), followed by all remaining projects **alphabetically by title**.
+
+To pin a project, set its `DisplayOrder` cell to a positive integer in both the `ger` and `eng` sheets:
+
+| DisplayOrder | Effect |
+|---|---|
+| `1` | Appears first in the list |
+| `2` | Appears second |
+| *(blank)* | Sorted alphabetically after all pinned entries |
+
+Keep the numbers gapless (1, 2, 3 …) to avoid confusion, though gaps are harmless. Changing or clearing a value takes effect on the next browser reload.
+
 ### Step-by-step: adding a new project
 
 1. Open `src/data/InnoAtlasExampleDataSet.xlsx`.
@@ -111,8 +126,9 @@ The **first** value in `FilterTopic` determines the colour of the project's map 
 3. Add a new row at the bottom. Give it a unique `ID` (continue the existing numbering).
 4. Fill in all required columns. Leave optional columns blank if you don't have the data.
 5. For filter columns, use the exact values from the table above.
-6. Save the file.
-7. Reload the app in your browser — the new project will appear on the map immediately.
+6. Optionally set `DisplayOrder` to pin the project to the top of the list.
+7. Save the file.
+8. Reload the app in your browser — the new project will appear on the map immediately.
 
 ### Step-by-step: editing an existing project
 

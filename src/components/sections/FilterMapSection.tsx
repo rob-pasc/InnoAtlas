@@ -8,7 +8,7 @@ import ProjectDetailPanel from '../ui/ProjectDetailPanel'
 import { TOPIC_COLORS } from '../../config/topicColors'
 import { useT } from '../../i18n/translations'
 
-const themeFilters    = ['Wirtschaft', 'Umwelt', 'Soziales', 'Sonstiges']
+const themeFilters    = ['Mobilität', 'Energieeffizienz', 'Kreislaufwirtschaft', 'Technik']
 const fokusFilters    = ['Forschung', 'Pilotprojekt', 'Unternehmen', 'Gemeinde & Städte', 'Bürger:innen-Beteiligung']
 const statusFilters   = ['Abgeschlossen', 'Laufend', 'Geplant']
 
@@ -42,20 +42,29 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
     }
   }
 
-  const filteredProjects = projects.filter((p) => {
-    const topicOk    = activeTopic.length    === 0 || p.filters.topic.some((t)    => activeTopic.includes(t))
-    const fokusOk    = activeFokus.length    === 0 || p.filters.fokus.some((f)    => activeFokus.includes(f))
-    const statusOk   = activeStatus.length   === 0 || p.filters.status.some((s)   => activeStatus.includes(s))
-    const q = searchQuery.toLowerCase()
-    const searchOk   = !searchQuery || [
-      p.title,
-      p.subtitle,
-      p.description,
-      p.partners.lead.name,
-      ...p.partners.others.map((o) => o.name),
-    ].some((field) => field?.toLowerCase().includes(q))
-    return topicOk && fokusOk && statusOk && searchOk
-  })
+  const filteredProjects = projects
+    .filter((p) => {
+      const topicOk  = activeTopic.length  === 0 || p.filters.topic.some((t)  => activeTopic.includes(t))
+      const fokusOk  = activeFokus.length  === 0 || p.filters.fokus.some((f)  => activeFokus.includes(f))
+      const statusOk = activeStatus.length === 0 || p.filters.status.some((s) => activeStatus.includes(s))
+      const q = searchQuery.toLowerCase()
+      const searchOk = !searchQuery || [
+        p.title,
+        p.subtitle,
+        p.description,
+        p.partners.lead.name,
+        ...p.partners.others.map((o) => o.name),
+      ].some((field) => field?.toLowerCase().includes(q))
+      return topicOk && fokusOk && statusOk && searchOk
+    })
+    .sort((a, b) => {
+      const aOrder = a.displayOrder
+      const bOrder = b.displayOrder
+      if (aOrder !== null && bOrder !== null) return aOrder - bOrder
+      if (aOrder !== null) return -1
+      if (bOrder !== null) return 1
+      return a.title.localeCompare(b.title, undefined, { sensitivity: 'base' })
+    })
 
   useEffect(() => { updateScrollState() }, [filteredProjects])
 

@@ -6,6 +6,8 @@ export type Partner = {
 export type Project = {
   id: number
   title: string
+  /** If set, this project is pinned to the top of the list at this position (1 = first). Null = alphabetical. */
+  displayOrder: number | null
   subtitle: string | null
   description: string | null
   objective: string | null

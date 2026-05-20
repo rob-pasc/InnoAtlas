@@ -12,4 +12,11 @@ export default defineConfig({
     react(),
     babel({ presets: [reactCompilerPreset()] }),
   ],
+  server: {
+    watch: {
+      // WSL2: inotify doesn't fire on /mnt/c (Windows FS) → fall back to polling
+      usePolling: true,
+      interval: 300,
+    },
+  },
 })

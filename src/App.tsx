@@ -1,19 +1,19 @@
 import { useState } from 'react'
 import { useProjects } from './hooks/useProjects'
 import { LanguageProvider } from './i18n/LanguageContext'
+import { useT } from './i18n/translations'
 import Navbar from './components/layout/Navbar'
 import Sidebar from './components/layout/Sidebar'
 import Footer from './components/layout/Footer'
 import HeroSection from './components/sections/HeroSection'
 import StatsSection from './components/sections/StatsSection'
 import FilterMapSection from './components/sections/FilterMapSection'
-
-const LOREM =
-  'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd, no sea takimata sanctus est Lorem ipsum dolor sit amet.'
+import ContactSection from './components/sections/ContactSection'
 
 function AppContent() {
   const { projects, loading, error } = useProjects()
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const t = useT()
 
   // debug
   console.log('[useProjects]', { loading, error, count: projects.length, projects })
@@ -26,19 +26,15 @@ function AppContent() {
         <Navbar onMenuToggle={() => setSidebarOpen((o) => !o)} />
         <main className="max-w-screen-3xl mx-auto w-full">
           <HeroSection
-            heading="Lorem ipsum sit dolor amet"
-            subheading="Stet clita kasd gubergren"
-            body={LOREM}
+            heading={t.heroHeading}
+            subheading={t.heroSubheading}
+            body={t.heroBody}
           />
         </main>
         <StatsSection projects={projects} />
         <main className="max-w-screen-3xl mx-auto w-full">
           <FilterMapSection projects={projects} />
-          <HeroSection
-            heading="Lorem ipsum sit dolor amet"
-            subheading="Stet clita kasd gubergren"
-            body={LOREM}
-          />
+          <ContactSection />
         </main>
         <Footer />
       </div>
