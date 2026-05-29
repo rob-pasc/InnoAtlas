@@ -13,6 +13,7 @@ type OrgContact = {
   persons?: ContactPerson[]
   email: string
   phone?: string
+  website?: string
   address: string[]
 }
 
@@ -22,8 +23,14 @@ function buildOrgs(t: Translations): OrgContact[] {
       id: 'fhv',
       name: t.contactFhvOrgName,
       subtitle: 'Vorarlberg University of Applied Sciences',
+      persons: [
+        { name: 'Max Mustermann', role: 'Institutsleiter' },
+        { name: 'Bruno Beispiel', role: 'Forschungskoordinator' },
+        { name: 'Erwin Exempel',  role: 'Projektleiter' },
+      ],
       email: 'info@fhv.at',
       phone: '+43 5572 792',
+      website: 'www.fhv.at',
       address: ['CAMPUS V, Hochschulstraße 1', '6850 Dornbirn', t.contactFhvCountry],
     },
     {
@@ -34,24 +41,25 @@ function buildOrgs(t: Translations): OrgContact[] {
         { name: 'Isabel Oostvogel',  role: 'Labs-Koordinatorin' },
         { name: 'Felix Girke',       role: 'Innovation & Transfer Manager' },
         { name: 'Alexandra Hassler', role: 'Co-Geschäftsführerin' },
-        { name: 'Markus Rhomberg',   role: 'Co-Geschäftsführer' },
       ],
       email: 'post@wissenschaftsverbund.org',
-      address: ['c/o Universität Konstanz', 'Postfach 207', `78457 Konstanz, ${t.contactW4Country}`],
+      phone: '+41 71 6770520',
+      website: 'www.wissenschaftsverbund.org',
+      address: ['c/o Universität Konstanz, Postfach 207', '78457 Konstanz', `${t.contactW4Country}`],
     },
   ]
 }
 
 function OrgCard({ org, roles }: { org: OrgContact; roles: Record<string, string> }) {
   return (
-    <div className="flex flex-col gap-6 border-t-2 border-fhv-black pt-6">
-      <div className="flex flex-col gap-1">
+    <div className="flex flex-col gap-5 border-t-2 border-fhv-black pt-5">
+      <div className="flex flex-col gap-0.5">
         <span className="type-h3 text-fhv-black">{org.name}</span>
-        <span className="type-small text-fhv-black opacity-60">{org.subtitle}</span>
+        <span className="type-h4 text-fhv-black opacity-60">{org.subtitle}</span>
       </div>
 
       {org.persons && org.persons.length > 0 && (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-2">
           {org.persons.map((p) => (
             <div key={p.name} className="flex flex-col gap-0.5">
               <span className="type-copy-em text-fhv-black">{p.name}</span>
@@ -70,6 +78,11 @@ function OrgCard({ org, roles }: { org: OrgContact; roles: Record<string, string
         <a href={`mailto:${org.email}`} className="type-link text-fhv-black underline underline-offset-2">
           {org.email}
         </a>
+        {org.website && (
+          <a href={`https://${org.website}`} target="_blank" rel="noopener noreferrer" className="type-link text-fhv-black underline underline-offset-2">
+            {org.website}
+          </a>
+        )}
         <address className="type-small text-fhv-black opacity-60 not-italic mt-1">
           {org.address.map((line) => (
             <span key={line} className="block">{line}</span>

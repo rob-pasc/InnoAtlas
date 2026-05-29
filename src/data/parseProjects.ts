@@ -90,7 +90,7 @@ function mapRowToProject(row: RawRow): Project | null {
 
   if (missing.length > 0) {
     console.warn(
-      `[parseProjects] Row skipped — missing required fields: ${missing.join(', ')}`,
+      `[parseProjects] Row skipped – missing required fields: ${missing.join(', ')}`,
       row,
     )
     return null

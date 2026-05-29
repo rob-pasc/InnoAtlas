@@ -94,7 +94,7 @@ export default function ProjectDetailPanel({ project, onClose, activeFilters, on
           )}
         </div>
 
-        {/* Tag chips — use FilterButton for identical look and hover effects */}
+        {/* Tag chips – use FilterButton for identical look and hover effects */}
         <div className="flex flex-wrap gap-2">
           {project.filters.topic.map((v) => (
             <FilterButton key={v} label={t.topicLabels[v] ?? v}

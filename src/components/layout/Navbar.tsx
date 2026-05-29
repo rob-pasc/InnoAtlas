@@ -20,7 +20,7 @@ export default function Navbar({ onMenuToggle }: NavbarProps) {
         </button>
         <div className="flex flex-col gap-1 max-w-300">
           <h1 className="type-title text-fhv-black">{t.navTitle}</h1>
-          <p className="type-h2 text-fhv-black/55 leading-none tracking-wide">{t.navSubtitle}</p>
+          <p className="type-h2 text-fhv-black/55 tracking-wide">{t.navSubtitle}</p>
         </div>
       </div>
     </nav>

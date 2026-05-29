@@ -29,7 +29,7 @@ Projects are stored in a single Excel file:
 src/data/InnoAtlasExampleDataSet.xlsx
 ```
 
-The app fetches and parses this file at runtime — no build step is needed after editing it. Just save the file and reload the browser.
+The app fetches and parses this file at runtime – no build step is needed after editing it. Just save the file and reload the browser.
 
 ### Sheets
 
@@ -46,7 +46,7 @@ Edit the appropriate sheet (or both) for each project.
 
 Each row is one project. The columns are:
 
-**Required — the row is silently skipped if any of these are missing:**
+**Required – the row is silently skipped if any of these are missing:**
 
 | Column | Description |
 |--------|-------------|
@@ -59,9 +59,9 @@ Each row is one project. The columns are:
 | `PartnerLeadName` | Lead organisation name |
 | `PartnerLeadLink` | Lead organisation URL |
 | `FilterCountry` | Country or countries (comma-separated) |
-| `FilterTopic` | Topic(s) — see valid values below |
-| `FilterFokus` | Fokus/Fokusse — see valid values below |
-| `FilterStatus` | Status — see valid values below |
+| `FilterTopic` | Topic(s) – see valid values below |
+| `FilterFokus` | Fokus/Fokusse – see valid values below |
+| `FilterStatus` | Status – see valid values below |
 
 **Optional:**
 
@@ -95,7 +95,7 @@ These values must match exactly (they drive the filter chips and map pin colours
 | `FilterFokus` | `Forschung`, `Pilotprojekt`, `Unternehmen`, `Gemeinde & Städte`, `Bürger:innen-Beteiligung` |
 | `FilterStatus` | `Abgeschlossen`, `Laufend`, `Geplant` |
 
-Multiple values are supported in any filter column — separate them with commas (e.g. `Wirtschaft, Umwelt`).
+Multiple values are supported in any filter column – separate them with commas (e.g. `Wirtschaft, Umwelt`).
 
 The **first** value in `FilterTopic` determines the colour of the project's map pin.
 
@@ -128,7 +128,7 @@ Keep the numbers gapless (1, 2, 3 …) to avoid confusion, though gaps are harml
 5. For filter columns, use the exact values from the table above.
 6. Optionally set `DisplayOrder` to pin the project to the top of the list.
 7. Save the file.
-8. Reload the app in your browser — the new project will appear on the map immediately.
+8. Reload the app in your browser – the new project will appear on the map immediately.
 
 ### Step-by-step: editing an existing project
 

@@ -12,7 +12,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
 
   return (
     <>
-      {/* Backdrop — mobile only, shown when drawer is open */}
+      {/* Backdrop – mobile only, shown when drawer is open */}
       {isOpen && (
         <div
           className="fixed inset-0 bg-black/40 z-10 md:hidden"

@@ -23,7 +23,7 @@ export default function Footer() {
 
       <div className="grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-16">
 
-        {/* Column 1 — Legal */}
+        {/* Column 1 – Legal */}
         <div className="flex flex-col gap-6">
           <p className="type-copy-em text-fhv-black">© FHV 2025</p>
           <nav className="flex flex-col gap-3">
@@ -35,7 +35,7 @@ export default function Footer() {
           </nav>
         </div>
 
-        {/* Column 2 — Contact */}
+        {/* Column 2 – Contact */}
         <div className="flex flex-col gap-6">
           <p className="type-h4 text-fhv-black">{t.footerContact}</p>
           <div className="flex flex-col gap-1 type-copy text-fhv-black">
@@ -65,7 +65,7 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Column 3 — Quicklinks */}
+        {/* Column 3 – Quicklinks */}
         <div className="flex flex-col gap-6">
           <p className="type-h4 text-fhv-black">{t.footerQuicklinksHeading}</p>
           <nav className="flex flex-col gap-3">
@@ -79,7 +79,7 @@ export default function Footer() {
 
       </div>
 
-      {/* Bottom row — logo mark */}
+      {/* Bottom row – logo mark */}
       <div className="flex justify-end mt-12">
         <LogoS className="h-11.5 w-auto text-fhv-black" />
       </div>

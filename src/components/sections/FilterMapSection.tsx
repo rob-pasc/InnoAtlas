@@ -96,7 +96,7 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
     return () => { clearTimeout(id); document.removeEventListener('click', handleDocClick) }
   }, [panelOpen])
 
-  // Lock body scroll when bottom sheet is open — mobile only (below tablet breakpoint)
+  // Lock body scroll when bottom sheet is open – mobile only (below tablet breakpoint)
   useEffect(() => {
     if (!window.matchMedia('(max-width: 1159px)').matches) return
     document.body.style.overflow = panelOpen ? 'hidden' : ''
@@ -113,7 +113,7 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
   }
 
   return (
-    <section className="bg-fhv-white px-4 pt-8 md:px-16 md:py-12">
+    <section className="bg-fhv-white px-4 pt-8 md:px-16 md:pt-12">
 
       {/* ── Mobile filter toggle ── hidden on desktop */}
       <div className="tablet:hidden mb-4">
@@ -139,7 +139,7 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
         </button>
       </div>
 
-      {/* ── Filter panel — collapsible on mobile, always open on desktop ── */}
+      {/* ── Filter panel – collapsible on mobile, always open on desktop ── */}
       {/* grid-rows trick: 0fr → 1fr animates height without fixed px values  */}
       <div className={`grid transition-[grid-template-rows] duration-300 ease-in-out tablet:grid-rows-[1fr] ${filtersOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}>
         <div className="overflow-hidden">
@@ -209,7 +209,7 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
         >
           <div className="flex flex-col tablet:block tablet:h-full">
 
-            {/* Scroll container — horizontal snap on mobile, vertical on desktop */}
+            {/* Scroll container – horizontal snap on mobile, vertical on desktop */}
             <div
               ref={scrollRef}
               onScroll={updateScrollState}
@@ -229,7 +229,7 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
               ))}
             </div>
 
-            {/* Dot / count indicator — mobile only */}
+            {/* Dot / count indicator – mobile only */}
             {filteredProjects.length > 1 && (
               <div className="flex justify-center items-center gap-1.5 mt-3 tablet:hidden">
                 {filteredProjects.length <= 8 ? (
@@ -263,7 +263,7 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
           />
         </div>
 
-        {/* Desktop detail panel — tablet+ only */}
+        {/* Desktop detail panel – tablet+ only */}
         <div
           className={`hidden tablet:block tablet:order-3 tablet:shrink-0 tablet:overflow-hidden tablet:transition-all tablet:duration-300 tablet:ease-in-out ${panelOpen ? 'tablet:w-110' : 'tablet:w-0'}`}
           onClick={e => e.stopPropagation()}

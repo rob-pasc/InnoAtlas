@@ -8,7 +8,7 @@ import { TOPIC_COLORS } from '../../config/topicColors'
 import mapPinSvg from '../../assets/icons/map-pin.svg?raw'
 import { prefetchTilesForLocation } from '../../utils/prefetchTiles'
 
-// Fix Leaflet's default marker icon in Vite — Leaflet tries to resolve PNG
+// Fix Leaflet's default marker icon in Vite – Leaflet tries to resolve PNG
 // assets via webpack's require() at runtime, which doesn't exist in Vite.
 // Replacing with empty strings prevents broken-image errors in the console.
 delete (L.Icon.Default.prototype as unknown as Record<string, unknown>)._getIconUrl
@@ -49,12 +49,12 @@ function BoundsFitter({ projects }: { projects: Project[] }) {
       maxZoom: 12,       // prevent over-zooming on a single project - use 10 as a reasonable middle ground
       duration: 1,       // animation duration in seconds
     })
-  }, [projects]) // map is a stable instance — intentionally omitted from deps
+  }, [projects]) // map is a stable instance – intentionally omitted from deps
 
   return null
 }
 
-// Tells Leaflet the container resized — covers both CSS transitions (panel open/close)
+// Tells Leaflet the container resized – covers both CSS transitions (panel open/close)
 // and arbitrary container size changes (window resize, sidebar toggle, etc.).
 function MapResizer({ selectedId }: { selectedId: number | null }) {
   const map = useMap()

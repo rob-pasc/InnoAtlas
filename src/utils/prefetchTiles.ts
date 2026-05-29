@@ -2,7 +2,7 @@
 const ZOOM_LEVELS = [9, 10]
 // Pre-fetch a 5×5 grid around each project's centre tile
 const GRID_RADIUS = 2
-// CartoDB subdomains — distributed across all four for parallel loading
+// CartoDB subdomains – distributed across all four for parallel loading
 const SUBDOMAINS = ['a', 'b', 'c', 'd'] as const
 
 /** Standard Web Mercator (Slippy Map) tile coordinate formula */

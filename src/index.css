@@ -76,7 +76,7 @@
   }
 }
 
-/* Map container height — unlayered so it wins over @layer utilities (md:h-96 etc.)
+/* Map container height – unlayered so it wins over @layer utilities (md:h-96 etc.)
    at tablet+ the height is unset, letting the flex container's align-items:stretch fill it */
 .map-height {
   height: calc(var(--spacing) * 75);

@@ -39,7 +39,7 @@ export type Project = {
   }
 
   filters: {
-    /** Split on comma — supports future multi-value entries */
+    /** Split on comma – supports future multi-value entries */
     country: string[]
     topic: string[]
     fokus: string[]

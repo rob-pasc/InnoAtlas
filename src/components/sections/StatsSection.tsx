@@ -16,7 +16,7 @@ export default function StatsSection({ projects }: { projects: Project[] }) {
         <h2 className="text-fhv-black type-h3 mb-8">
           {t.statsHeading}
         </h2>
-        <div className="flex flex-wrap gap-x-6 gap-y-8 md:gap-x-12">
+        <div className="flex flex-wrap gap-x-9 gap-y-8 md:gap-x-12">
           <StatItem value={String(countries)} label={t.statLabelCountries} />
           <StatItem value={String(entries)}   label={t.statLabelEntries} />
           <StatItem value={String(partners)}  label={t.statLabelPartners} />

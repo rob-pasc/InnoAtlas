@@ -1,5 +1,5 @@
 export type TopicColorConfig = {
-  /** Full Tailwind bg class — used directly on elements. Must be a literal
+  /** Full Tailwind bg class – used directly on elements. Must be a literal
    *  string so Tailwind's scanner generates the class. */
   bg: string
   /** Hex value for non-Tailwind contexts (Leaflet SVG markers, canvas, etc.) */
