@@ -71,15 +71,15 @@ function OrgCard({ org, roles }: { org: OrgContact; roles: Record<string, string
 
       <div className="flex flex-col gap-1 mt-auto">
         {org.phone && (
-          <a href={`tel:${org.phone.replace(/\s/g, '')}`} className="type-link text-fhv-black underline underline-offset-2">
+          <a href={`tel:${org.phone.replace(/\s/g, '')}`} className="type-link text-fhv-black underline underline-offset-2 self-start">
             {org.phone}
           </a>
         )}
-        <a href={`mailto:${org.email}`} className="type-link text-fhv-black underline underline-offset-2">
+        <a href={`mailto:${org.email}`} className="type-link text-fhv-black underline underline-offset-2 self-start">
           {org.email}
         </a>
         {org.website && (
-          <a href={`https://${org.website}`} target="_blank" rel="noopener noreferrer" className="type-link text-fhv-black underline underline-offset-2">
+          <a href={`https://${org.website}`} target="_blank" rel="noopener noreferrer" className="type-link text-fhv-black underline underline-offset-2 self-start">
             {org.website}
           </a>
         )}
