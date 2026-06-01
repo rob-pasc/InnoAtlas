@@ -9,7 +9,7 @@ import { TOPIC_COLORS } from '../../config/topicColors'
 import { useT } from '../../i18n/translations'
 
 const themeFilters    = ['Mobilität', 'Energieeffizienz', 'Kreislaufwirtschaft', 'Technik']
-const fokusFilters    = ['Forschung', 'Pilotprojekt', 'Unternehmen', 'Gemeinde & Städte', 'Bürger:innen-Beteiligung']
+const fokusFilters    = ['Forschung', 'Unternehmen', 'Gemeinde & Städte', 'Bürger:innen-Beteiligung']
 const statusFilters   = ['Abgeschlossen', 'Laufend', 'Geplant']
 
 function toggle(set: string[], value: string): string[] {

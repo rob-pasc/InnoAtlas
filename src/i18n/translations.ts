@@ -72,7 +72,7 @@ export type Translations = {
 
 const de: Translations = {
   navTitle:    'Innovationsatlas Bodenseeregion',
-  navSubtitle: 'Innovationsatlas der Labore des Wissenschaftsverbundes Vierländerregion Bodensee',
+  navSubtitle: 'Innovationsatlas der Labore des Wissenschaftsverbundes Vierländerregion Bodensee – Prototyp',
 
   heroHeading:    'Was ist der Innovationsatlas?',
   heroSubheading: 'Innovationen aus der Vierländerregion entdecken und vernetzen',
@@ -105,7 +105,6 @@ const de: Translations = {
   },
   fokusLabels: {
     'Forschung':                'Forschung',
-    'Pilotprojekt':             'Pilotprojekt',
     'Unternehmen':              'Unternehmen',
     'Gemeinde & Städte':        'Gemeinde & Städte',
     'Bürger:innen-Beteiligung': 'Bürger:innen-Beteiligung',
@@ -165,7 +164,7 @@ const de: Translations = {
 
 const en: Translations = {
   navTitle:    'Innovation Atlas Lake Constance Region',
-  navSubtitle: 'Innovation Atlas of the W4 Labs – Wissenschaftsverbund Vierländerregion Bodensee',
+  navSubtitle: 'Innovation Atlas of the W4 Labs – Wissenschaftsverbund Vierländerregion Bodensee – Prototype',
 
   heroHeading:    'What is the Innovation Atlas?',
   heroSubheading: 'Discover and connect innovations from the four-country Lake Constance region',
@@ -198,7 +197,6 @@ const en: Translations = {
   },
   fokusLabels: {
     'Forschung':                'Research',
-    'Pilotprojekt':             'Pilot Project',
     'Unternehmen':              'Enterprise',
     'Gemeinde & Städte':        'Communities & Cities',
     'Bürger:innen-Beteiligung': 'Civic Participation',

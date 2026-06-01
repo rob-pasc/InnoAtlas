@@ -92,7 +92,7 @@ These values must match exactly (they drive the filter chips and map pin colours
 | Filter | Valid values |
 |--------|-------------|
 | `FilterTopic` | `Mobilität`, `Energieeffizienz`, `Kreislaufwirtschaft`, `Technik` |
-| `FilterFokus` | `Forschung`, `Pilotprojekt`, `Unternehmen`, `Gemeinde & Städte`, `Bürger:innen-Beteiligung` |
+| `FilterFokus` | `Forschung`, `Unternehmen`, `Gemeinde & Städte`, `Bürger:innen-Beteiligung` |
 | `FilterStatus` | `Abgeschlossen`, `Laufend`, `Geplant` |
 
 Multiple values are supported in any filter column – separate them with commas (e.g. `Wirtschaft, Umwelt`).
