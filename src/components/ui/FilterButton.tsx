@@ -19,6 +19,7 @@ export default function FilterButton({ label, colorConfig, active = false, onTog
   return (
     <button
       onClick={onToggle}
+      aria-pressed={active}
       className={`group cursor-pointer relative overflow-hidden inline-flex items-center type-small border px-4 py-1 transition-colors ${stateClass}`}
     >
       {colorConfig && (

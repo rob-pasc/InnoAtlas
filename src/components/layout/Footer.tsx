@@ -26,7 +26,7 @@ export default function Footer() {
         {/* Column 1 – Legal */}
         <div className="flex flex-col gap-6">
           <p className="type-copy-em text-fhv-black">© FHV 2025</p>
-          <nav className="flex flex-col gap-3">
+          <nav aria-label={t.footerLegalNavLabel} className="flex flex-col gap-3">
             {t.legalLinks.map((link) => (
               <a key={link} href="#" className="type-link text-fhv-black border-b border-fhv-black pb-3">
                 {link}
@@ -68,7 +68,7 @@ export default function Footer() {
         {/* Column 3 – Quicklinks */}
         <div className="flex flex-col gap-6">
           <p className="type-h4 text-fhv-black">{t.footerQuicklinksHeading}</p>
-          <nav className="flex flex-col gap-3">
+          <nav aria-label={t.footerQuicklinksHeading} className="flex flex-col gap-3">
             {t.quickLinks.map((link) => (
               <a key={link} href="#" className="type-link text-fhv-black border-b border-fhv-black pb-3">
                 {link}

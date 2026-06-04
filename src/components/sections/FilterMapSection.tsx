@@ -119,6 +119,7 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
       <div className="tablet:hidden mb-4">
         <button
           onClick={() => setFiltersOpen((v) => !v)}
+          aria-expanded={filtersOpen}
           className="flex items-center justify-between w-full type-copy-em text-fhv-black border border-fhv-black px-4 py-3 transition-colors hover:bg-fhv-black hover:text-fhv-white group"
         >
           <span className="flex items-center gap-2.5">
@@ -192,8 +193,8 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
 
           {/* Filter row 2: search */}
           <div className="mb-4 md:mb-8">
-            <p className="type-copy-em text-fhv-black mb-3">{t.searchProjects}</p>
-            <SearchInput value={searchQuery} onChange={setSearchQuery} placeholder={t.searchPlaceholder} />
+            <label htmlFor="project-search" className="block type-copy-em text-fhv-black mb-3">{t.searchProjects}</label>
+            <SearchInput id="project-search" value={searchQuery} onChange={setSearchQuery} placeholder={t.searchPlaceholder} />
           </div>
 
         </div>
@@ -233,11 +234,12 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
             {filteredProjects.length > 1 && (
               <div className="flex justify-center items-center gap-1.5 mt-3 tablet:hidden">
                 {filteredProjects.length <= 8 ? (
-                  filteredProjects.map((_, i) => (
+                  filteredProjects.map((project, i) => (
                     <button
                       key={i}
                       onClick={() => scrollRef.current?.scrollTo({ left: i * (scrollRef.current.clientWidth + 16), behavior: 'smooth' })}
-                      aria-label={`Project ${i + 1}`}
+                      aria-label={project.title}
+                      aria-pressed={i === currentCardIndex}
                       className={`h-1.5 rounded-full transition-all duration-300 ${i === currentCardIndex ? 'w-6 bg-fhv-black' : 'w-1.5 bg-fhv-black/25 hover:bg-fhv-black/50'}`}
                     />
                   ))
@@ -285,6 +287,7 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
 
       {/* Backdrop */}
       <div
+        aria-hidden="true"
         className={`fixed inset-0 z-40 tablet:hidden bg-fhv-black/40 transition-opacity duration-300 ${panelOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
         onClick={() => setSelectedProjectId(null)}
       />

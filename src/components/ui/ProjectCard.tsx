@@ -21,10 +21,12 @@ export default function ProjectCard({ project, onClick, selected = false }: Proj
   ].join(' • ')
 
   return (
-    <div
+    <button
+      type="button"
       onClick={() => onClick?.(project.id)}
       onMouseEnter={() => prefetchTilesForLocation(project.location.latitude, project.location.longitude)}
-      className={`flex cursor-pointer transition-colors ${selected ? 'border-2 border-fhv-black' : 'border border-fhv-black hover:bg-fhv-black/5'}`}
+      aria-pressed={selected}
+      className={`flex w-full text-left cursor-pointer transition-colors ${selected ? 'border-2 border-fhv-black' : 'border border-fhv-black hover:bg-fhv-black/5'}`}
     >
       <div className={`w-1.5 shrink-0 ${stripeClass}`} aria-hidden="true" />
       <div className="flex-1 px-4 py-4 flex flex-col gap-2">
@@ -36,6 +38,6 @@ export default function ProjectCard({ project, onClick, selected = false }: Proj
           <span className="type-copy-em text-fhv-black mt-auto">{tags}</span>
         )}
       </div>
-    </div>
+    </button>
   )
 }

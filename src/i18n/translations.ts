@@ -57,6 +57,7 @@ export type Translations = {
   statLabelTopics:    string
 
   // Footer
+  footerLegalNavLabel:     string
   footerContact:           string
   footerCountry:           string
   footerSponsor:           string
@@ -132,6 +133,7 @@ const de: Translations = {
   statLabelPartners:  'Projektbeteiligte',
   statLabelTopics:    'Themen',
 
+  footerLegalNavLabel:     'Rechtliche Informationen',
   footerContact:           'Kontakt',
   footerCountry:           'Österreich',
   footerSponsor:           'Sponsor: illwerke vkw',
@@ -224,6 +226,7 @@ const en: Translations = {
   statLabelPartners:  'Project Participants',
   statLabelTopics:    'Topics',
 
+  footerLegalNavLabel:     'Legal information',
   footerContact:           'Contact',
   footerCountry:           'Austria',
   footerSponsor:           'Sponsor: illwerke vkw',

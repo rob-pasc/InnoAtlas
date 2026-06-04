@@ -2,12 +2,14 @@ type SearchInputProps = {
   value:        string
   onChange:     (value: string) => void
   placeholder?: string
+  id?:          string
 }
 
-export default function SearchInput({ value, onChange, placeholder }: SearchInputProps) {
+export default function SearchInput({ value, onChange, placeholder, id }: SearchInputProps) {
   return (
     <input
       type="text"
+      id={id}
       value={value}
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder}
