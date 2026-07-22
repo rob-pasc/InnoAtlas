@@ -1,89 +1,19 @@
-import LogoS from '../../assets/icons/fhv-logo-s.svg?react'
-import facebookImg from '../../assets/icons/socials-facebook.webp'
-import instagramImg from '../../assets/icons/socials-instagram.webp'
-import linkedinImg from '../../assets/icons/socials-linkedin.webp'
-import tiktokImg from '../../assets/icons/socials-tiktok.webp'
-import youtubeImg from '../../assets/icons/socials-youtube.webp'
 import { useT } from '../../i18n/translations'
-
-const socialLinks = [
-  { name: 'Facebook',  src: facebookImg  },
-  { name: 'Instagram', src: instagramImg },
-  { name: 'LinkedIn',  src: linkedinImg  },
-  { name: 'TikTok',   src: tiktokImg    },
-  { name: 'YouTube',  src: youtubeImg   },
-]
 
 export default function Footer() {
   const t = useT()
 
   return (
-    <footer className="bg-fhv-sunrise-red">
-      <div className="max-w-screen-3xl mx-auto px-4 py-8 md:px-16 md:py-12">
-
-      <div className="grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-16">
-
-        {/* Column 1 – Legal */}
-        <div className="flex flex-col gap-6">
-          <p className="type-copy-em text-fhv-black">© FHV 2025</p>
-          <nav aria-label={t.footerLegalNavLabel} className="flex flex-col gap-3">
-            {t.legalLinks.map((link) => (
-              <a key={link} href="#" className="type-link text-fhv-black border-b border-fhv-black pb-3">
-                {link}
-              </a>
-            ))}
-          </nav>
-        </div>
-
-        {/* Column 2 – Contact */}
-        <div className="flex flex-col gap-6">
-          <p className="type-h4 text-fhv-black">{t.footerContact}</p>
-          <div className="flex flex-col gap-1 type-copy text-fhv-black">
-            <p className="type-copy-em">FHV – Vorarlberg University of Applied Sciences</p>
-            <p>CAMPUS V, Hochschulstraße 1</p>
-            <p>6850 Dornbirn</p>
-            <p>{t.footerCountry}</p>
-          </div>
-          <div className="flex flex-col gap-1 type-copy text-fhv-black">
-            <p>+43 5572 792</p>
-            <a href="mailto:info@fhv.at" className="type-link text-fhv-black">info@fhv.at</a>
-          </div>
-          {/* <p className="type-small text-fhv-black">{t.footerSponsor}</p> */}
-          <a href="#" className="type-link text-fhv-black self-start">{t.footerNewsletter}</a>
-          <div id="social" className="flex gap-3 mt-2">
-            {socialLinks.map(({ name, src }) => (
-              <a
-                key={name}
-                href="#"
-                aria-label={name}
-                className="button-icon w-8 h-8"
-                title={name}
-              >
-                <img src={src} alt={name} className="w-full h-full" />
-              </a>
-            ))}
-          </div>
-        </div>
-
-        {/* Column 3 – Quicklinks */}
-        <div className="flex flex-col gap-6">
-          <p className="type-h4 text-fhv-black">{t.footerQuicklinksHeading}</p>
-          <nav aria-label={t.footerQuicklinksHeading} className="flex flex-col gap-3">
-            {t.quickLinks.map((link) => (
-              <a key={link} href="#" className="type-link text-fhv-black border-b border-fhv-black pb-3">
-                {link}
-              </a>
-            ))}
-          </nav>
-        </div>
-
-      </div>
-
-      {/* Bottom row – logo mark */}
-      <div className="flex justify-end mt-12">
-        <LogoS className="h-11.5 w-auto text-fhv-black" />
-      </div>
-
+    <footer className="bg-cat-4">
+      <div className="max-w-screen-3xl mx-auto flex flex-col items-center gap-3 px-4 py-8 md:flex-row md:justify-between md:px-16">
+        <p className="type-copy-em text-ink">© FH Vorarlberg 2026</p>
+        <nav aria-label={t.footerLegalNavLabel} className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+          {t.legalLinks.map((link) => (
+            <a key={link} href={`#${link.toLowerCase()}`} className="type-link text-ink">
+              {link}
+            </a>
+          ))}
+        </nav>
       </div>
     </footer>
   )

@@ -1,20 +1,15 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:where(.dark, .dark *));
-
 @theme inline {
-  --color-fhv-white:            hsl(var(--fhv-white));
-  --color-fhv-black:            hsl(var(--fhv-black));
-  --color-fhv-zine-yellow:      hsl(var(--fhv-zine-yellow));
-  --color-fhv-sunrise-red:      hsl(var(--fhv-sunrise-red));
-  --color-fhv-sky-blue:         hsl(var(--fhv-sky-blue));
-  --color-fhv-periwinkle-lilac: hsl(var(--fhv-periwinkle-lilac));
+  /* Neutrals */
+  --color-ink:    hsl(var(--ink));    /* dark neutral  — text, dark surfaces, borders */
+  --color-paper:  hsl(var(--paper));  /* light neutral — page background, inverse text */
 
-  --color-accent:  hsl(var(--accent));
-  --color-text:    hsl(var(--text));
-  --color-heading: hsl(var(--text));
-  --color-bg:      hsl(var(--bg));
-  --color-border:  hsl(var(--border));
+  /* Categorical palette — one slot per topic (see src/config/topicColors.ts) */
+  --color-cat-1:  hsl(var(--cat-1));  /* Mobilität           */
+  --color-cat-2:  hsl(var(--cat-2));  /* Energieeffizienz    */
+  --color-cat-3:  hsl(var(--cat-3));  /* Kreislaufwirtschaft */
+  --color-cat-4:  hsl(var(--cat-4));  /* Technik             */
 
   --breakpoint-tablet:  1160px;
   --breakpoint-3xl:     1780px;
@@ -24,28 +19,75 @@
 
 @layer base {
   :root {
-    --fhv-white:            000 000% 100%;
-    --fhv-black:            000 000% 000%;
-    --fhv-zine-yellow:      047 100% 069%;
-    --fhv-sunrise-red:      013 082% 061%;
-    --fhv-sky-blue:         203 076% 077%;
-    --fhv-periwinkle-lilac: 283 030% 072%;
+    /* ─── SCHEME A · "Zine" — pop pastels ─────────────────────────────── */
+    /* cat-1 sky blue · cat-2 yellow · cat-3 lilac · cat-4 coral */
+        
+    --ink:     000 000% 000%;
+    --paper:   000 000% 100%;
+    --cat-1:   203 076% 077%;
+    --cat-2:   047 100% 069%;
+    --cat-3:   283 030% 072%;
+    --cat-4:   013 082% 061%;    
+   
+    /* ─────────────────────────────────────────────────────────────────── */
 
-    --text:    var(--fhv-white);
-    --bg:      var(--fhv-black);
-    --border:  var(--fhv-black);
-    --accent:  276 100% 061%;
+    /* ─── SCHEME B · "Fresco" — bright mix ────────────────────────────── */
+    /* cat-1 orange-red · cat-2 emerald-mint · cat-3 periwinkle · cat-4 butter yellow */
+    /*     
+    --ink:    000 000% 000%;
+    --paper:  000 000% 100%;
+    --cat-1:  013 096% 053%;   
+    --cat-2:  158 042% 068%;   
+    --cat-3:  222 068% 076%;  
+    --cat-4:  044 092% 072%;      
+    */
+    /* ─────────────────────────────────────────────────────────────────── */
 
-    --radius: 0.5rem;
-    --shadow:
-      rgba(0, 0, 0, 0.1) 0 10px 15px -3px, 
-      rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+    /* ─── SCHEME C · "Marmalade" — shades of orange ───────────────────── */
+    /* cat-1 deep orange-red · cat-2 coral · cat-3 apricot · cat-4 marigold */
+    /*         
+    --ink:    000 000% 000%;
+    --paper:  000 000% 100%;
+    --cat-1:  013 096% 053%;
+    --cat-2:  024 090% 066%;
+    --cat-3:  034 095% 078%;
+    --cat-4:  043 097% 070%;    
+    */
+    /* ─────────────────────────────────────────────────────────────────── */
+
+    /* ─── SCHEME D · "Sorbet" — soft pastels ──────────────────────────── */
+    /* cat-1 orange-red · cat-2 sage-mint · cat-3 lilac · cat-4 peach-cream */
+    /*         
+    --ink:    000 000% 000%;
+    --paper:  000 000% 100%;
+    --cat-1:  013 096% 053%;
+    --cat-2:  156 038% 079%;
+    --cat-3:  275 042% 084%;
+    --cat-4:  038 072% 083%;    
+    */
+    /* ─────────────────────────────────────────────────────────────────── */
+
+    /* ─── SCHEME E · "Athenaeum" — muted collegiate ───────────────────── */
+    /* cat-1 oxblood · cat-2 slate-blue · cat-3 sage · cat-4 parchment */
+    /*     
+    --ink:    000 000% 000%;
+    --paper:  000 000% 100%;
+    --cat-1:  345 055% 036%;
+    --cat-2:  210 028% 074%;
+    --cat-3:  145 022% 070%;
+    --cat-4:  038 040% 080%;
+    */
+    /* ─────────────────────────────────────────────────────────────────── */
+
+    /* Semantic roles — stable across schemes; map roles onto the palette above. */
+    --text:    var(--paper);
+    --bg:      var(--ink);
 
     --arial: Arial, Helvetica, sans-serif;
 
     color: hsl(var(--text));
     background: hsl(var(--bg));
-    ::selection { background-color: hsl(var(--fhv-sky-blue)); }
+    ::selection { background-color: hsl(var(--cat-1)); }
 
     font: 16px/150% var(--arial);
     letter-spacing: 0.18px;
@@ -58,21 +100,6 @@
     @media (max-width: 1024px) {
       font-size: 16px;
     }
-  }
-
-  .dark {
-    --text:    220 009% 065%;
-    --bg:      231 014% 010%;
-    --border:  231 012% 020%;
-    --accent:  270 095% 075%;
-
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, 
-      rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
-
-  .dark #social .button-icon {
-    filter: invert(1) brightness(2);
   }
 }
 
@@ -90,11 +117,11 @@
 
 /* Leaflet map pin tooltip */
 .map-pin-tooltip {
-  background: hsl(var(--fhv-black));
+  background: hsl(var(--ink));
   border: none;
   border-radius: 0;
   box-shadow: none;
-  color: hsl(var(--fhv-white));
+  color: hsl(var(--paper));
   padding: 6px 10px;
 }
 .map-pin-tooltip::before {

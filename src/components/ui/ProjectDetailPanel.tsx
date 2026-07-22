@@ -9,8 +9,8 @@ import FilterButton from './FilterButton'
 function LabeledSection({ label, body }: { label: string; body: string }) {
   return (
     <div className="flex flex-col gap-1">
-      <p className="type-copy-em text-fhv-black">{label}</p>
-      <p className="type-copy text-fhv-black">{body}</p>
+      <p className="type-copy-em text-ink">{label}</p>
+      <p className="type-copy text-ink">{body}</p>
     </div>
   )
 }
@@ -23,14 +23,14 @@ function PartnerLink({ partner, isLead, leadLabel }: { partner: Partner; isLead?
         href={partner.link}
         target="_blank"
         rel="noreferrer"
-        className="type-link text-fhv-black inline-flex items-center gap-1"
+        className="type-link text-ink inline-flex items-center gap-1"
       >
         <ArrowTopRightIcon className="w-3 h-3 shrink-0" />
         {label}
       </a>
     )
   }
-  return <p className="type-copy text-fhv-black">{label}</p>
+  return <p className="type-copy text-ink">{label}</p>
 }
 
 // ---------------------------------------------------------------------------
@@ -49,14 +49,14 @@ export default function ProjectDetailPanel({ project, onClose, activeFilters, on
   const t = useT()
   const firstTopic  = project.filters.topic[0]
   const colorConfig = firstTopic ? TOPIC_COLORS[firstTopic] : undefined
-  const stripeClass = colorConfig ? colorConfig.bg : 'bg-fhv-black'
+  const stripeClass = colorConfig ? colorConfig.bg : 'bg-ink'
 
   const hasTextContent  = project.description    || project.objective             || project.results
   const hasDuration     = project.duration.start || project.duration.end          || project.duration.time
   const hasContact      = project.contact.name   || project.contact.organisation  || project.contact.email  || project.contact.phone
 
   return (
-    <div className={`h-full flex flex-col bg-fhv-white overflow-hidden border border-fhv-black ${className}`}>
+    <div className={`h-full flex flex-col bg-paper overflow-hidden border border-ink ${className}`}>
 
       {/* Header image */}
       <div className="relative h-40 shrink-0 overflow-hidden">
@@ -64,17 +64,18 @@ export default function ProjectDetailPanel({ project, onClose, activeFilters, on
           src={project.image.link ?? placeholderImg}
           onError={(e) => { (e.currentTarget as HTMLImageElement).src = placeholderImg }}
           alt={project.title}
+          decoding="async"
           className="w-full h-full object-cover"
         />
         <button
           onClick={onClose}
           aria-label="Close"
-          className="absolute top-2 right-2 p-1.5 bg-fhv-white text-fhv-black cursor-pointer hover:bg-fhv-black hover:text-fhv-white transition-colors"
+          className="absolute top-2 right-2 p-1.5 bg-paper text-ink cursor-pointer hover:bg-ink hover:text-paper transition-colors"
         >
           <CloseIcon className="w-4 h-4" />
         </button>
         {project.image.credits && (
-          <p className="absolute bottom-1 right-2 type-small text-fhv-white bg-fhv-black/50 px-1">
+          <p className="absolute bottom-1 right-2 type-small text-paper bg-ink/50 px-1">
             {project.image.credits}
           </p>
         )}
@@ -88,9 +89,9 @@ export default function ProjectDetailPanel({ project, onClose, activeFilters, on
 
         {/* Title + subtitle */}
         <div className="flex flex-col gap-1">
-          <h3 className="type-h3 text-fhv-black">{project.title}</h3>
+          <h3 className="type-h3 text-ink">{project.title}</h3>
           {project.subtitle && (
-            <p className="type-copy text-fhv-black">{project.subtitle}</p>
+            <p className="type-copy text-ink">{project.subtitle}</p>
           )}
         </div>
 
@@ -122,7 +123,7 @@ export default function ProjectDetailPanel({ project, onClose, activeFilters, on
           href={project.website}
           target="_blank"
           rel="noreferrer"
-          className="type-link text-fhv-black inline-flex items-center gap-1"
+          className="type-link text-ink inline-flex items-center gap-1"
         >
           <ArrowTopRightIcon className="w-4 h-4 shrink-0" />
           {t.projectWebsite}
@@ -146,11 +147,11 @@ export default function ProjectDetailPanel({ project, onClose, activeFilters, on
         {/* Duration */}
         {hasDuration && (
           <div className="flex flex-col gap-1">
-            <p className="type-copy-em text-fhv-black">{t.duration}</p>
-            <p className="type-copy text-fhv-black">
+            <p className="type-copy-em text-ink">{t.duration}</p>
+            <p className="type-copy text-ink">
               {[project.duration.start, project.duration.end].filter(Boolean).join(' – ')}
               {project.duration.time && (
-                <span className="type-small text-fhv-black"> ({project.duration.time})</span>
+                <span className="type-small text-ink"> ({project.duration.time})</span>
               )}
             </p>
           </div>
@@ -158,8 +159,8 @@ export default function ProjectDetailPanel({ project, onClose, activeFilters, on
 
         {/* Location */}
         <div className="flex flex-col gap-1">
-          <p className="type-copy-em text-fhv-black">{t.location}</p>
-          <p className="type-copy text-fhv-black">
+          <p className="type-copy-em text-ink">{t.location}</p>
+          <p className="type-copy text-ink">
             {project.location.city}
             {project.filters.country[0] ? `, ${project.filters.country[0]}` : ''}
           </p>
@@ -167,7 +168,7 @@ export default function ProjectDetailPanel({ project, onClose, activeFilters, on
 
         {/* Partners */}
         <div className="flex flex-col gap-1">
-          <p className="type-copy-em text-fhv-black">{t.projectPartners}</p>
+          <p className="type-copy-em text-ink">{t.projectPartners}</p>
           <PartnerLink partner={project.partners.lead} isLead leadLabel={t.lead} />
           {project.partners.others.map((p, i) => (
             <PartnerLink key={i} partner={p} leadLabel={t.lead} />
@@ -177,15 +178,15 @@ export default function ProjectDetailPanel({ project, onClose, activeFilters, on
         {/* Contact */}
         {hasContact && (
           <div className="flex flex-col">
-            <p className="type-copy-em text-fhv-black">{t.contact}</p>
-            {project.contact.name         && <p className="type-copy [text-box:normal] text-fhv-black">{project.contact.name}</p>}
-            {project.contact.organisation && <p className="type-copy [text-box:normal] text-fhv-black">{project.contact.organisation}</p>}
+            <p className="type-copy-em text-ink">{t.contact}</p>
+            {project.contact.name         && <p className="type-copy [text-box:normal] text-ink">{project.contact.name}</p>}
+            {project.contact.organisation && <p className="type-copy [text-box:normal] text-ink">{project.contact.organisation}</p>}
             {project.contact.email && (
-              <a href={`mailto:${project.contact.email}`} className="type-link text-fhv-black">
+              <a href={`mailto:${project.contact.email}`} className="type-link text-ink">
                 {project.contact.email}
               </a>
             )}
-            {project.contact.phone && <p className="type-copy [text-box:normal] text-fhv-black">{project.contact.phone}</p>}
+            {project.contact.phone && <p className="type-copy [text-box:normal] text-ink">{project.contact.phone}</p>}
           </div>
         )}
 

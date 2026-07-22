@@ -13,7 +13,7 @@ export default function SearchInput({ value, onChange, placeholder, id }: Search
       value={value}
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder}
-      className="type-copy [text-box:normal] text-fhv-black bg-fhv-white border border-fhv-black w-full px-3 py-1.5 focus:outline-none focus:ring-1 focus:ring-fhv-black"
+      className="type-copy [text-box:normal] text-ink bg-paper border border-ink w-full px-3 py-1.5 focus:outline-none focus:ring-1 focus:ring-ink"
     />
   )
 }

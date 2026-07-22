@@ -52,18 +52,18 @@ function buildOrgs(t: Translations): OrgContact[] {
 
 function OrgCard({ org, roles }: { org: OrgContact; roles: Record<string, string> }) {
   return (
-    <div className="flex flex-col gap-5 border-t-2 border-fhv-black pt-5">
+    <div className="flex flex-col gap-5 border-t-2 border-ink pt-5">
       <div className="flex flex-col gap-0.5">
-        <span className="type-h3 text-fhv-black">{org.name}</span>
-        <span className="type-h4 text-fhv-black opacity-60">{org.subtitle}</span>
+        <span className="type-h3 text-ink">{org.name}</span>
+        <span className="type-h4 text-ink opacity-60">{org.subtitle}</span>
       </div>
 
       {org.persons && org.persons.length > 0 && (
         <div className="flex flex-col gap-2">
           {org.persons.map((p) => (
             <div key={p.name} className="flex flex-col gap-0.5">
-              <span className="type-copy-em text-fhv-black">{p.name}</span>
-              <span className="type-small text-fhv-black opacity-60">{roles[p.role] ?? p.role}</span>
+              <span className="type-copy-em text-ink">{p.name}</span>
+              <span className="type-small text-ink opacity-60">{roles[p.role] ?? p.role}</span>
             </div>
           ))}
         </div>
@@ -71,19 +71,19 @@ function OrgCard({ org, roles }: { org: OrgContact; roles: Record<string, string
 
       <div className="flex flex-col gap-1 mt-auto">
         {org.phone && (
-          <a href={`tel:${org.phone.replace(/\s/g, '')}`} className="type-link text-fhv-black underline underline-offset-2 self-start">
+          <a href={`tel:${org.phone.replace(/\s/g, '')}`} className="type-link text-ink underline underline-offset-2 self-start">
             {org.phone}
           </a>
         )}
-        <a href={`mailto:${org.email}`} className="type-link text-fhv-black underline underline-offset-2 self-start">
+        <a href={`mailto:${org.email}`} className="type-link text-ink underline underline-offset-2 self-start">
           {org.email}
         </a>
         {org.website && (
-          <a href={`https://${org.website}`} target="_blank" rel="noopener noreferrer" className="type-link text-fhv-black underline underline-offset-2 self-start">
+          <a href={`https://${org.website}`} target="_blank" rel="noopener noreferrer" className="type-link text-ink underline underline-offset-2 self-start">
             {org.website}
           </a>
         )}
-        <address className="type-small text-fhv-black opacity-60 not-italic mt-1">
+        <address className="type-small text-ink opacity-60 not-italic mt-1">
           {org.address.map((line) => (
             <span key={line} className="block">{line}</span>
           ))}
@@ -98,12 +98,12 @@ export default function ContactSection() {
   const orgs = buildOrgs(t)
 
   return (
-    <section className="bg-fhv-white px-4 py-8 md:px-16 md:py-16">
+    <section className="bg-paper px-4 py-8 md:px-16 md:py-16">
       <div className="flex">
-        <div className="w-0 md:w-1.5 shrink-0 self-stretch bg-fhv-sky-blue" aria-hidden="true" />
+        <div className="w-0 md:w-1.5 shrink-0 self-stretch bg-cat-1" aria-hidden="true" />
 
         <div className="flex-1 md:pl-5">
-          <h2 className="type-hero text-fhv-black mb-5">{t.contactHeading}</h2>
+          <h2 className="type-hero text-ink mb-5">{t.contactHeading}</h2>
 
           <div className="grid grid-cols-1 gap-10 md:grid-cols-2 md:gap-16">
             {orgs.map((org) => (

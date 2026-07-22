@@ -10,11 +10,11 @@ type FilterButtonProps = {
 export default function FilterButton({ label, colorConfig, active = false, onToggle }: FilterButtonProps) {
   const stateClass = active
     ? colorConfig
-      ? 'border-fhv-black text-fhv-black'
-      : 'bg-fhv-black border-fhv-black text-fhv-white'
+      ? 'border-ink text-ink'
+      : 'bg-ink border-ink text-paper'
     : colorConfig
-      ? 'bg-fhv-white border-fhv-black text-fhv-black'
-      : 'bg-fhv-white border-fhv-black text-fhv-black hover:bg-fhv-black hover:text-fhv-white'
+      ? 'bg-paper border-ink text-ink'
+      : 'bg-paper border-ink text-ink hover:bg-ink hover:text-paper'
 
   return (
     <button

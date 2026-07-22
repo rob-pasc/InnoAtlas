@@ -65,10 +65,10 @@ export default function StatItem({ value, label }: StatItemProps) {
 
   return (
     <div ref={ref} className="flex flex-col gap-1">
-      <span className="type-h1 text-fhv-black">
+      <span className="type-h1 text-ink">
         {isNumeric ? count : value}
       </span>
-      <span className="type-small text-fhv-black">{label}</span>
+      <span className="type-small text-ink">{label}</span>
     </div>
   )
 }

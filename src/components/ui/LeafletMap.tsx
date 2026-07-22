@@ -1,6 +1,6 @@
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { MapContainer, TileLayer, Marker, Tooltip, useMap } from 'react-leaflet'
 
 import type { Project } from '../../types/project'
@@ -14,10 +14,21 @@ import { prefetchTilesForLocation } from '../../utils/prefetchTiles'
 delete (L.Icon.Default.prototype as unknown as Record<string, unknown>)._getIconUrl
 L.Icon.Default.mergeOptions({ iconUrl: '', iconRetinaUrl: '', shadowUrl: '' })
 
-const FALLBACK_HEX = '#000000'
+const FALLBACK_COLOR = '#000000'
 
-function createPinIcon(hex: string): L.DivIcon {
-  const html = mapPinSvg.replace('fill="currentColor"', `fill="${hex}"`)
+/** Resolve a CSS custom property (HSL channels, e.g. "203 76% 77%") to an
+ *  `hsl()` colour string for SVG contexts that can't read CSS variables.
+ *  Note: SVG `fill` presentation attributes do NOT parse the space-separated
+ *  CSS Color 4 syntax `hsl(H S% L%)` – an invalid value there is ignored, and
+ *  the path then inherits `fill="none"` from the parent <svg>, rendering the
+ *  pin invisible. Emit the legacy comma-separated form, which SVG accepts. */
+function resolveCssColor(token: string): string {
+  const channels = getComputedStyle(document.documentElement).getPropertyValue(token).trim()
+  return channels ? `hsl(${channels.split(/\s+/).join(', ')})` : FALLBACK_COLOR
+}
+
+function createPinIcon(color: string): L.DivIcon {
+  const html = mapPinSvg.replace('fill="currentColor"', `fill="${color}"`)
   return L.divIcon({
     html,
     className: '',         // removes Leaflet's default white-box styling
@@ -83,6 +94,16 @@ type LeafletMapProps = {
 
 export default function LeafletMap({ projects, onSelectProject, selectedId }: LeafletMapProps) {
   const visibleProjects = selectedId !== null ? projects.filter(p => p.id === selectedId) : projects
+
+  // Resolve each topic's CSS colour once, rather than per marker per render.
+  const topicColors = useMemo(() => {
+    const resolved: Record<string, string> = {}
+    for (const [topic, cfg] of Object.entries(TOPIC_COLORS)) {
+      resolved[topic] = resolveCssColor(cfg.token)
+    }
+    return resolved
+  }, [])
+
   return (
     <MapContainer
       center={[47.5, 13.5]}
@@ -99,8 +120,8 @@ export default function LeafletMap({ projects, onSelectProject, selectedId }: Le
       <MapResizer selectedId={selectedId} />
       {visibleProjects.map((project) => {
         const firstTopic = project.filters.topic[0]
-        const hex = firstTopic ? (TOPIC_COLORS[firstTopic]?.hex ?? FALLBACK_HEX) : FALLBACK_HEX
-        const icon = createPinIcon(hex)
+        const color = firstTopic ? (topicColors[firstTopic] ?? FALLBACK_COLOR) : FALLBACK_COLOR
+        const icon = createPinIcon(color)
         return (
           <Marker
             key={project.id}

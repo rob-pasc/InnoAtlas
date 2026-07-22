@@ -19,7 +19,7 @@ function AppContent() {
   console.log('[useProjects]', { loading, error, count: projects.length, projects })
 
   return (
-    <div className="min-h-screen font-arial flex bg-fhv-white">
+    <div className="min-h-screen font-arial flex bg-paper">
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       <div className="md:ml-20 flex-1 flex flex-col min-w-0">

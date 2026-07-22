@@ -57,14 +57,8 @@ export type Translations = {
   statLabelTopics:    string
 
   // Footer
-  footerLegalNavLabel:     string
-  footerContact:           string
-  footerCountry:           string
-  footerSponsor:           string
-  footerNewsletter:        string
-  footerQuicklinksHeading: string
-  legalLinks:              string[]
-  quickLinks:              string[]
+  footerLegalNavLabel: string
+  legalLinks:          string[]
 }
 
 // ---------------------------------------------------------------------------
@@ -133,30 +127,11 @@ const de: Translations = {
   statLabelPartners:  'Projektbeteiligte',
   statLabelTopics:    'Themen',
 
-  footerLegalNavLabel:     'Rechtliche Informationen',
-  footerContact:           'Kontakt',
-  footerCountry:           'Österreich',
-  footerSponsor:           'Sponsor: illwerke vkw',
-  footerNewsletter:        'Newsletter abonnieren',
-  footerQuicklinksHeading: 'Quicklinks',
+  footerLegalNavLabel: 'Rechtliche Informationen',
   legalLinks: [
     'Impressum',
-    'Allgemeine Geschäftsbedingungen',
     'Datenschutz',
-    'Barrierefreiheitserklärung',
-    'Hinweisgebersystem (Whistleblower-System)',
-    'Amtssignatur, elektronische Signatur',
-  ],
-  quickLinks: [
-    'Über die FHV',
-    'Karriere',
-    'Bibliothek',
-    'Mensa & Café Campus',
-    'Presse',
-    'Alumni',
-    'Events',
-    'ÖH Studierendenvertretung',
-    'Member of RUN-EU',
+    'Barrierefreiheit',
   ],
 }
 
@@ -226,30 +201,11 @@ const en: Translations = {
   statLabelPartners:  'Project Participants',
   statLabelTopics:    'Topics',
 
-  footerLegalNavLabel:     'Legal information',
-  footerContact:           'Contact',
-  footerCountry:           'Austria',
-  footerSponsor:           'Sponsor: illwerke vkw',
-  footerNewsletter:        'Subscribe to newsletter',
-  footerQuicklinksHeading: 'Quick links',
+  footerLegalNavLabel: 'Legal information',
   legalLinks: [
     'Legal Notice',
-    'Terms and Conditions',
     'Privacy Policy',
-    'Accessibility Statement',
-    'Whistleblower System',
-    'Official Signature, Electronic Signature',
-  ],
-  quickLinks: [
-    'About FHV',
-    'Careers',
-    'Library',
-    'Cafeteria & Café Campus',
-    'Press',
-    'Alumni',
-    'Events',
-    'Student Union',
-    'Member of RUN-EU',
+    'Accessibility',
   ],
 }
 

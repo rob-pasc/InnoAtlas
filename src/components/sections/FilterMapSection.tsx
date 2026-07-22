@@ -27,6 +27,8 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
   const [currentCardIndex,  setCurrentCardIndex]  = useState(0)
 
   const scrollRef = useRef<HTMLDivElement>(null)
+  const contentRef = useRef<HTMLDivElement>(null)
+  const sheetRef = useRef<HTMLDivElement>(null)
   const [canScrollUp,   setCanScrollUp]   = useState(false)
   const [canScrollDown, setCanScrollDown] = useState(false)
 
@@ -91,7 +93,14 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
   // Close panel on outside click (desktop sidebar behaviour)
   useEffect(() => {
     if (!panelOpen) return
-    function handleDocClick() { setSelectedProjectId(null) }
+    // Ignore clicks inside the content block or the mobile sheet; anything
+    // else is an outside click that dismisses the panel.
+    function handleDocClick(e: MouseEvent) {
+      const target = e.target as Node
+      if (contentRef.current?.contains(target)) return
+      if (sheetRef.current?.contains(target)) return
+      setSelectedProjectId(null)
+    }
     const id = setTimeout(() => document.addEventListener('click', handleDocClick), 0)
     return () => { clearTimeout(id); document.removeEventListener('click', handleDocClick) }
   }, [panelOpen])
@@ -113,19 +122,19 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
   }
 
   return (
-    <section className="bg-fhv-white px-4 pt-8 md:px-16 md:pt-12">
+    <section className="bg-paper px-4 pt-8 md:px-16 md:pt-12">
 
       {/* ── Mobile filter toggle ── hidden on desktop */}
       <div className="tablet:hidden mb-4">
         <button
           onClick={() => setFiltersOpen((v) => !v)}
           aria-expanded={filtersOpen}
-          className="flex items-center justify-between w-full type-copy-em text-fhv-black border border-fhv-black px-4 py-3 transition-colors hover:bg-fhv-black hover:text-fhv-white group"
+          className="flex items-center justify-between w-full type-copy-em text-ink border border-ink px-4 py-3 transition-colors hover:bg-ink hover:text-paper group"
         >
           <span className="flex items-center gap-2.5">
             {t.filtersLabel}
             {activeFilterCount > 0 && (
-              <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-fhv-black text-fhv-white type-small group-hover:bg-fhv-white group-hover:text-fhv-black transition-colors">
+              <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-ink text-paper type-small group-hover:bg-paper group-hover:text-ink transition-colors">
                 {activeFilterCount}
               </span>
             )}
@@ -148,7 +157,7 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
           {/* Filter row 1: chip filters */}
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-8 mb-4 md:mb-6 tablet:mt-0 pt-0">
             <div>
-              <p className="type-copy-em text-fhv-black mb-3">{t.filterByTopic}</p>
+              <p className="type-copy-em text-ink mb-3">{t.filterByTopic}</p>
               <div className="flex flex-wrap gap-2">
                 {themeFilters.map((key) => (
                   <FilterButton
@@ -163,7 +172,7 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
             </div>
 
             <div>
-              <p className="type-copy-em text-fhv-black mb-3">{t.filterByFokus}</p>
+              <p className="type-copy-em text-ink mb-3">{t.filterByFokus}</p>
               <div className="flex flex-wrap gap-2">
                 {fokusFilters.map((key) => (
                   <FilterButton
@@ -177,7 +186,7 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
             </div>
 
             <div>
-              <p className="type-copy-em text-fhv-black mb-3">{t.filterByStatus}</p>
+              <p className="type-copy-em text-ink mb-3">{t.filterByStatus}</p>
               <div className="flex flex-wrap gap-2">
                 {statusFilters.map((key) => (
                   <FilterButton
@@ -193,7 +202,7 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
 
           {/* Filter row 2: search */}
           <div className="mb-4 md:mb-8">
-            <label htmlFor="project-search" className="block type-copy-em text-fhv-black mb-3">{t.searchProjects}</label>
+            <label htmlFor="project-search" className="block type-copy-em text-ink mb-3">{t.searchProjects}</label>
             <SearchInput id="project-search" value={searchQuery} onChange={setSearchQuery} placeholder={t.searchPlaceholder} />
           </div>
 
@@ -201,12 +210,11 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
       </div>
 
       {/* ── Project list + Map + Desktop detail panel ── */}
-      <div className="flex flex-col tablet:flex-row tablet:h-135 2xl:h-150">
+      <div ref={contentRef} className="flex flex-col tablet:flex-row tablet:h-135 2xl:h-150">
 
         {/* Scrollable project list */}
         <div
           className={`order-2 tablet:order-1 mt-4 tablet:mt-0 tablet:shrink-0 tablet:overflow-hidden tablet:transition-all tablet:duration-300 tablet:ease-in-out ${panelOpen ? 'w-full tablet:w-0' : 'w-full tablet:w-110'}`}
-          onClick={e => e.stopPropagation()}
         >
           <div className="flex flex-col tablet:block tablet:h-full">
 
@@ -218,7 +226,7 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
               style={{ maskImage: `linear-gradient(to bottom, ${canScrollUp ? 'transparent' : 'black'} 0%, black ${canScrollUp ? '24px' : '0px'}, black calc(100% - ${canScrollDown ? '24px' : '0px'}), ${canScrollDown ? 'transparent' : 'black'} 100%)` }}
             >
               {filteredProjects.length === 0 ? (
-                <p className="type-copy text-fhv-black/50 pt-2">{t.noProjectsFound}</p>
+                <p className="type-copy text-ink/50 pt-2">{t.noProjectsFound}</p>
               ) : filteredProjects.map((project) => (
                 <div key={project.id} className="snap-center shrink-0 w-full">
                   <ProjectCard
@@ -240,11 +248,11 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
                       onClick={() => scrollRef.current?.scrollTo({ left: i * (scrollRef.current.clientWidth + 16), behavior: 'smooth' })}
                       aria-label={project.title}
                       aria-pressed={i === currentCardIndex}
-                      className={`h-1.5 rounded-full transition-all duration-300 ${i === currentCardIndex ? 'w-6 bg-fhv-black' : 'w-1.5 bg-fhv-black/25 hover:bg-fhv-black/50'}`}
+                      className={`h-1.5 rounded-full transition-all duration-300 ${i === currentCardIndex ? 'w-6 bg-ink' : 'w-1.5 bg-ink/25 hover:bg-ink/50'}`}
                     />
                   ))
                 ) : (
-                  <p className="type-small text-fhv-black/40">{currentCardIndex + 1} / {filteredProjects.length}</p>
+                  <p className="type-small text-ink/40">{currentCardIndex + 1} / {filteredProjects.length}</p>
                 )}
               </div>
             )}
@@ -255,8 +263,7 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
 
         {/* Map */}
         <div
-          className="order-1 tablet:order-2 isolate map-height shrink-0 tablet:shrink tablet:flex-1 border border-fhv-black"
-          onClick={e => e.stopPropagation()}
+          className="order-1 tablet:order-2 isolate map-height shrink-0 tablet:shrink tablet:flex-1 border border-ink"
         >
           <LeafletMap
             projects={filteredProjects}
@@ -268,7 +275,6 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
         {/* Desktop detail panel – tablet+ only */}
         <div
           className={`hidden tablet:block tablet:order-3 tablet:shrink-0 tablet:overflow-hidden tablet:transition-all tablet:duration-300 tablet:ease-in-out ${panelOpen ? 'tablet:w-110' : 'tablet:w-0'}`}
-          onClick={e => e.stopPropagation()}
         >
           {selectedProject && (
             <div className="tablet:w-110 tablet:h-full tablet:pl-4">
@@ -288,18 +294,18 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
       {/* Backdrop */}
       <div
         aria-hidden="true"
-        className={`fixed inset-0 z-40 tablet:hidden bg-fhv-black/40 transition-opacity duration-300 ${panelOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+        className={`fixed inset-0 z-40 tablet:hidden bg-ink/40 transition-opacity duration-300 ${panelOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
         onClick={() => setSelectedProjectId(null)}
       />
 
       {/* Sheet */}
       <div
+        ref={sheetRef}
         className={`fixed inset-x-0 bottom-0 z-50 tablet:hidden transition-transform duration-300 ease-in-out ${panelOpen ? 'translate-y-0' : 'translate-y-full'}`}
-        onClick={e => e.stopPropagation()}
       >
         {/* Drag handle bar */}
-        <div className="flex justify-center pt-3 pb-2.5 bg-fhv-white border-t border-fhv-black">
-          <div className="w-10 h-1 bg-fhv-black/20" />
+        <div className="flex justify-center pt-3 pb-2.5 bg-paper border-t border-ink">
+          <div className="w-10 h-1 bg-ink/20" />
         </div>
         {/* Panel */}
         <div className="h-dvh">
