@@ -1,5 +1,35 @@
 @import "tailwindcss";
 
+/* Futura PT — Bodenseeregion Labs CI typeface (self-hosted from /public/fonts/).
+   One family, weight-mapped: Light 300 · Book 400 · Medium 500 · Bold 700.
+   Any weight whose file is absent falls back to Arial, per the CI spec. */
+@font-face {
+  font-family: "Futura PT"; font-style: normal; font-weight: 300; font-display: swap;
+  src: url("/fonts/FuturaPT-Light.woff") format("woff");
+}
+@font-face {
+  font-family: "Futura PT"; font-style: normal; font-weight: 400; font-display: swap;
+  src: url("/fonts/FuturaPT-Book.woff") format("woff");
+}
+@font-face {
+  font-family: "Futura PT"; font-style: normal; font-weight: 500; font-display: swap;
+  src: url("/fonts/FuturaPT-Medium.woff") format("woff");
+}
+@font-face {
+  font-family: "Futura PT"; font-style: normal; font-weight: 700; font-display: swap;
+  src: url("/fonts/FuturaPT-Bold.woff") format("woff");
+}
+
+/* Jost — geometric Futura homage, used only as a per-glyph fallback for the
+   characters Futura PT lacks (ä ö ü Ä Ö Ü ß …). Variable font covering the
+   whole weight axis; size-adjust matches Futura's x-height so the substituted
+   glyphs don't look oversized among the surrounding Futura text. */
+@font-face {
+  font-family: "Jost"; font-style: normal; font-weight: 100 900; font-display: swap;
+  size-adjust: 94%;
+  src: url("/fonts/Jost-latin.woff2") format("woff2");
+}
+
 @theme inline {
   /* Neutrals */
   --color-ink:    hsl(var(--ink));    /* dark neutral  — text, dark surfaces, borders */
@@ -14,21 +44,21 @@
   --breakpoint-tablet:  1160px;
   --breakpoint-3xl:     1780px;
 
-  --font-arial: var(--arial);
+  --font-sans: var(--sans);
 }
 
 @layer base {
   :root {
     /* ─── SCHEME A · "Zine" — pop pastels ─────────────────────────────── */
     /* cat-1 sky blue · cat-2 yellow · cat-3 lilac · cat-4 coral */
-        
+/*         
     --ink:     000 000% 000%;
     --paper:   000 000% 100%;
     --cat-1:   203 076% 077%;
     --cat-2:   047 100% 069%;
     --cat-3:   283 030% 072%;
     --cat-4:   013 082% 061%;    
-   
+    */
     /* ─────────────────────────────────────────────────────────────────── */
 
     /* ─── SCHEME B · "Fresco" — bright mix ────────────────────────────── */
@@ -79,17 +109,30 @@
     */
     /* ─────────────────────────────────────────────────────────────────── */
 
+    /* ─── SCHEME F · "Labs" — Bodensee CI greens ──────────────────────── */
+    /* cat-1 orange accent · cat-2 Minze · cat-3 Frühling · cat-4 Himmel */
+    
+    --ink:    000 000% 000%;
+    --paper:  000 000% 100%;
+    --cat-1:  013 096% 053%;
+    --cat-2:  082 029% 070%;
+    /* --cat-2:        73.7 45.1% 40%; */
+    --cat-3:  071 052% 069%;
+    --cat-4:  160 018% 077%;
+   
+    /* ─────────────────────────────────────────────────────────────────── */
+
     /* Semantic roles — stable across schemes; map roles onto the palette above. */
     --text:    var(--paper);
     --bg:      var(--ink);
 
-    --arial: Arial, Helvetica, sans-serif;
+    --sans: "Futura PT", "Jost", Arial, Helvetica, sans-serif;
 
     color: hsl(var(--text));
     background: hsl(var(--bg));
-    ::selection { background-color: hsl(var(--cat-1)); }
+    ::selection { background-color: hsl(var(--cat-3)); }
 
-    font: 16px/150% var(--arial);
+    font: 16px/150% var(--sans);
     letter-spacing: 0.18px;
 
     font-synthesis: none;
@@ -103,44 +146,43 @@
   }
 }
 
-/* Map container height – unlayered so it wins over @layer utilities (md:h-96 etc.)
-   at tablet+ the height is unset, letting the flex container's align-items:stretch fill it */
-.map-height {
-  height: calc(var(--spacing) * 75);
-}
-@media (min-width: 48rem) {
-  .map-height { height: calc(var(--spacing) * 96); }
-}
-@media (min-width: 1160px) {
-  .map-height { height: auto; }
-}
-
-/* Leaflet map pin tooltip */
-.map-pin-tooltip {
-  background: hsl(var(--ink));
-  border: none;
-  border-radius: 0;
-  box-shadow: none;
-  color: hsl(var(--paper));
-  padding: 6px 10px;
-}
-.map-pin-tooltip::before {
-  display: none;
-}
-
 @layer components {
-  .type-title   { font-family: var(--arial); font-weight: 700; font-size: clamp(36px, 5vw + 16px, 58px);    line-height: 1.05; }
-  .type-hero    { font-family: var(--arial); font-weight: 700; font-size: clamp(32px, 3.5vw + 18px, 48px);  line-height: 1.15;
+  .type-title   { font-family: var(--sans); font-weight: 700; font-size: clamp(36px, 5vw + 16px, 58px);    line-height: 1.05; }
+  .type-hero    { font-family: var(--sans); font-weight: 700; font-size: clamp(32px, 3.5vw + 18px, 48px);  line-height: 1.15;
                   text-box: trim-both cap alphabetic; }
-  .type-h1      { font-family: var(--arial); font-weight: 700; font-size: clamp(28px, 2.5vw + 19px, 40px);  line-height: 1.2; }
-  .type-h2      { font-family: var(--arial); font-weight: 700; font-size: clamp(22px, 2vw + 14px, 32px);    line-height: 1.25; }
-  .type-h3      { font-family: var(--arial); font-weight: 700; font-size: clamp(18px, 1.2vw + 14px, 24px);  line-height: 1.33; }
-  .type-h4      { font-family: var(--arial); font-weight: 700; font-size: clamp(16px, 0.8vw + 13px, 20px);  line-height: 1.4; }
-  .type-copy    { font-family: var(--arial); font-weight: 400; font-size: 16px; line-height: 24px; 
+  .type-h1      { font-family: var(--sans); font-weight: 700; font-size: clamp(28px, 2.5vw + 19px, 40px);  line-height: 1.2; }
+  .type-h2      { font-family: var(--sans); font-weight: 700; font-size: clamp(22px, 2vw + 14px, 32px);    line-height: 1.25; }
+  .type-h3      { font-family: var(--sans); font-weight: 700; font-size: clamp(18px, 1.2vw + 14px, 24px);  line-height: 1.33; }
+  .type-h4      { font-family: var(--sans); font-weight: 700; font-size: clamp(16px, 0.8vw + 13px, 20px);  line-height: 1.4; }
+  .type-copy    { font-family: var(--sans); font-weight: 400; font-size: 16px; line-height: 24px; 
                   text-box: trim-both cap alphabetic; }
-  .type-copy-em { font-family: var(--arial); font-weight: 700; font-size: 16px; line-height: 24px; }
-  .type-small   { font-family: var(--arial); font-weight: 400; font-size: 12px; line-height: 16px; }
-  .type-link    { font-family: var(--arial); font-weight: 300; font-size: 16px; line-height: 24px;
+  .type-copy-em { font-family: var(--sans); font-weight: 700; font-size: 16px; line-height: 24px; }
+  .type-small   { font-family: var(--sans); font-weight: 400; font-size: 12px; line-height: 16px; }
+  .type-link    { font-family: var(--sans); font-weight: 300; font-size: 16px; line-height: 24px;
                   /* text-decoration: underline; */ }
 }
 
+@layer override {
+  .map-height {
+    height: calc(var(--spacing) * 75);
+  }
+  @media (min-width: 48rem) {
+    .map-height { height: calc(var(--spacing) * 96); }
+  }
+  @media (min-width: 1160px) {
+    .map-height { height: auto; }
+  }
+
+  /* Leaflet map pin tooltip */
+  .map-pin-tooltip {
+    background: hsl(var(--ink));
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    color: hsl(var(--paper));
+    padding: 6px 10px;
+  }
+  .map-pin-tooltip::before {
+    display: none;
+  }
+}

@@ -1,7 +1,7 @@
 import type { Project, Partner } from '../../types/project'
 import { TOPIC_COLORS } from '../../config/topicColors'
 import placeholderImg from '../../assets/images/default-image-missing-placeholder.jpg'
-import ArrowTopRightIcon from '../../assets/icons/fhv-arrow-top-right.svg?react'
+import ArrowTopRightIcon from '../../assets/icons/arrow-top-right.svg?react'
 import CloseIcon from '../../assets/icons/close.svg?react'
 import { useT } from '../../i18n/translations'
 import FilterButton from './FilterButton'

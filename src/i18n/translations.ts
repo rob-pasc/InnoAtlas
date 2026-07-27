@@ -57,8 +57,9 @@ export type Translations = {
   statLabelTopics:    string
 
   // Footer
+  footerOrgHref:       string
   footerLegalNavLabel: string
-  legalLinks:          string[]
+  legalLinks:          { label: string; href: string }[]
 }
 
 // ---------------------------------------------------------------------------
@@ -127,11 +128,12 @@ const de: Translations = {
   statLabelPartners:  'Projektbeteiligte',
   statLabelTopics:    'Themen',
 
+  footerOrgHref:       'https://www.fhv.at/',
   footerLegalNavLabel: 'Rechtliche Informationen',
   legalLinks: [
-    'Impressum',
-    'Datenschutz',
-    'Barrierefreiheit',
+    { label: 'Impressum',        href: 'https://www.fhv.at/impressum' },
+    { label: 'Datenschutz',      href: 'https://www.fhv.at/datenschutz' },
+    { label: 'Barrierefreiheit', href: 'https://www.fhv.at/divers/footer/barrierefreiheit' },
   ],
 }
 
@@ -201,11 +203,12 @@ const en: Translations = {
   statLabelPartners:  'Project Participants',
   statLabelTopics:    'Topics',
 
+  footerOrgHref:       'https://www.fhv.at/en',
   footerLegalNavLabel: 'Legal information',
   legalLinks: [
-    'Legal Notice',
-    'Privacy Policy',
-    'Accessibility',
+    { label: 'Imprint',   href: 'https://www.fhv.at/en/misc/footer/imprint' },
+    { label: 'Data Protection',  href: 'https://www.fhv.at/en/misc/footer/data-protection' },
+    { label: 'Accessibility',   href: 'https://www.fhv.at/en/misc/footer/accessibility' },
   ],
 }
 
