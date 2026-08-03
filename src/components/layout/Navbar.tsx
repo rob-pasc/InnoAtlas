@@ -2,17 +2,20 @@ import { useT } from '../../i18n/translations'
 
 type NavbarProps = {
   onMenuToggle: () => void
+  menuOpen: boolean
 }
 
-export default function Navbar({ onMenuToggle }: NavbarProps) {
+export default function Navbar({ onMenuToggle, menuOpen }: NavbarProps) {
   const t = useT()
   return (
-    <nav className="bg-paper">
+    <nav aria-label={t.mainNavLabel} className="bg-paper">
       <div className="max-w-screen-3xl mx-auto flex items-center px-4 md:px-16 pt-5">
         <button
           className="md:hidden mr-4 text-ink flex flex-col gap-1 shrink-0"
           onClick={onMenuToggle}
-          aria-label="Open menu"
+          aria-label={menuOpen ? t.closeMenu : t.openMenu}
+          aria-expanded={menuOpen}
+          aria-controls="sidebar"
         >
           <span className="block w-6 h-0.5 bg-ink" />
           <span className="block w-6 h-0.5 bg-ink" />

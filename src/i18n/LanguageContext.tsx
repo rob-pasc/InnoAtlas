@@ -18,6 +18,12 @@ const LanguageContext = createContext<LanguageContextValue | null>(null)
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [lang, setLangState] = useState<Lang>(getLangFromUrl)
 
+  // WCAG 3.1.1 – the programmatic page language must track the UI language.
+  // index.html ships lang="de"; every switch (including back/forward) rewrites it.
+  useEffect(() => {
+    document.documentElement.lang = lang
+  }, [lang])
+
   // Keep React state in sync when the user navigates back/forward
   useEffect(() => {
     const handler = () => setLangState(getLangFromUrl())

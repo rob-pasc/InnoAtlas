@@ -10,11 +10,17 @@ type OrgContact = {
   id: string
   name: string
   subtitle: string
+  /** WCAG 3.1.2 – the subtitle is a fixed proper name that stays in its own
+   *  language whichever UI language is active, so it must declare it. */
+  subtitleLang: 'de' | 'en'
   persons?: ContactPerson[]
   email: string
   phone?: string
   website?: string
+  /** Postal lines, always German (street/city are not translated). */
   address: string[]
+  /** Translated – rendered in the page language, so it carries no `lang`. */
+  country: string
 }
 
 function buildOrgs(t: Translations): OrgContact[] {
@@ -23,6 +29,7 @@ function buildOrgs(t: Translations): OrgContact[] {
       id: 'fhv',
       name: t.contactFhvOrgName,
       subtitle: 'Vorarlberg University of Applied Sciences',
+      subtitleLang: 'en',
       persons: [
         { name: 'Max Mustermann', role: 'Institutsleiter' },
         { name: 'Bruno Beispiel', role: 'Forschungskoordinator' },
@@ -31,12 +38,14 @@ function buildOrgs(t: Translations): OrgContact[] {
       email: 'info@fhv.at',
       phone: '+43 5572 792',
       website: 'www.fhv.at',
-      address: ['CAMPUS V, Hochschulstraße 1', '6850 Dornbirn', t.contactFhvCountry],
+      address: ['CAMPUS V, Hochschulstraße 1', '6850 Dornbirn'],
+      country: t.contactFhvCountry,
     },
     {
       id: 'w4',
       name: 'W4',
       subtitle: 'Wissenschaftsverbund Vierländerregion Bodensee',
+      subtitleLang: 'de',
       persons: [
         { name: 'Isabel Oostvogel',  role: 'Labs-Koordinatorin' },
         { name: 'Felix Girke',       role: 'Innovation & Transfer Manager' },
@@ -45,7 +54,8 @@ function buildOrgs(t: Translations): OrgContact[] {
       email: 'post@wissenschaftsverbund.org',
       phone: '+41 71 6770520',
       website: 'www.wissenschaftsverbund.org',
-      address: ['c/o Universität Konstanz, Postfach 207', '78457 Konstanz', `${t.contactW4Country}`],
+      address: ['c/o Universität Konstanz, Postfach 207', '78457 Konstanz'],
+      country: t.contactW4Country,
     },
   ]
 }
@@ -54,8 +64,8 @@ function OrgCard({ org, roles }: { org: OrgContact; roles: Record<string, string
   return (
     <div className="flex flex-col gap-5 border-t-2 border-ink pt-5">
       <div className="flex flex-col gap-0.5">
-        <span className="type-h3 text-ink">{org.name}</span>
-        <span className="type-h4 text-ink opacity-60">{org.subtitle}</span>
+        <h3 className="type-h3 text-ink">{org.name}</h3>
+        <p className="type-h4 text-ink opacity-60" lang={org.subtitleLang}>{org.subtitle}</p>
       </div>
 
       {org.persons && org.persons.length > 0 && (
@@ -85,8 +95,9 @@ function OrgCard({ org, roles }: { org: OrgContact; roles: Record<string, string
         )}
         <address className="type-small text-ink opacity-60 not-italic mt-1">
           {org.address.map((line) => (
-            <span key={line} className="block">{line}</span>
+            <span key={line} className="block" lang="de">{line}</span>
           ))}
+          <span className="block">{org.country}</span>
         </address>
       </div>
     </div>

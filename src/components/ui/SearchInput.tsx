@@ -13,7 +13,9 @@ export default function SearchInput({ value, onChange, placeholder, id }: Search
       value={value}
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder}
-      className="type-copy [text-box:normal] text-ink bg-paper border border-ink w-full px-3 py-1.5 focus:outline-none focus:ring-1 focus:ring-ink"
+      /* No custom focus style: the native UA outline is the indicator, so the
+         1px border is never doubled by a ring drawn against it. */
+      className="type-copy [text-box:normal] text-ink bg-paper border border-ink w-full px-3 py-1.5"
     />
   )
 }

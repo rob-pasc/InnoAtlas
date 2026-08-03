@@ -25,7 +25,7 @@ function PartnerLink({ partner, isLead, leadLabel }: { partner: Partner; isLead?
         rel="noreferrer"
         className="type-link text-ink inline-flex items-center gap-1"
       >
-        <ArrowTopRightIcon className="w-3 h-3 shrink-0" />
+        <ArrowTopRightIcon className="w-3 h-3 shrink-0" aria-hidden="true" />
         {label}
       </a>
     )
@@ -69,13 +69,15 @@ export default function ProjectDetailPanel({ project, onClose, activeFilters, on
         />
         <button
           onClick={onClose}
-          aria-label="Close"
+          aria-label={t.close}
           className="absolute top-2 right-2 p-1.5 bg-paper text-ink cursor-pointer hover:bg-ink hover:text-paper transition-colors"
         >
-          <CloseIcon className="w-4 h-4" />
+          <CloseIcon className="w-4 h-4" aria-hidden="true" />
         </button>
+        {/* Opaque chip, not bg-ink/50: over an arbitrary photo a translucent
+            backing gives no contrast guarantee (WCAG 1.4.3). */}
         {project.image.credits && (
-          <p className="absolute bottom-1 right-2 type-small text-paper bg-ink/50 px-1">
+          <p className="absolute bottom-1 right-2 type-small text-paper bg-ink px-1">
             {project.image.credits}
           </p>
         )}
@@ -125,7 +127,7 @@ export default function ProjectDetailPanel({ project, onClose, activeFilters, on
           rel="noreferrer"
           className="type-link text-ink inline-flex items-center gap-1"
         >
-          <ArrowTopRightIcon className="w-4 h-4 shrink-0" />
+          <ArrowTopRightIcon className="w-4 h-4 shrink-0" aria-hidden="true" />
           {t.projectWebsite}
         </a>
 

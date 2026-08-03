@@ -5,6 +5,16 @@ import { useLanguage } from './LanguageContext'
 // ---------------------------------------------------------------------------
 
 export type Translations = {
+  /** Accessible names for controls that show no text, plus visually-hidden
+   *  landmarks/headings. Never rendered as visible copy. */
+  skipToContent:      string
+  openMenu:           string
+  closeMenu:          string
+  close:              string
+  projectsHeading:    string
+  mainNavLabel:       string
+  menuLabel:          string
+
   // Navbar
   navTitle:    string
   navSubtitle: string
@@ -67,6 +77,14 @@ export type Translations = {
 // ---------------------------------------------------------------------------
 
 const de: Translations = {
+  skipToContent:   'Zum Hauptinhalt springen',
+  openMenu:        'Menü öffnen',
+  closeMenu:       'Menü schließen',
+  close:           'Schließen',
+  projectsHeading: 'Projekte filtern und auf der Karte erkunden',
+  mainNavLabel:    'Hauptnavigation',
+  menuLabel:       'Menü',
+
   navTitle:    'Innovationsatlas Bodenseeregion',
   navSubtitle: 'Innovationsatlas der Labore des Wissenschaftsverbundes Vierländerregion Bodensee – Prototyp',
 
@@ -142,6 +160,14 @@ const de: Translations = {
 // ---------------------------------------------------------------------------
 
 const en: Translations = {
+  skipToContent:   'Skip to main content',
+  openMenu:        'Open menu',
+  closeMenu:       'Close menu',
+  close:           'Close',
+  projectsHeading: 'Filter projects and explore them on the map',
+  mainNavLabel:    'Main navigation',
+  menuLabel:       'Menu',
+
   navTitle:    'Innovation Atlas Lake Constance Region',
   navSubtitle: 'Innovation Atlas of the W4 Labs – Wissenschaftsverbund Vierländerregion Bodensee – Prototype',
 

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion'
 
 type StatItemProps = {
   value: string
@@ -18,10 +19,15 @@ export default function StatItem({ value, label }: StatItemProps) {
   const [count, setCount] = useState(0)
   const ref = useRef<HTMLDivElement>(null)
   const animatedTarget = useRef(-1)
+  const reducedMotion = usePrefersReducedMotion()
 
   useEffect(() => {
     if (!isNumeric || target === 0) return
     if (animatedTarget.current === target) return
+
+    // prefers-reduced-motion: the final figure is rendered directly, so there
+    // is nothing to schedule.
+    if (reducedMotion) return
 
     const el = ref.current
     if (!el) return
@@ -61,14 +67,17 @@ export default function StatItem({ value, label }: StatItemProps) {
       observer.disconnect()
       cancelAnimationFrame(rafId)
     }
-  }, [isNumeric, target])
+  }, [isNumeric, target, reducedMotion])
 
   return (
-    <div ref={ref} className="flex flex-col gap-1">
-      <span className="type-h1 text-ink">
-        {isNumeric ? count : value}
-      </span>
-      <span className="type-small text-ink">{label}</span>
+    /* <dt>/<dd> inside the parent <dl>: the association between the figure and
+       what it counts has to be programmatic, not just visual (WCAG 1.3.1).
+       flex-col-reverse keeps the figure on top while <dt> precedes <dd>. */
+    <div ref={ref} className="flex flex-col-reverse gap-1">
+      <dt className="type-small text-ink">{label}</dt>
+      <dd className="type-h1 text-ink">
+        {isNumeric ? (reducedMotion ? target : count) : value}
+      </dd>
     </div>
   )
 }

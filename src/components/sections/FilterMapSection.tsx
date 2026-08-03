@@ -7,6 +7,8 @@ import ProjectCard from '../ui/ProjectCard'
 import ProjectDetailPanel from '../ui/ProjectDetailPanel'
 import { TOPIC_COLORS } from '../../config/topicColors'
 import { useT } from '../../i18n/translations'
+import { useMediaQuery } from '../../hooks/useMediaQuery'
+import { useModalOverlay } from '../../hooks/useModalOverlay'
 
 const themeFilters    = ['Mobilität', 'Energieeffizienz', 'Kreislaufwirtschaft', 'Technik']
 const fokusFilters    = ['Forschung', 'Unternehmen', 'Gemeinde & Städte', 'Bürger:innen-Beteiligung']
@@ -105,12 +107,22 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
     return () => { clearTimeout(id); document.removeEventListener('click', handleDocClick) }
   }, [panelOpen])
 
-  // Lock body scroll when bottom sheet is open – mobile only (below tablet breakpoint)
+  // Below the tablet breakpoint the detail panel is a bottom sheet: it covers
+  // the page, locks body scroll, and therefore has to behave as a modal.
+  const isSheet = useMediaQuery('(max-width: 1159px)')
+
   useEffect(() => {
-    if (!window.matchMedia('(max-width: 1159px)').matches) return
+    if (!isSheet) return
     document.body.style.overflow = panelOpen ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
-  }, [panelOpen])
+  }, [panelOpen, isSheet])
+
+  useModalOverlay({
+    open: panelOpen,
+    active: isSheet,
+    containerRef: sheetRef,
+    onClose: () => setSelectedProjectId(null),
+  })
 
   const filterChipProps = {
     activeFilters: { topic: activeTopic, fokus: activeFokus, status: activeStatus },
@@ -123,6 +135,10 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
 
   return (
     <section className="bg-paper px-4 pt-8 md:px-16 md:pt-12">
+
+      {/* The design has no room for a visible heading here, but the project
+          cards below emit <h3> – without this the outline jumps h1 → h3. */}
+      <h2 className="sr-only">{t.projectsHeading}</h2>
 
       {/* ── Mobile filter toggle ── hidden on desktop */}
       <div className="tablet:hidden mb-4">
@@ -226,7 +242,7 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
               style={{ maskImage: `linear-gradient(to bottom, ${canScrollUp ? 'transparent' : 'black'} 0%, black ${canScrollUp ? '24px' : '0px'}, black calc(100% - ${canScrollDown ? '24px' : '0px'}), ${canScrollDown ? 'transparent' : 'black'} 100%)` }}
             >
               {filteredProjects.length === 0 ? (
-                <p className="type-copy text-ink/50 pt-2">{t.noProjectsFound}</p>
+                <p className="type-copy text-ink/70 pt-2">{t.noProjectsFound}</p>
               ) : filteredProjects.map((project) => (
                 <div key={project.id} className="snap-center shrink-0 w-full">
                   <ProjectCard
@@ -252,7 +268,7 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
                     />
                   ))
                 ) : (
-                  <p className="type-small text-ink/40">{currentCardIndex + 1} / {filteredProjects.length}</p>
+                  <p className="type-small text-ink/70">{currentCardIndex + 1} / {filteredProjects.length}</p>
                 )}
               </div>
             )}
@@ -301,6 +317,9 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
       {/* Sheet */}
       <div
         ref={sheetRef}
+        role={isSheet && panelOpen ? 'dialog' : undefined}
+        aria-modal={(isSheet && panelOpen) || undefined}
+        aria-label={selectedProject?.title}
         className={`fixed inset-x-0 bottom-0 z-50 tablet:hidden transition-transform duration-300 ease-in-out ${panelOpen ? 'translate-y-0' : 'translate-y-full'}`}
       >
         {/* Drag handle bar */}

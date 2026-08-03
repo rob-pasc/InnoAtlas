@@ -146,6 +146,20 @@
   }
 }
 
+@layer base {
+  /* Drawer slide, panel slide, filter accordion, chip fills … all become
+     instant. The JS-driven motion (stat count-up, map flyTo) is handled
+     separately via usePrefersReducedMotion. */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
 @layer components {
   .type-title   { font-family: var(--sans); font-weight: 700; font-size: clamp(36px, 5vw + 16px, 58px);    line-height: 1.05; }
   .type-hero    { font-family: var(--sans); font-weight: 700; font-size: clamp(32px, 3.5vw + 18px, 48px);  line-height: 1.15;

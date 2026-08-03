@@ -1,4 +1,5 @@
 import { useT } from '../../i18n/translations'
+import ArrowTopRightIcon from '../../assets/icons/arrow-top-right.svg?react'
 
 export default function Footer() {
   const t = useT()
@@ -21,8 +22,9 @@ export default function Footer() {
               href={link.href}
               target="_blank"
               rel="noreferrer"
-              className="type-link text-ink"
+              className="type-link text-ink inline-flex items-center gap-0.5"
             >
+              <ArrowTopRightIcon className="w-3 h-3 shrink-0" aria-hidden="true" />
               {link.label}
             </a>
           ))}
