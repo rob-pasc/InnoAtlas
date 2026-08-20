@@ -15,9 +15,6 @@ function AppContent() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const t = useT()
 
-  // debug
-  console.log('[useProjects]', { loading, error, count: projects.length, projects })
-
   return (
     <div className="min-h-screen font-sans flex bg-paper">
       {/* Bypass block – first tab stop, revealed only while focused */}
@@ -27,6 +24,13 @@ function AppContent() {
       >
         {t.skipToContent}
       </a>
+
+      {/* SC 4.1.3 — dataset load state. Both regions stay mounted with empty
+          text: a live region inserted together with its content is announced
+          unreliably. The *visible* loading and error UI renders down in
+          FilterMapSection, where the data itself lands. */}
+      <p role="status" className="sr-only">{loading ? t.statusLoading : ''}</p>
+      <p role="alert" className="sr-only">{error ? `${t.errorTitle} ${t.errorBody}` : ''}</p>
 
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
@@ -44,7 +48,7 @@ function AppContent() {
           </div>
           <StatsSection projects={projects} />
           <div className="max-w-screen-3xl mx-auto w-full">
-            <FilterMapSection projects={projects} />
+            <FilterMapSection projects={projects} loading={loading} error={error} />
             <ContactSection />
           </div>
         </main>

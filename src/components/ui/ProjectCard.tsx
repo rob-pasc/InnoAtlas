@@ -1,6 +1,7 @@
 import type { Project } from '../../types/project'
 import { TOPIC_COLORS } from '../../config/topicColors'
 import { prefetchTilesForLocation } from '../../utils/prefetchTiles'
+import { formatProjectTags } from '../../utils/projectTags'
 import { useT } from '../../i18n/translations'
 
 type ProjectCardProps = {
@@ -15,10 +16,7 @@ export default function ProjectCard({ project, onClick, selected = false }: Proj
   const stripeClass = colorConfig ? colorConfig.bg : 'bg-ink'
 
   const t = useT()
-  const tags = [
-    ...project.filters.topic.slice(1).map(v => t.topicLabels[v] ?? v),
-    ...project.filters.fokus.map(v => t.fokusLabels[v] ?? v),
-  ].join(' • ')
+  const tags = formatProjectTags(project, t)
 
   return (
     <button
@@ -35,7 +33,7 @@ export default function ProjectCard({ project, onClick, selected = false }: Proj
           <p className="type-copy text-ink">{project.subtitle}</p>
         )}
         {tags && (
-          <span className="type-copy-em text-ink mt-auto">{tags}</span>
+          <span className="type-tag text-ink mt-auto">{tags}</span>
         )}
       </div>
     </button>

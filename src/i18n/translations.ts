@@ -47,6 +47,13 @@ export type Translations = {
   /** Display label for each canonical (German) status key */
   statusLabels:   Record<string, string>
 
+  // Dataset status (SC 4.1.3) — live-region announcements + visible load/error UI
+  statusLoading: string
+  errorTitle:    string
+  errorBody:     string
+  /** Announcement for the filtered result count; handles 0 / 1 / n. */
+  resultCount:   (count: number) => string
+
   // ProjectDetailPanel
   back:            string
   projectWebsite:  string
@@ -128,6 +135,14 @@ const de: Translations = {
     'Laufend':       'Laufend',
     'Geplant':       'Geplant',
   },
+
+  statusLoading: 'Projektdaten werden geladen …',
+  errorTitle:    'Die Projektdaten konnten nicht geladen werden.',
+  errorBody:     'Bitte laden Sie die Seite neu. Falls das Problem bestehen bleibt, wenden Sie sich an eine der unten genannten Ansprechpersonen.',
+  resultCount: (count) =>
+    count === 0 ? 'Keine Projekte gefunden.'
+      : count === 1 ? '1 Projekt gefunden.'
+        : `${count} Projekte gefunden.`,
 
   back:            '← Zurück',
   projectWebsite:  'Projektwebsite',
@@ -211,6 +226,14 @@ const en: Translations = {
     'Laufend':       'Ongoing',
     'Geplant':       'Planned',
   },
+
+  statusLoading: 'Loading project data …',
+  errorTitle:    'The project data could not be loaded.',
+  errorBody:     'Please reload the page. If the problem persists, contact one of the people listed below.',
+  resultCount: (count) =>
+    count === 0 ? 'No projects found.'
+      : count === 1 ? '1 project found.'
+        : `${count} projects found.`,
 
   back:            '← Back',
   projectWebsite:  'Project website',

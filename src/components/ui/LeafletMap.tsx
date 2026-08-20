@@ -7,6 +7,8 @@ import type { Project } from '../../types/project'
 import { TOPIC_COLORS } from '../../config/topicColors'
 import mapPinSvg from '../../assets/icons/map-pin.svg?raw'
 import { prefetchTilesForLocation } from '../../utils/prefetchTiles'
+import { formatProjectTags } from '../../utils/projectTags'
+import { useT } from '../../i18n/translations'
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion'
 
 // Fix Leaflet's default marker icon in Vite – Leaflet tries to resolve PNG
@@ -28,14 +30,20 @@ function resolveCssColor(token: string): string {
   return channels ? `hsl(${channels.split(/\s+/).join(', ')})` : FALLBACK_COLOR
 }
 
-function createPinIcon(color: string): L.DivIcon {
-  const html = mapPinSvg.replace('fill="currentColor"', `fill="${color}"`)
+/** SC 1.4.11: the pin's *outline* is what carries the required 3:1 contrast
+ *  against the light CartoDB basemap. Three of the four topic fills sit at
+ *  1.46–1.69:1 on their own, so relying on the fill would fail today and
+ *  re-fail after any future palette swap. */
+function createPinIcon(fill: string, stroke: string): L.DivIcon {
+  const html = mapPinSvg
+    .replace('fill="currentColor"', `fill="${fill}"`)
+    .replace('stroke="#000000"', `stroke="${stroke}"`)
   return L.divIcon({
     html,
-    className: '',         // removes Leaflet's default white-box styling
-    iconSize: [18, 24],    // matches SVG viewBox
-    iconAnchor: [9, 24],   // tip of the pin = bottom-center
-    popupAnchor: [0, -24],
+    className: '',          // removes Leaflet's default white-box styling
+    iconSize: [20, 26],     // matches the outline-inset SVG viewBox
+    iconAnchor: [10, 25],   // tip of the pin = bottom-center, +1px viewBox inset
+    popupAnchor: [0, -25],
   })
 }
 
@@ -124,13 +132,21 @@ const TOOLTIP_GRACE_MS = 320
 type ProjectMarkerProps = {
   project:  Project
   color:    string
+  stroke:   string
   onSelect: (id: number) => void
 }
 
-function ProjectMarker({ project, color, onSelect }: ProjectMarkerProps) {
+function ProjectMarker({ project, color, stroke, onSelect }: ProjectMarkerProps) {
   const markerRef  = useRef<L.Marker | null>(null)
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const icon = useMemo(() => createPinIcon(color), [color])
+  const icon = useMemo(() => createPinIcon(color, stroke), [color, stroke])
+
+  // SC 1.4.1 — the pin's fill encodes topic[0]. Repeat the card's tag line here
+  // so the topic behind the colour is also available as text. Leaflet opens the
+  // tooltip on focus as well as hover and wires aria-describedby to it, so this
+  // reaches keyboard and screen-reader users too.
+  const t = useT()
+  const tags = formatProjectTags(project, t)
 
   function cancelTooltipClose() {
     if (!closeTimer.current) return
@@ -195,9 +211,10 @@ function ProjectMarker({ project, color, onSelect }: ProjectMarkerProps) {
         },
       }}
     >
-      <Tooltip direction="top" offset={[0, -26]} className="map-pin-tooltip" interactive>
+      <Tooltip direction="top" offset={[0, -27]} className="map-pin-tooltip" interactive>
         <p className="type-copy-em">{project.title}</p>
         {project.subtitle && <p className="type-small">{project.subtitle}</p>}
+        {tags && <p className="type-tag mt-1">{tags}</p>}
       </Tooltip>
     </Marker>
   )
@@ -213,13 +230,13 @@ export default function LeafletMap({ projects, onSelectProject, selectedId }: Le
   const visibleProjects = selectedId !== null ? projects.filter(p => p.id === selectedId) : projects
   const reducedMotion = usePrefersReducedMotion()
 
-  // Resolve each topic's CSS colour once, rather than per marker per render.
-  const topicColors = useMemo(() => {
+  // Resolve the pin colours once, rather than per marker per render.
+  const { topicColors, pinStroke } = useMemo(() => {
     const resolved: Record<string, string> = {}
     for (const [topic, cfg] of Object.entries(TOPIC_COLORS)) {
       resolved[topic] = resolveCssColor(cfg.token)
     }
-    return resolved
+    return { topicColors: resolved, pinStroke: resolveCssColor('--ink') }
   }, [])
 
   return (
@@ -245,6 +262,7 @@ export default function LeafletMap({ projects, onSelectProject, selectedId }: Le
             key={project.id}
             project={project}
             color={color}
+            stroke={pinStroke}
             onSelect={onSelectProject}
           />
         )

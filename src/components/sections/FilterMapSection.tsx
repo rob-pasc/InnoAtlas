@@ -5,6 +5,7 @@ import SearchInput from '../ui/SearchInput'
 import LeafletMap from '../ui/LeafletMap'
 import ProjectCard from '../ui/ProjectCard'
 import ProjectDetailPanel from '../ui/ProjectDetailPanel'
+import ProjectCardSkeleton from '../ui/ProjectCardSkeleton'
 import { TOPIC_COLORS } from '../../config/topicColors'
 import { useT } from '../../i18n/translations'
 import { useMediaQuery } from '../../hooks/useMediaQuery'
@@ -14,11 +15,25 @@ const themeFilters    = ['Mobilität', 'Energieeffizienz', 'Kreislaufwirtschaft'
 const fokusFilters    = ['Forschung', 'Unternehmen', 'Gemeinde & Städte', 'Bürger:innen-Beteiligung']
 const statusFilters   = ['Abgeschlossen', 'Laufend', 'Geplant']
 
+/** Placeholder cards rendered while the dataset loads. */
+const SKELETON_COUNT = 4
+
+/** Delay before the result count is announced. Filtering is re-run on every
+ *  search keystroke; announcing each intermediate count would flood the
+ *  screen reader with figures the user never asked for. */
+const COUNT_ANNOUNCE_MS = 500
+
 function toggle(set: string[], value: string): string[] {
   return set.includes(value) ? set.filter((v) => v !== value) : [...set, value]
 }
 
-export default function FilterMapSection({ projects }: { projects: Project[] }) {
+type FilterMapSectionProps = {
+  projects: Project[]
+  loading:  boolean
+  error:    Error | null
+}
+
+export default function FilterMapSection({ projects, loading, error }: FilterMapSectionProps) {
   const t = useT()
   const [activeTopic,       setActiveTopic]       = useState<string[]>([])
   const [activeFokus,       setActiveFokus]       = useState<string[]>([])
@@ -123,6 +138,24 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
     containerRef: sheetRef,
     onClose: () => setSelectedProjectId(null),
   })
+
+  // SC 4.1.3 — announce how many projects the current filters yield, once the
+  // count settles. Held in state (rather than rendered inline) so the region's
+  // text changes only after the debounce, which is what triggers the
+  // announcement. Blank while loading or after a failure: those states are
+  // announced by the regions in App.tsx and would otherwise be reported here
+  // as "no projects found". Clearing runs through the same timer so the effect
+  // never calls setState synchronously.
+  const [countMessage, setCountMessage] = useState('')
+  const resultCount = filteredProjects.length
+
+  useEffect(() => {
+    const id = setTimeout(
+      () => setCountMessage(loading || error ? '' : t.resultCount(resultCount)),
+      COUNT_ANNOUNCE_MS,
+    )
+    return () => clearTimeout(id)
+  }, [resultCount, loading, error, t])
 
   const filterChipProps = {
     activeFilters: { topic: activeTopic, fokus: activeFokus, status: activeStatus },
@@ -241,7 +274,18 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
               className="flex flex-row overflow-x-auto snap-x snap-mandatory gap-4 max-tablet:[scrollbar-width:none] max-tablet:[&::-webkit-scrollbar]:hidden tablet:flex-col tablet:overflow-x-hidden tablet:overflow-y-auto tablet:h-full tablet:w-110 tablet:pr-4 tablet:[scrollbar-gutter:stable]"
               style={{ maskImage: `linear-gradient(to bottom, ${canScrollUp ? 'transparent' : 'black'} 0%, black ${canScrollUp ? '24px' : '0px'}, black calc(100% - ${canScrollDown ? '24px' : '0px'}), ${canScrollDown ? 'transparent' : 'black'} 100%)` }}
             >
-              {filteredProjects.length === 0 ? (
+              {loading ? (
+                Array.from({ length: SKELETON_COUNT }, (_, i) => (
+                  <div key={`skeleton-${i}`} className="snap-center shrink-0 w-full">
+                    <ProjectCardSkeleton index={i} />
+                  </div>
+                ))
+              ) : error ? (
+                <div className="snap-center shrink-0 w-full border border-ink px-4 py-4 flex flex-col gap-2">
+                  <p className="type-copy-em text-ink">{t.errorTitle}</p>
+                  <p className="type-copy text-ink/70">{t.errorBody}</p>
+                </div>
+              ) : filteredProjects.length === 0 ? (
                 <p className="type-copy text-ink/70 pt-2">{t.noProjectsFound}</p>
               ) : filteredProjects.map((project) => (
                 <div key={project.id} className="snap-center shrink-0 w-full">
@@ -254,6 +298,8 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
               ))}
             </div>
 
+            <p role="status" className="sr-only">{countMessage}</p>
+
             {/* Dot / count indicator – mobile only */}
             {filteredProjects.length > 1 && (
               <div className="flex justify-center items-center gap-1.5 mt-3 tablet:hidden">
@@ -264,7 +310,7 @@ export default function FilterMapSection({ projects }: { projects: Project[] }) 
                       onClick={() => scrollRef.current?.scrollTo({ left: i * (scrollRef.current.clientWidth + 16), behavior: 'smooth' })}
                       aria-label={project.title}
                       aria-pressed={i === currentCardIndex}
-                      className={`h-1.5 rounded-full transition-all duration-300 ${i === currentCardIndex ? 'w-6 bg-ink' : 'w-1.5 bg-ink/25 hover:bg-ink/50'}`}
+                      className={`h-1.5 rounded-full transition-all duration-300 ${i === currentCardIndex ? 'w-6 bg-ink' : 'w-1.5 bg-ink/50 hover:bg-ink/70'}`}
                     />
                   ))
                 ) : (
