@@ -13,14 +13,15 @@ const BAR_WIDTHS = [
  *
  * Decorative only: the load state is announced from the live region in
  * App.tsx, so this is hidden from assistive tech rather than announced twice.
- * `animate-pulse` is neutralised by the global prefers-reduced-motion block in
- * index.css, so it needs no separate guard.
+ * The pulse runs twice (four seconds total), so a slow or stalled request does
+ * not leave automatically moving content on screen indefinitely. It is also
+ * neutralised by the global prefers-reduced-motion block in index.css.
  */
 export default function ProjectCardSkeleton({ index = 0 }: { index?: number }) {
   const [title, body, tag] = BAR_WIDTHS[index % BAR_WIDTHS.length]
 
   return (
-    <div aria-hidden="true" className="flex w-full border border-ink/30 animate-pulse">
+    <div aria-hidden="true" className="flex w-full border border-ink/30 animate-pulse [animation-iteration-count:2]">
       <div className="w-1.5 shrink-0 bg-ink/30" />
       <div className="flex-1 px-4 py-4 flex flex-col gap-3">
         <div className={`h-5 ${title} bg-ink/20`} />

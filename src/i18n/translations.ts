@@ -29,9 +29,6 @@ export type Translations = {
   contactFhvOrgName: string
   contactFhvCountry: string
   contactW4Country:  string
-  /** Translated display label for each canonical (German) role string */
-  contactRoles: Record<string, string>
-
   // FilterMapSection
   filtersLabel:      string
   filterByTopic:     string
@@ -75,6 +72,8 @@ export type Translations = {
 
   // Footer
   footerOrgHref:       string
+  footerResearchHref:  string
+  footerResearchLabel: string
   footerLegalNavLabel: string
   legalLinks:          { label: string; href: string }[]
 }
@@ -92,7 +91,9 @@ const de: Translations = {
   mainNavLabel:    'Hauptnavigation',
   menuLabel:       'Menü',
 
-  navTitle:    'Innovationsatlas Bodenseeregion',
+  // Discretionary hyphens are invisible at ordinary widths and give the two
+  // long compound words legal wrap points in a 320px reflow viewport.
+  navTitle:    'Innovations\u00ADatlas Bodensee\u00ADregion',
   navSubtitle: 'Innovationsatlas der Labore des Wissenschaftsverbundes Vierländerregion Bodensee – Prototyp',
 
   heroHeading:    'Was ist der Innovationsatlas?',
@@ -103,13 +104,6 @@ const de: Translations = {
   contactFhvOrgName: 'FHV Forschungszentrum Business Informatics',
   contactFhvCountry: 'Österreich',
   contactW4Country:  'Deutschland',
-  contactRoles: {
-    'Labs-Koordinatorin':         'Labs-Koordinatorin',
-    'Innovation & Transfer Manager': 'Innovation & Transfer Manager',
-    'Co-Geschäftsführerin':       'Co-Geschäftsführerin',
-    'Co-Geschäftsführer':         'Co-Geschäftsführer',
-  },
-
   filtersLabel:      'Filter',
   filterByTopic:     'Nach Thema filtern',
   filterByFokus:     'Nach Fokus filtern',
@@ -162,6 +156,8 @@ const de: Translations = {
   statLabelTopics:    'Themen',
 
   footerOrgHref:       'https://www.fhv.at/',
+  footerResearchHref:  'https://www.fhv.at/forschung/business-informatics',
+  footerResearchLabel: 'Forschungszentrum Business Informatics',
   footerLegalNavLabel: 'Rechtliche Informationen',
   legalLinks: [
     { label: 'Impressum',        href: 'https://www.fhv.at/impressum' },
@@ -194,13 +190,6 @@ const en: Translations = {
   contactFhvOrgName: 'FHV Research Centre for Business Informatics',
   contactFhvCountry: 'Austria',
   contactW4Country:  'Germany',
-  contactRoles: {
-    'Labs-Koordinatorin':            'Labs Coordinator',
-    'Innovation & Transfer Manager': 'Innovation & Transfer Manager',
-    'Co-Geschäftsführerin':          'Co-Executive Director',
-    'Co-Geschäftsführer':            'Co-Executive Director',
-  },
-
   filtersLabel:      'Filter',
   filterByTopic:     'Filter by topic',
   filterByFokus:     'Filter by focus',
@@ -253,6 +242,8 @@ const en: Translations = {
   statLabelTopics:    'Topics',
 
   footerOrgHref:       'https://www.fhv.at/en',
+  footerResearchHref:  'https://www.fhv.at/en/research/business-informatics',
+  footerResearchLabel: 'Research Centre for Business Informatics',
   footerLegalNavLabel: 'Legal information',
   legalLinks: [
     { label: 'Imprint',   href: 'https://www.fhv.at/en/misc/footer/imprint' },

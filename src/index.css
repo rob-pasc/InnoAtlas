@@ -48,78 +48,13 @@
 }
 
 @layer base {
-  :root {
-    /* ─── SCHEME A · "FHV" — pop pastels ─────────────────────────────── */
-    /* cat-1 sky blue · cat-2 yellow · cat-3 lilac · cat-4 coral */
-        
-    --ink:     000 000% 000%;
-    --paper:   000 000% 100%;
-    --cat-1:   203 076% 077%;
-    --cat-2:   047 100% 069%;
-    --cat-3:   283 030% 072%;
-    --cat-4:   013 082% 061%;    
-   
-    /* ─────────────────────────────────────────────────────────────────── */
-
-    /* ─── SCHEME B · "Fresco" — bright mix ────────────────────────────── */
-    /* cat-1 orange-red · cat-2 emerald-mint · cat-3 periwinkle · cat-4 butter yellow */
-        
-    --ink:    000 000% 000%;
-    --paper:  000 000% 100%;
-    --cat-1:  013 096% 053%;   
-    --cat-2:  158 042% 068%;   
-    --cat-3:  222 068% 076%;  
-    --cat-4:  044 092% 072%;      
-   
-    /* ─────────────────────────────────────────────────────────────────── */
-
-    /* ─── SCHEME C · "Marmalade" — shades of orange ───────────────────── */
-    /* cat-1 deep orange-red · cat-2 coral · cat-3 apricot · cat-4 marigold */
-            
+  :root { 
     --ink:    000 000% 000%;
     --paper:  000 000% 100%;
     --cat-1:  013 096% 053%;
-    --cat-2:  024 090% 066%;
-    --cat-3:  034 095% 078%;
-    --cat-4:  043 097% 070%;    
-   
-    /* ─────────────────────────────────────────────────────────────────── */
-
-    /* ─── SCHEME D · "Sorbet" — soft pastels ──────────────────────────── */
-    /* cat-1 orange-red · cat-2 sage-mint · cat-3 lilac · cat-4 peach-cream */
-            
-    --ink:    000 000% 000%;
-    --paper:  000 000% 100%;
-    --cat-1:  013 096% 053%;
-    --cat-2:  156 038% 079%;
-    --cat-3:  275 042% 084%;
-    --cat-4:  038 072% 083%;    
-   
-    /* ─────────────────────────────────────────────────────────────────── */
-
-    /* ─── SCHEME E · "Athenaeum" — muted collegiate ───────────────────── */
-    /* cat-1 oxblood · cat-2 slate-blue · cat-3 sage · cat-4 parchment */
-        
-    --ink:    000 000% 000%;
-    --paper:  000 000% 100%;
-    --cat-1:  345 055% 036%;
     --cat-2:  210 028% 074%;
     --cat-3:  145 022% 070%;
     --cat-4:  038 040% 080%;
-   
-    /* ─────────────────────────────────────────────────────────────────── */
-
-    /* ─── SCHEME F · "Labs" — Bodensee CI greens ──────────────────────── */
-    /* cat-1 orange accent · cat-2 Minze · cat-3 Frühling · cat-4 Himmel */
-    
-    --ink:    000 000% 000%;
-    --paper:  000 000% 100%;
-    --cat-1:  013 096% 053%;
-    --cat-2:  082 029% 070%;
-    --cat-3:  071 052% 069%;
-    --cat-4:  160 018% 077%;
-   
-    /* ─────────────────────────────────────────────────────────────────── */
 
     /* Semantic roles — stable across schemes; map roles onto the palette above. */
     --text:    var(--paper);
@@ -129,7 +64,8 @@
 
     color: hsl(var(--text));
     background: hsl(var(--bg));
-    ::selection { background-color: hsl(var(--cat-3)); }
+    
+    ::selection { color: hsl(var(--paper)); background-color: hsl(var(--cat-1)); }
 
     font: 16px/150% var(--sans);
     letter-spacing: 0.18px;

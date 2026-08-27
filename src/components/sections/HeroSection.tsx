@@ -13,8 +13,8 @@ export default function HeroSection({ heading, subheading, body }: HeroSectionPr
         <div className="flex-1 md:pl-5">
           {/* <h2>, not <h1> – the page's single <h1> is the site title in the
               navbar. The subheading is a tagline, not a section heading. */}
-          <h2 className="type-hero text-ink mb-3">{heading}</h2>
-          <p className="type-h2 text-ink/55 mb-3 leading-none max-w-2xl">{subheading}</p>
+          <h2 className="type-hero text-ink text-center md:text-left mb-3">{heading}</h2>
+          <p className="type-h2 text-ink/55 text-center md:text-left mb-3 leading-none max-w-2xl">{subheading}</p>
           <p className="type-copy text-ink max-w-2xl">{body}</p>
         </div>
       </div>

@@ -46,6 +46,8 @@ export default function FilterMapSection({ projects, loading, error }: FilterMap
   const scrollRef = useRef<HTMLDivElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
   const sheetRef = useRef<HTMLDivElement>(null)
+  const desktopDetailRef = useRef<HTMLDivElement>(null)
+  const desktopTriggerRef = useRef<HTMLElement | null>(null)
   const [canScrollUp,   setCanScrollUp]   = useState(false)
   const [canScrollDown, setCanScrollDown] = useState(false)
 
@@ -125,6 +127,35 @@ export default function FilterMapSection({ projects, loading, error }: FilterMap
   // Below the tablet breakpoint the detail panel is a bottom sheet: it covers
   // the page, locks body scroll, and therefore has to behave as a modal.
   const isSheet = useMediaQuery('(max-width: 1159px)')
+  const filtersCollapsed = isSheet && !filtersOpen
+
+  function openProject(id: number) {
+    if (!isSheet && document.activeElement instanceof HTMLElement) {
+      desktopTriggerRef.current = document.activeElement
+    }
+    setSelectedProjectId(id)
+  }
+
+  // The desktop list collapses out of view when details open. Move focus into
+  // the visible panel, then return it to the trigger once the list is restored.
+  // The mobile sheet has equivalent handling in useModalOverlay.
+  useEffect(() => {
+    if (panelOpen && !isSheet) {
+      desktopDetailRef.current?.querySelector<HTMLElement>('button')?.focus()
+      return
+    }
+    if (panelOpen || !desktopTriggerRef.current) return
+
+    const trigger = desktopTriggerRef.current
+    desktopTriggerRef.current = null
+    requestAnimationFrame(() => {
+      if (trigger.isConnected) {
+        trigger.focus()
+      } else {
+        scrollRef.current?.querySelector<HTMLElement>('button')?.focus()
+      }
+    })
+  }, [panelOpen, isSheet])
 
   useEffect(() => {
     if (!isSheet) return
@@ -178,6 +209,7 @@ export default function FilterMapSection({ projects, loading, error }: FilterMap
         <button
           onClick={() => setFiltersOpen((v) => !v)}
           aria-expanded={filtersOpen}
+          aria-controls="project-filters"
           className="flex items-center justify-between w-full type-copy-em text-ink border border-ink px-4 py-3 transition-colors hover:bg-ink hover:text-paper group"
         >
           <span className="flex items-center gap-2.5">
@@ -200,13 +232,18 @@ export default function FilterMapSection({ projects, loading, error }: FilterMap
 
       {/* ── Filter panel – collapsible on mobile, always open on desktop ── */}
       {/* grid-rows trick: 0fr → 1fr animates height without fixed px values  */}
-      <div className={`grid transition-[grid-template-rows] duration-300 ease-in-out tablet:grid-rows-[1fr] ${filtersOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}>
+      <div
+        id="project-filters"
+        inert={filtersCollapsed || undefined}
+        aria-hidden={filtersCollapsed || undefined}
+        className={`grid transition-[grid-template-rows] duration-300 ease-in-out tablet:grid-rows-[1fr] ${filtersOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}
+      >
         <div className="overflow-hidden">
 
           {/* Filter row 1: chip filters */}
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-8 mb-4 md:mb-6 tablet:mt-0 pt-0">
-            <div>
-              <p className="type-copy-em text-ink mb-3">{t.filterByTopic}</p>
+            <div role="group" aria-labelledby="filter-topic-label">
+              <p id="filter-topic-label" className="type-copy-em text-ink mb-3">{t.filterByTopic}</p>
               <div className="flex flex-wrap gap-2">
                 {themeFilters.map((key) => (
                   <FilterButton
@@ -220,8 +257,8 @@ export default function FilterMapSection({ projects, loading, error }: FilterMap
               </div>
             </div>
 
-            <div>
-              <p className="type-copy-em text-ink mb-3">{t.filterByFokus}</p>
+            <div role="group" aria-labelledby="filter-focus-label">
+              <p id="filter-focus-label" className="type-copy-em text-ink mb-3">{t.filterByFokus}</p>
               <div className="flex flex-wrap gap-2">
                 {fokusFilters.map((key) => (
                   <FilterButton
@@ -234,8 +271,8 @@ export default function FilterMapSection({ projects, loading, error }: FilterMap
               </div>
             </div>
 
-            <div>
-              <p className="type-copy-em text-ink mb-3">{t.filterByStatus}</p>
+            <div role="group" aria-labelledby="filter-status-label">
+              <p id="filter-status-label" className="type-copy-em text-ink mb-3">{t.filterByStatus}</p>
               <div className="flex flex-wrap gap-2">
                 {statusFilters.map((key) => (
                   <FilterButton
@@ -263,6 +300,8 @@ export default function FilterMapSection({ projects, loading, error }: FilterMap
 
         {/* Scrollable project list */}
         <div
+          inert={(panelOpen && !isSheet) || undefined}
+          aria-hidden={(panelOpen && !isSheet) || undefined}
           className={`order-2 tablet:order-1 mt-4 tablet:mt-0 tablet:shrink-0 tablet:overflow-hidden tablet:transition-all tablet:duration-300 tablet:ease-in-out ${panelOpen ? 'w-full tablet:w-0' : 'w-full tablet:w-110'}`}
         >
           <div className="flex flex-col tablet:block tablet:h-full">
@@ -291,7 +330,7 @@ export default function FilterMapSection({ projects, loading, error }: FilterMap
                 <div key={project.id} className="snap-center shrink-0 w-full">
                   <ProjectCard
                     project={project}
-                    onClick={setSelectedProjectId}
+                    onClick={openProject}
                     selected={project.id === selectedProjectId}
                   />
                 </div>
@@ -329,7 +368,7 @@ export default function FilterMapSection({ projects, loading, error }: FilterMap
         >
           <LeafletMap
             projects={filteredProjects}
-            onSelectProject={setSelectedProjectId}
+            onSelectProject={openProject}
             selectedId={selectedProjectId}
           />
         </div>
@@ -339,7 +378,7 @@ export default function FilterMapSection({ projects, loading, error }: FilterMap
           className={`hidden tablet:block tablet:order-3 tablet:shrink-0 tablet:overflow-hidden tablet:transition-all tablet:duration-300 tablet:ease-in-out ${panelOpen ? 'tablet:w-110' : 'tablet:w-0'}`}
         >
           {selectedProject && (
-            <div className="tablet:w-110 tablet:h-full tablet:pl-4">
+            <div ref={desktopDetailRef} className="tablet:w-110 tablet:h-full tablet:pl-4">
               <ProjectDetailPanel
                 project={selectedProject}
                 onClose={() => setSelectedProjectId(null)}

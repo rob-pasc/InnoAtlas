@@ -40,19 +40,46 @@ export function useModalOverlay({ open, active, containerRef, onClose }: ModalOv
 
     const previouslyFocused = document.activeElement as HTMLElement | null
 
-    // `offsetParent === null` filters out anything display:none — notably the
-    // breakpoint-hidden twin of whichever panel is currently on screen.
+    // `offsetParent` cannot be used as a visibility test here: descendants of
+    // the fixed-position sidebar legitimately have no offset parent. Rects and
+    // computed visibility still exclude display:none/breakpoint-hidden nodes
+    // without dropping those valid drawer controls.
     const focusables = () =>
       Array.from(container.querySelectorAll<HTMLElement>(FOCUSABLE))
-        .filter((el) => el.offsetParent !== null)
+        .filter((el) => {
+          const style = window.getComputedStyle(el)
+          return el.getClientRects().length > 0
+            && style.visibility !== 'hidden'
+            && style.display !== 'none'
+        })
 
-    const first = focusables()[0]
-    if (first) {
+    function focusFirst(): boolean {
+      const first = focusables()[0]
+      if (!first) return false
       first.focus()
-    } else {
-      container.tabIndex = -1
-      container.focus()
+      return true
     }
+
+    function transitionTimeMs(element: HTMLElement): number {
+      const style = window.getComputedStyle(element)
+      const durations = style.transitionDuration.split(',').map((value) => Number.parseFloat(value) * (value.includes('ms') ? 1 : 1000))
+      const delays = style.transitionDelay.split(',').map((value) => Number.parseFloat(value) * (value.includes('ms') ? 1 : 1000))
+      return Math.max(0, ...durations.map((duration, index) => duration + (delays[index] ?? delays[0] ?? 0)))
+    }
+
+    let focusTimer: number | undefined
+
+    // Opening the drawer also transitions `visibility`. Try on the next paint;
+    // if its controls are still hidden, retry as soon as that transition ends.
+    // Reduced-motion styles reduce this wait to effectively zero.
+    const focusFrame = requestAnimationFrame(() => {
+      if (focusFirst()) return
+      focusTimer = window.setTimeout(() => {
+        if (focusFirst()) return
+        container.tabIndex = -1
+        container.focus()
+      }, transitionTimeMs(container) + 20)
+    })
 
     function onKeyDown(e: KeyboardEvent) {
       if (e.key === 'Escape') {
@@ -82,6 +109,8 @@ export function useModalOverlay({ open, active, containerRef, onClose }: ModalOv
 
     document.addEventListener('keydown', onKeyDown)
     return () => {
+      cancelAnimationFrame(focusFrame)
+      if (focusTimer !== undefined) window.clearTimeout(focusTimer)
       document.removeEventListener('keydown', onKeyDown)
       previouslyFocused?.focus()
     }

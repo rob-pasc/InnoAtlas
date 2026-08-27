@@ -3,6 +3,7 @@ import { TOPIC_COLORS } from '../../config/topicColors'
 import placeholderImg from '../../assets/images/default-image-missing-placeholder.jpg'
 import ArrowTopRightIcon from '../../assets/icons/arrow-top-right.svg?react'
 import CloseIcon from '../../assets/icons/close.svg?react'
+import MailIcon from '../../assets/icons/mail.svg?react'
 import { useT } from '../../i18n/translations'
 import FilterButton from './FilterButton'
 
@@ -184,7 +185,8 @@ export default function ProjectDetailPanel({ project, onClose, activeFilters, on
             {project.contact.name         && <p className="type-copy [text-box:normal] text-ink">{project.contact.name}</p>}
             {project.contact.organisation && <p className="type-copy [text-box:normal] text-ink">{project.contact.organisation}</p>}
             {project.contact.email && (
-              <a href={`mailto:${project.contact.email}`} className="type-link text-ink">
+              <a href={`mailto:${project.contact.email}`} className="type-link text-ink inline-flex items-center gap-1 self-start">
+                <MailIcon className="w-4 h-4 shrink-0" aria-hidden="true" />
                 {project.contact.email}
               </a>
             )}
