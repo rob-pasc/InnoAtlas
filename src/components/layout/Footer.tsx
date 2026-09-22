@@ -14,7 +14,7 @@ export default function Footer() {
             rel="noreferrer"
             className="type-copy-em text-ink"
           >
-            © FH Vorarlberg 2026
+            © FHV 2026
           </a>
           <a
             href={t.footerResearchHref}

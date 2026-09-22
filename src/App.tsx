@@ -20,7 +20,7 @@ function AppContent() {
       {/* Bypass block – first tab stop, revealed only while focused */}
       <a
         href="#main"
-        className="sr-only type-copy-em focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:bg-ink focus:text-paper focus:px-4 focus:py-2"
+        className="sr-only type-copy-em text-ink focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:bg-ink focus:text-paper focus:px-4 focus:py-2"
       >
         {t.skipToContent}
       </a>
@@ -29,8 +29,8 @@ function AppContent() {
           text: a live region inserted together with its content is announced
           unreliably. The *visible* loading and error UI renders down in
           FilterMapSection, where the data itself lands. */}
-      <p role="status" className="sr-only">{loading ? t.statusLoading : ''}</p>
-      <p role="alert" className="sr-only">{error ? `${t.errorTitle} ${t.errorBody}` : ''}</p>
+      <p role="status" className="sr-only text-ink">{loading ? t.statusLoading : ''}</p>
+      <p role="alert" className="sr-only text-ink">{error ? `${t.errorTitle} ${t.errorBody}` : ''}</p>
 
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 

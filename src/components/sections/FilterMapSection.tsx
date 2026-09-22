@@ -202,7 +202,7 @@ export default function FilterMapSection({ projects, loading, error }: FilterMap
 
       {/* The design has no room for a visible heading here, but the project
           cards below emit <h3> – without this the outline jumps h1 → h3. */}
-      <h2 className="sr-only">{t.projectsHeading}</h2>
+      <h2 className="sr-only text-ink">{t.projectsHeading}</h2>
 
       {/* ── Mobile filter toggle ── hidden on desktop */}
       <div className="tablet:hidden mb-4">
@@ -337,7 +337,7 @@ export default function FilterMapSection({ projects, loading, error }: FilterMap
               ))}
             </div>
 
-            <p role="status" className="sr-only">{countMessage}</p>
+            <p role="status" className="sr-only text-ink">{countMessage}</p>
 
             {/* Dot / count indicator – mobile only */}
             {filteredProjects.length > 1 && (

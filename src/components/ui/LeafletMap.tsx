@@ -143,8 +143,8 @@ function ProjectMarker({ project, color, stroke, onSelect }: ProjectMarkerProps)
 
   // SC 1.4.1 — the pin's fill encodes topic[0]. Repeat the card's tag line here
   // so the topic behind the colour is also available as text. Leaflet opens the
-  // tooltip on focus as well as hover and wires aria-describedby to it, so this
-  // reaches keyboard and screen-reader users too.
+  // tooltip on focus as well as hover and wires aria-describedby to it while
+  // it is open, so this reaches keyboard and screen-reader users too.
   const t = useT()
   const tags = formatProjectTags(project, t)
 
@@ -209,6 +209,10 @@ function ProjectMarker({ project, color, stroke, onSelect }: ProjectMarkerProps)
           // otherwise reach the pin. Give it the pin's behaviour.
           el.addEventListener('click', () => onSelect(project.id))
         },
+        // Leaflet adds aria-describedby when opening a tooltip, but does not
+        // remove it after the tooltip container leaves the DOM. Do so here so
+        // the marker never retains a dangling ID reference.
+        tooltipclose: () => markerRef.current?.getElement()?.removeAttribute('aria-describedby'),
       }}
     >
       <Tooltip direction="top" offset={[0, -27]} className="map-pin-tooltip" interactive>

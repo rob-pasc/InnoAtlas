@@ -28,7 +28,7 @@ function buildOrgs(t: Translations): OrgContact[] {
     {
       id: 'fhv',
       name: t.contactFhvOrgName,
-      subtitle: 'Vorarlberg University of Applied Sciences',
+      subtitle: 'FHV – Vorarlberg University of Applied Sciences',
       subtitleLang: 'en',
       persons: [
         { name: 'Thomas Absmayr', email: 'thomas.absmayr@fhv.at' },
@@ -61,7 +61,7 @@ function OrgCard({ org }: { org: OrgContact }) {
     <div className="flex flex-col gap-5 border-t-2 border-ink pt-5 md:row-span-3 md:grid md:grid-rows-subgrid">
       <div className="flex flex-col gap-0.5">
         <h3 className="type-h3 text-ink">{org.name}</h3>
-        <p className="type-h4 text-ink opacity-60" lang={org.subtitleLang}>{org.subtitle}</p>
+        <h4 className="type-h4 text-ink opacity-60" lang={org.subtitleLang}>{org.subtitle}</h4>
       </div>
 
       {org.persons && org.persons.length > 0 && (
