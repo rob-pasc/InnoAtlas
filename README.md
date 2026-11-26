@@ -135,3 +135,11 @@ Keep the numbers gapless (1, 2, 3 …) to avoid confusion, though gaps are harml
 1. Open the Excel file and find the row with the matching `ID`.
 2. Edit the relevant cells.
 3. Save and reload the browser.
+
+---
+
+## Link preview image
+
+`public/og-image.jpg` (1200 × 630) is shown when the site is shared in Teams, Slack, LinkedIn etc. Link-preview scrapers need an absolute image URL, so set the `VITE_SITE_URL` environment variable to the deployed origin (no trailing slash) at build time. On Render: **Environment** → `VITE_SITE_URL` = `https://innoatlas.onrender.com`, then rebuild. Locally, put it in a git-ignored `.env.local`. If unset, the image URL stays relative and most previews show no image.
+
+**Photo credit:** [“Lake Constance in Lindau, Germany, 20250502 0908 8490”](https://commons.wikimedia.org/wiki/File:Lake_Constance_in_Lindau,_Germany,_20250502_0908_8490.jpg) by Jakub Hałun, licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Cropped and overlaid with title text; the credit is also printed in the image.
