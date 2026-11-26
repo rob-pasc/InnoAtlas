@@ -39,20 +39,21 @@ function buildOrgs(t: Translations): OrgContact[] {
       address: ['CAMPUS V, Hochschulstraße 1', '6850 Dornbirn'],
       country: t.contactFhvCountry,
     },
-    {
-      id: 'w4',
-      name: 'W4',
-      subtitle: 'Wissenschaftsverbund Vierländerregion Bodensee',
-      subtitleLang: 'de',
-      persons: [
-        { name: 'Isabel Oostvogel', email: 'oostvogel@wissenschaftsverbund.org' },
-        { name: 'Markus Rhomberg',  email: 'rhomberg@wissenschaftsverbund.org' },
-      ],
-      phone: '+41 71 6770520',
-      website: 'www.wissenschaftsverbund.org',
-      address: ['c/o Universität Konstanz, Postfach 207', '78457 Konstanz'],
-      country: t.contactW4Country,
-    },
+    // W4 contact temporarily hidden – uncomment to restore.
+    // {
+    //   id: 'w4',
+    //   name: 'W4',
+    //   subtitle: 'Wissenschaftsverbund Vierländerregion Bodensee',
+    //   subtitleLang: 'de',
+    //   persons: [
+    //     { name: 'Isabel Oostvogel', email: 'oostvogel@wissenschaftsverbund.org' },
+    //     { name: 'Markus Rhomberg',  email: 'rhomberg@wissenschaftsverbund.org' },
+    //   ],
+    //   phone: '+41 71 6770520',
+    //   website: 'www.wissenschaftsverbund.org',
+    //   address: ['c/o Universität Konstanz, Postfach 207', '78457 Konstanz'],
+    //   country: t.contactW4Country,
+    // },
   ]
 }
 

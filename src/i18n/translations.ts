@@ -93,12 +93,12 @@ const de: Translations = {
 
   // Discretionary hyphens are invisible at ordinary widths and give the two
   // long compound words legal wrap points in a 320px reflow viewport.
-  navTitle:    'Innovations\u00ADatlas Bodensee\u00ADregion',
-  navSubtitle: 'Innovationsatlas der Labore des Wissenschaftsverbundes Vierländerregion Bodensee – Prototyp',
+  navTitle:    'Innovations\u00ADland\u00ADkarte Bodensee\u00ADregion',
+  navSubtitle: 'Innovationslandkarte der Labore des Wissenschaftsverbundes Vierländerregion Bodensee – Prototyp',
 
-  heroHeading:    'Was ist der Innovationsatlas?',
+  heroHeading:    'Was ist die Innovationslandkarte?',
   heroSubheading: 'Innovationen aus der Vierländerregion entdecken und vernetzen',
-  heroBody:       'Der Innovationsatlas Bodenseeregion macht Innovationsprojekte aus Deutschland, Österreich, der Schweiz und Liechtenstein sichtbar. Er bündelt Aktivitäten aus Forschung, Wirtschaft, Kommunen und Zivilgesellschaft. Damit schafft er eine gemeinsame Übersicht über das Innovationsgeschehen in der gesamten Region. Die Plattform entsteht im Rahmen der Labore des Wissenschaftsverbundes Vierländerregion Bodensee (W4) in Zusammenarbeit mit der FHV – Vorarlberg University of Applied Sciences.',
+  heroBody:       'Die Innovationslandkarte Bodenseeregion macht Innovationsprojekte aus Deutschland, Österreich, der Schweiz und Liechtenstein sichtbar. Sie bündelt Aktivitäten aus Forschung, Wirtschaft, Kommunen und Zivilgesellschaft. Damit schafft sie eine gemeinsame Übersicht über das Innovationsgeschehen in der gesamten Region. Die Plattform entsteht im Rahmen der Labore des Wissenschaftsverbundes Vierländerregion Bodensee (W4) in Zusammenarbeit mit der FHV – Vorarlberg University of Applied Sciences.',
 
   contactHeading:    'Ansprechpersonen',
   contactFhvOrgName: 'Forschungszentrum Business Informatics',
@@ -149,7 +149,7 @@ const de: Translations = {
   contact:         'Kontakt',
   lead:            'Lead',
 
-  statsHeading:       'Innovationsatlas in Zahlen',
+  statsHeading:       'Innovationslandkarte in Zahlen',
   statLabelCountries: 'Länder',
   statLabelEntries:   'Einträge',
   statLabelPartners:  'Projektbeteiligte',
@@ -179,12 +179,12 @@ const en: Translations = {
   mainNavLabel:    'Main navigation',
   menuLabel:       'Menu',
 
-  navTitle:    'Innovation Atlas Lake Constance Region',
-  navSubtitle: 'Innovation Atlas of the W4 Labs – Wissenschaftsverbund Vierländerregion Bodensee – Prototype',
+  navTitle:    'Innovation Map Lake Constance Region',
+  navSubtitle: 'Innovation Map of the W4 Labs – Wissenschaftsverbund Vierländerregion Bodensee – Prototype',
 
-  heroHeading:    'What is the Innovation Atlas?',
+  heroHeading:    'What is the Innovation Map?',
   heroSubheading: 'Discover and connect innovations from the four-country Lake Constance region',
-  heroBody:       'The Innovation Atlas Bodenseeregion maps innovation projects from Germany, Austria, Switzerland, and Liechtenstein. It brings together activities from research, business, municipalities, and civil society. Therefore providing a shared overview of innovation across the entire region. The platform is developed within the framework of the W4 Labs (Wissenschaftsverbund Vierländerregion Bodensee) in collaboration with FHV – Vorarlberg University of Applied Sciences.',
+  heroBody:       'The Innovation Map Bodenseeregion showcases innovation projects from Germany, Austria, Switzerland, and Liechtenstein. It brings together activities from research, business, municipalities, and civil society. Therefore providing a shared overview of innovation across the entire region. The platform is developed within the framework of the W4 Labs (Wissenschaftsverbund Vierländerregion Bodensee) in collaboration with FHV – Vorarlberg University of Applied Sciences.',
 
   contactHeading:    'Contact Persons',
   contactFhvOrgName: 'Research Centre for Business Informatics',
@@ -235,7 +235,7 @@ const en: Translations = {
   contact:         'Contact',
   lead:            'Lead',
 
-  statsHeading:       'Innovation Atlas in Numbers',
+  statsHeading:       'Innovation Map in Numbers',
   statLabelCountries: 'Countries',
   statLabelEntries:   'Entries',
   statLabelPartners:  'Project Participants',
