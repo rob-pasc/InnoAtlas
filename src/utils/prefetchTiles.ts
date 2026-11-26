@@ -1,9 +1,9 @@
+import { BASEMAP_SUBDOMAINS, basemapTileUrl } from '../config/basemap'
+
 // Zoom levels a single-project flyToBounds will land at
 const ZOOM_LEVELS = [9, 10]
 // Pre-fetch a 5×5 grid around each project's centre tile
 const GRID_RADIUS = 2
-// CartoDB subdomains – distributed across all four for parallel loading
-const SUBDOMAINS = ['a', 'b', 'c', 'd'] as const
 
 /** Standard Web Mercator (Slippy Map) tile coordinate formula */
 function toTileXY(lat: number, lng: number, z: number) {
@@ -26,9 +26,10 @@ export function prefetchTilesForLocation(latitude: number, longitude: number) {
     const { x: cx, y: cy } = toTileXY(latitude, longitude, z)
     for (let dx = -GRID_RADIUS; dx <= GRID_RADIUS; dx++) {
       for (let dy = -GRID_RADIUS; dy <= GRID_RADIUS; dy++) {
-        const s   = SUBDOMAINS[(Math.abs(cx + dx + cy + dy)) % SUBDOMAINS.length]
+        // Spread requests across all subdomains for parallel loading
+        const s   = BASEMAP_SUBDOMAINS[(Math.abs(cx + dx + cy + dy)) % BASEMAP_SUBDOMAINS.length]
         const img = new Image()
-        img.src = `https://${s}.basemaps.cartocdn.com/light_all/${z}/${cx + dx}/${cy + dy}${r}.png`
+        img.src = basemapTileUrl(s, z, cx + dx, cy + dy, r)
       }
     }
   }

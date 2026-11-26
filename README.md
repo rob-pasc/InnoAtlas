@@ -138,6 +138,17 @@ Keep the numbers gapless (1, 2, 3 …) to avoid confusion, though gaps are harml
 
 ---
 
+## Map basemap (CARTO API key)
+
+The map uses CARTO's light raster basemap, which shows an "API KEY REQUIRED" watermark without a key. The key is read from `VITE_CARTO_KEY` at build time and is never committed:
+
+- **Render:** **Environment** → `VITE_CARTO_KEY` = the production key, then rebuild. That key is restricted to `innoatlas.onrender.com`, so it is safe to ship to the browser but does not work on localhost.
+- **Local development:** put a separate, unrestricted key in a git-ignored `.env.local` as `VITE_CARTO_KEY=…`. Without one, the map shows the watermark locally; everything else works.
+
+Keys are managed at [carto.com/basemaps/apikey](https://carto.com/basemaps/apikey) (free for non-commercial use up to 5M requests a month).
+
+---
+
 ## Link preview image
 
 `public/og-image.jpg` (1200 × 630) is shown when the site is shared in Teams, Slack, LinkedIn etc. Link-preview scrapers need an absolute image URL, so set the `VITE_SITE_URL` environment variable to the deployed origin (no trailing slash) at build time. On Render: **Environment** → `VITE_SITE_URL` = `https://innoatlas.onrender.com`, then rebuild. Locally, put it in a git-ignored `.env.local`. If unset, the image URL stays relative and most previews show no image.

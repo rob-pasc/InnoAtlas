@@ -5,6 +5,7 @@ import { MapContainer, TileLayer, Marker, Tooltip, useMap } from 'react-leaflet'
 
 import type { Project } from '../../types/project'
 import { TOPIC_COLORS } from '../../config/topicColors'
+import { BASEMAP_ATTRIBUTION, BASEMAP_SUBDOMAINS, BASEMAP_URL_TEMPLATE } from '../../config/basemap'
 import mapPinSvg from '../../assets/icons/map-pin.svg?raw'
 import { prefetchTilesForLocation } from '../../utils/prefetchTiles'
 import { formatProjectTags } from '../../utils/projectTags'
@@ -251,9 +252,9 @@ export default function LeafletMap({ projects, onSelectProject, selectedId }: Le
       zoomControl
     >
       <TileLayer
-        url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>'
-        subdomains="abcd"
+        url={BASEMAP_URL_TEMPLATE}
+        attribution={BASEMAP_ATTRIBUTION}
+        subdomains={[...BASEMAP_SUBDOMAINS]}
       />
       <BoundsFitter projects={visibleProjects} reducedMotion={reducedMotion} />
       <MapResizer selectedId={selectedId} />
